@@ -3,6 +3,8 @@ ext.grid = {}
 ext.grid.MARGINX = 1
 ext.grid.MARGINY = 1
 ext.grid.GRIDWIDTH = 2
+ext.grid.NUDGE_SIZE = 75
+ext.grid.DOCK_HEIGHT = 23
 
 local function round(num, idp)
   local mult = 10^(idp or 0)
@@ -76,30 +78,106 @@ function ext.grid.pushwindow_prevscreen()
   ext.grid.set(win, ext.grid.get(win), win:screen():previous())
 end
 
-function ext.grid.pushwindow_left()
-  ext.grid.adjust_focused_window(function(f) f.x = math.max(f.x - 1, 0) end)
+--- Snaps ---
+function ext.grid.snap(win, x, y, w, h)
+  local newframe = {
+    x = x,
+    y = y,
+    w = w,
+    h = h,
+  }
+  win:setframe(newframe)
 end
 
-function ext.grid.pushwindow_right()
-  ext.grid.adjust_focused_window(function(f) f.x = math.min(f.x + 1, ext.grid.GRIDWIDTH - f.w) end)
+function ext.grid.snap_northwest()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, 0, 0, s.w/2, s.h/2)
 end
 
-function ext.grid.resizewindow_wider()
-  ext.grid.adjust_focused_window(function(f) f.w = math.min(f.w + 1, ext.grid.GRIDWIDTH - f.x) end)
+function ext.grid.snap_north()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, 0, 0, s.w, s.h/2)
 end
 
-function ext.grid.resizewindow_thinner()
-  ext.grid.adjust_focused_window(function(f) f.w = math.max(f.w - 1, 1) end)
+function ext.grid.snap_northeast()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, s.w/2, 0, s.w/2, s.h/2)
 end
 
-function ext.grid.pushwindow_down()
-  ext.grid.adjust_focused_window(function(f) f.y = 1; f.h = 1 end)
+function ext.grid.snap_west()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, 0, 0, s.w/2, s.h)
 end
 
-function ext.grid.pushwindow_up()
-  ext.grid.adjust_focused_window(function(f) f.y = 0; f.h = 1 end)
+function ext.grid.snap_east()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, s.w/2, 0, s.w/2, s.h)
 end
 
-function ext.grid.resizewindow_taller()
-  ext.grid.adjust_focused_window(function(f) f.y = 0; f.h = 2 end)
+function ext.grid.snap_southwest()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, 0, (s.h/2)+ext.grid.DOCK_HEIGHT, s.w/2, s.h/2)
+end
+
+function ext.grid.snap_south()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, 0, (s.h/2)+ext.grid.DOCK_HEIGHT, s.w, s.h/2)
+end
+
+function ext.grid.snap_southeast()
+  local win = window.focusedwindow()
+  local s = win:screen():frame_without_dock_or_menu()
+  ext.grid.snap(win, s.w/2, (s.h/2)+ext.grid.DOCK_HEIGHT, s.w/2, s.h/2)
+end
+
+--- Nudges ---
+function ext.grid.nudge(win, x, y)
+  local oldframe = win:frame()
+
+  local newframe = {
+    x = oldframe.x + x,
+    y = oldframe.y + y,
+    w = oldframe.w,
+    h = oldframe.h,
+  }
+  win:setframe(newframe)
+end
+
+function ext.grid.nudge_west()
+  ext.grid.nudge(window.focusedwindow(), -ext.grid.NUDGE_SIZE, 0)
+end
+
+function ext.grid.nudge_northwest()
+  ext.grid.nudge(window.focusedwindow(), -ext.grid.NUDGE_SIZE, -ext.grid.NUDGE_SIZE)
+end
+
+function ext.grid.nudge_north()
+  ext.grid.nudge(window.focusedwindow(), 0, -ext.grid.NUDGE_SIZE)
+end
+
+function ext.grid.nudge_northeast()
+  ext.grid.nudge(window.focusedwindow(), ext.grid.NUDGE_SIZE, -ext.grid.NUDGE_SIZE)
+end
+
+function ext.grid.nudge_east()
+  ext.grid.nudge(window.focusedwindow(), ext.grid.NUDGE_SIZE, 0)
+end
+
+function ext.grid.nudge_southeast()
+  ext.grid.nudge(window.focusedwindow(), ext.grid.NUDGE_SIZE, ext.grid.NUDGE_SIZE)
+end
+
+function ext.grid.nudge_south()
+  ext.grid.nudge(window.focusedwindow(), 0, ext.grid.NUDGE_SIZE)
+end
+
+function ext.grid.nudge_southwest()
+  ext.grid.nudge(window.focusedwindow(), -ext.grid.NUDGE_SIZE, ext.grid.NUDGE_SIZE)
 end
