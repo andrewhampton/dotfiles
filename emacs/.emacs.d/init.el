@@ -34,23 +34,19 @@
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
+;;; projectile/helm
+(projectile-global-mode)
+(require 'helm-projectile)
+(require 'helm-config)
+(helm-projectile-on)
+(global-set-key (kbd "C-x f") 'helm-projectile)
+(global-set-key (kbd "C-c h") 'helm-mini)
+(helm-mode 1)
+
 ;;; recentf-mode
 (require 'recentf)
 (recentf-mode t)
 (setq recentf-max-saved-items 50)
-
-;;; ido-mode
-(ido-mode 1)
-(ido-everywhere 1)
-(setq ido-enable-flex-matching t)
-
-(defun ido-recentf-open ()
-  "Use `ido-completing-read' to `find-file' a recent file"
-  (interactive)
-  (unless (find-file (ido-completing-read "Find recent file: " recentf-list))
-    (message "Aborting")))
-
-(global-set-key (kbd "C-x f") 'ido-recentf-open)
 
 ;;; temp files
 (setq temporary-file-directory "~/.emacs.d/saves")
@@ -99,3 +95,23 @@
 (custom-set-variables
  ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
+
+;;; save backups in system tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+
+;;; ido-mode
+;(ido-mode 1)
+;(ido-everywhere 1)
+;(setq ido-enable-flex-matching t)
+
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to `find-file' a recent file"
+  (interactive)
+  (unless (find-file (ido-completing-read "Find recent file: " recentf-list))
+    (message "Aborting")))
+
+;(global-set-key (kbd "C-x f") 'ido-recentf-open)
