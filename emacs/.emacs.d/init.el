@@ -78,7 +78,8 @@
 
 ;;; Themes!
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'tomorrow-night-eighties t)
+(require 'color-theme-sanityinc-tomorrow)
+(load-theme 'sanityinc-tomorrow-eighties t)
 
 ;;; Package Repos
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -88,6 +89,9 @@
 ;;; Expand region
 (require 'expand-region)
 (global-set-key (kbd "M-=") 'er/expand-region)
+
+;;; Delete trailing whitespace on save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;; auto-refresh files when they change on disk
 (global-auto-revert-mode t)
