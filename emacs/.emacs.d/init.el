@@ -1,5 +1,5 @@
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
+;((load (expand-file-name "~/p/slime-helper.el"))
+;(setq inferior-lisp-program "sbcl")
 
 ;;; Load packages
 (setq package-enable-at-startup nil)
@@ -34,19 +34,29 @@
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
+;;; inf-ruby shortcut
+(global-set-key (kbd "C-c r r") 'inf-ruby)
+
+;;; integrate with the clipboard
+(require 'pbcopy)
+(turn-on-pbcopy)
+
 ;;; projectile/helm
 (projectile-global-mode)
-(require 'helm-projectile)
-(require 'helm-config)
-(helm-projectile-on)
-(global-set-key (kbd "C-x f") 'helm-projectile)
-(global-set-key (kbd "C-c h") 'helm-mini)
-(helm-mode 1)
+;(require 'helm-projectile)
+;(require 'helm-config)
+;(helm-projectile-on)
+;(global-set-key (kbd "C-x f") 'helm-projectile)
+;(global-set-key (kbd "C-c h") 'helm-mini)
+;(helm-mode 1)
 
 ;;; recentf-mode
 (require 'recentf)
 (recentf-mode t)
 (setq recentf-max-saved-items 50)
+
+;;; flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;; temp files
 (setq temporary-file-directory "~/.emacs.d/saves")
@@ -58,8 +68,11 @@
 (setq inhibit-splash-screen t)
 (fset 'html-helper-mode 'html-mode)
 
+;;; indentation
 (setq-default indent-tabs-mode nil)
+(setq ruby-deep-indent-paren nil)
 
+;;; unix eol characters
 (defun remove-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."
   (interactive)
@@ -96,17 +109,13 @@
  ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
 
-;;; save backups in system tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-
 ;;; ido-mode
-;(ido-mode 1)
-;(ido-everywhere 1)
+(require 'flx-ido)
+(ido-mode 1)
+(ido-everywhere 1)
 ;(setq ido-enable-flex-matching t)
+(flx-ido-mode 1)
+(setq ido-us-faces nil)
 
 (defun ido-recentf-open ()
   "Use `ido-completing-read' to `find-file' a recent file"
@@ -114,4 +123,32 @@
   (unless (find-file (ido-completing-read "Find recent file: " recentf-list))
     (message "Aborting")))
 
-;(global-set-key (kbd "C-x f") 'ido-recentf-open)
+(global-set-key (kbd "C-x f") 'ido-recentf-open)
+
+;;; eshell fun
+
+
+(defun eshell-here ()
+  "Opens up a new shell in the directory associated with the
+current buffer's file. The eshell is renamed to match that
+directory to make multiple eshell windows easier."
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                   default-directory))
+         (height (/ (window-total-height) 3))
+         (name   (car (last (split-string parent "/" t)))))
+    (split-window-vertically (- height))
+    (other-window 1)
+    (eshell "new")
+    (rename-buffer (concat "*eshell: " name "*"))
+
+    (insert (concat "ls"))
+    (eshell-send-input)))
+
+(global-set-key (kbd "C-M-e") 'eshell-here)
+
+(defun eshell/x ()
+  (insert "exit")
+  (eshell-send-input)
+  (delete-window))
