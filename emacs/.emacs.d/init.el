@@ -49,6 +49,7 @@
 ;(global-set-key (kbd "C-x f") 'helm-projectile)
 ;(global-set-key (kbd "C-c h") 'helm-mini)
 ;(helm-mode 1)
+(global-set-key (kbd "C-x f") 'projectile-find-file)
 
 ;;; recentf-mode
 (require 'recentf)
@@ -113,9 +114,9 @@
 (require 'flx-ido)
 (ido-mode 1)
 (ido-everywhere 1)
-;(setq ido-enable-flex-matching t)
 (flx-ido-mode 1)
-(setq ido-us-faces nil)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
 (defun ido-recentf-open ()
   "Use `ido-completing-read' to `find-file' a recent file"
@@ -123,7 +124,7 @@
   (unless (find-file (ido-completing-read "Find recent file: " recentf-list))
     (message "Aborting")))
 
-(global-set-key (kbd "C-x f") 'ido-recentf-open)
+;(global-set-key (kbd "C-x f") 'ido-recentf-open)
 
 ;;; eshell fun
 (defun eshell-here ()
@@ -157,3 +158,10 @@ directory to make multiple eshell windows easier."
 (global-set-key (kbd "C-c ,")     'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-c .") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-c C-c ,") 'mc/edit-lines)
+
+;;; magit
+(global-set-key (kbd "C-c s") 'magit-status)
+
+
+;;; javascript-mode
+(setq js-indent-level 2)
