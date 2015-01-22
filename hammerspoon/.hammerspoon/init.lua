@@ -4,7 +4,7 @@ local mash =    {"cmd", "shift", "ctrl"}
 local mashalt = {"ctrl", "shift", "alt"}
 
 -- window hints
--- hs.hints.style = "vimperator"
+hs.hints.style = "vimperator"
 hs.hotkey.bind(mash, 'H', hs.hints.windowHints)
 hs.hotkey.bind(mashalt, 'H', hs.hints.windowHints)
 

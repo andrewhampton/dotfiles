@@ -1,1 +1,0 @@
-("~/code/rds_service/" "~/code/elasticache_service/" "~/code/ec2_service/" "~/code/tmp/chicken_tracker/" "~/code/codex/" "~/dotfiles/" "~/code/auth/" "~/code/postgres_service/" "~/code/tmp/test2/" "~/code/tmp/tmp/" "~/code/tmp/chicken-tracker/" "~/code/hubot/" "/ssh:drew@dev:/var/apps/rds_service/")
