@@ -1,0 +1,11 @@
+emacs/.emacs.d/#*
+emacs/.emacs.d/elpa
+emacs/.emacs.d/eshell
+emacs/.emacs.d/games
+emacs/.emacs.d/projectile-bookmarks.eld
+emacs/.emacs.d/saves
+emacs/.emacs.d/smex-items
+emacs/.emacs.d/themes
+emacs/.emacs.d/tramp
+emacs/.emacs.d/var
+emacs/.emacs.d/.mc-lists.el
