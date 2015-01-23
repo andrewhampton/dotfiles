@@ -9,6 +9,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
 (global-set-key (kbd "C-c C-s") 'magit-status)            ;;; magit keybind
+(global-set-key (kbd "C-c s") 'magit-status)              ;;; magit keybind
 (setq js-indent-level 2                                   ;;; javascript-mode
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
@@ -81,7 +82,7 @@
   :init (projectile-global-mode))
 
 ;;; flycheck
-(use-package
+(use-package flycheck
   :ensure t
   :commands global-flycheck-mode
   :idle (global-flycheck-mode 1))
