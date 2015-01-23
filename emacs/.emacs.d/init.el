@@ -36,6 +36,9 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
+;;; hilight current line
+(global-hl-line-mode)
+
 ;;; paredit
 (use-package paredit
   :ensure t
