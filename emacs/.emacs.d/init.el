@@ -11,6 +11,7 @@
 (global-set-key (kbd "C-c C-s") 'magit-status)            ;;; magit keybind
 (global-set-key (kbd "C-c s") 'magit-status)              ;;; magit keybind
 (setq js-indent-level 2                                   ;;; javascript-mode
+      truncate-lines t                                    ;;; disable line wrapping
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
       temporary-file-directory "~/.emacs.d/saves"
@@ -19,8 +20,7 @@
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/"))
-      inferior-lisp-program "sbcl"
-      )
+      inferior-lisp-program "sbcl")
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
@@ -35,7 +35,6 @@
 
 ;;; disable toolbar and menu bar
 (menu-bar-mode -1)
-(tool-bar-mode -1)
 
 ;;; hilight current line
 (global-hl-line-mode)
@@ -73,13 +72,26 @@
   :ensure t
   :idle (turn-on-pbcopy))
 
-;;; projectile/helm
+;;; projectile
 (use-package projectile
   :ensure t
   :commands (projectile-switch-project)
   :bind (("C-x C-f" . projectile-find-file)
          ("C-t" . projectile-find-file))
-  :init (projectile-global-mode))
+  :init (progn (projectile-global-mode)
+               (setq projectile-completion-system 'helm)))
+
+;;; helm
+(use-package helm
+  :ensure t
+  :bind ("M-x" . helm-M-x)
+  :idle (progn (setq helm-locate-fuzzy-match t
+                     helm-M-x-fuzzy-match t)
+               (helm-autoresize-mode 1)))
+
+(use-package helm-projectile
+  :ensure t
+  :idle (helm-projectile-on))
 
 ;;; flycheck
 (use-package flycheck
@@ -115,15 +127,6 @@
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
-
-;;; smex
-(use-package smex
-  :ensure t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands))
-  :idle (progn
-          (setq smex-flex-matching t)
-          (smex-initialize)))
 
 ;;; powerline
 (use-package powerline
