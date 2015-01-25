@@ -137,3 +137,6 @@
 (use-package ace-jump-mode
   :ensure t
   :bind (("C-c SPC" . ace-jump-mode)))
+
+(use-package gist
+  :ensure t)
