@@ -86,8 +86,7 @@
   :ensure t
   :bind ("M-x" . helm-M-x)
   :idle (progn (setq helm-locate-fuzzy-match t
-                     helm-M-x-fuzzy-match t)
-               (helm-autoresize-mode 1)))
+                     helm-M-x-fuzzy-match t)))
 
 (use-package helm-projectile
   :ensure t
@@ -138,5 +137,6 @@
   :ensure t
   :bind (("C-c SPC" . ace-jump-mode)))
 
+;;; gist
 (use-package gist
   :ensure t)
