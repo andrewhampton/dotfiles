@@ -5,7 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="random"
+ZSH_THEME="andrewhampton"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -45,13 +45,13 @@ ZSH_THEME="random"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rails bundler rvm vagrant)
+plugins=(git rails bundler vagrant)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/Users/andrew/.rvm/gems/ruby-1.9.3-p194@rails-4.0.4/bin:/Users/andrew/.rvm/gems/ruby-1.9.3-p194@global/bin:/Users/andrew/.rvm/rubies/ruby-1.9.3-p194/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/andrew/.rvm/bin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin/:/Users/andrew/bin"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin/:/Users/andrew/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -78,3 +78,10 @@ export PATH="/Users/andrew/.rvm/gems/ruby-1.9.3-p194@rails-4.0.4/bin:/Users/andr
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# config chruby
+source /usr/local/share/chruby/chruby.sh
+chruby ruby-2.1.3
+
+# config docker
+$(boot2docker shellinit 2> /dev/null)
