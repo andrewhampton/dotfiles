@@ -8,8 +8,6 @@
 (global-linum-mode t)                                     ;;; show line numbers
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
-(global-set-key (kbd "C-c C-s") 'magit-status)            ;;; magit keybind
-(global-set-key (kbd "C-c s") 'magit-status)              ;;; magit keybind
 (setq js-indent-level 2                                   ;;; javascript-mode
       truncate-lines t                                    ;;; disable line wrapping
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
@@ -140,3 +138,9 @@
 ;;; gist
 (use-package gist
   :ensure t)
+
+;;; magit
+(use-package magit
+  :ensure t
+  :bind (("C-c C-s" . magit-status)
+         ("C-c s" . magit-status)))
