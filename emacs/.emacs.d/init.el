@@ -101,8 +101,9 @@
   :ensure t
   :init (load-theme 'sanityinc-tomorrow-eighties t))
 
-;;; ido-mode
+;;; ido-mode/flx/flx-ido
 (use-package flx-ido
+  :ensure t
   :bind ("C-x f" . ido-find-file)
   :idle (progn
           (ido-mode 1)
@@ -144,3 +145,11 @@
   :ensure t
   :bind (("C-c C-s" . magit-status)
          ("C-c s" . magit-status)))
+
+;;; web-mode
+(use-package web-mode
+  :ensure t)
+
+;;; yaml-mode
+(use-package yaml-mode
+  :ensure t)
