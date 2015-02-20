@@ -5,6 +5,7 @@
 (setq-default indent-tabs-mode nil)                       ;;; indentation
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "C-o") 'other-window)
+(define-key global-map (kbd "RET") 'newline-and-indent)
 (global-linum-mode t)                                     ;;; show line numbers
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
