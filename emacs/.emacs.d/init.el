@@ -154,3 +154,7 @@
 ;;; yaml-mode
 (use-package yaml-mode
   :ensure t)
+
+;;; ruby-mode
+(use-package ruby-mode
+  :ensure t)
