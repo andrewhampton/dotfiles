@@ -86,6 +86,8 @@ chruby ruby-2.1.3
 # config docker
 $(boot2docker shellinit 2> /dev/null)
 
+# config nvm
 export NVM_DIR="/home/andrew/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 nvm use v0.12.0 1> /dev/null
+
