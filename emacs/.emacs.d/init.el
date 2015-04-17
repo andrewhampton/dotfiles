@@ -9,10 +9,12 @@
 (global-linum-mode t)                                     ;;; show line numbers
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
+(set-default 'truncate-lines t)                           ;;; disable line wrapping
+
 (setq js-indent-level 2                                   ;;; javascript-mode
-      truncate-lines t                                    ;;; disable line wrapping
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
+      truncate-partial-width-windows nil
       temporary-file-directory "~/.emacs.d/saves"
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       backup-directory-alist `((".*" . ,temporary-file-directory))
