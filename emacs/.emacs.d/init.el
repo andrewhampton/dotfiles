@@ -158,3 +158,11 @@
 ;;; ruby-mode
 (use-package ruby-mode
   :ensure t)
+
+;; coffee-mode
+(use-package coffee-mode
+  :ensure t)
+
+;; lua-mode
+(use-package lua-mode
+  :ensure t)
