@@ -14,6 +14,7 @@
 (setq js-indent-level 2                                   ;;; javascript-mode
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
+      uniquify-min-dir-content 2
       truncate-partial-width-windows nil
       temporary-file-directory "~/.emacs.d/saves"
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
