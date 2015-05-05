@@ -137,9 +137,9 @@
   :init (powerline-default-theme))
 
 ;;; ace-jump
-(use-package ace-jump-mode
+(use-package ace-window
   :ensure t
-  :bind (("C-c SPC" . ace-jump-mode)))
+  :bind (("C-l" . avi-goto-char-2)))
 
 ;;; gist
 (use-package gist
