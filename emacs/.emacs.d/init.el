@@ -139,7 +139,7 @@
 ;;; ace-jump
 (use-package ace-window
   :ensure t
-  :bind (("C-l" . avi-goto-char-2)))
+  :bind (("C-j" . avi-goto-char-2)))
 
 ;;; gist
 (use-package gist
