@@ -5,6 +5,7 @@ local mashalt = {"ctrl", "shift", "alt"}
 
 -- window hints
 hs.hints.style = "vimperator"
+hs.hints.showTitleThresh = 0
 hs.hotkey.bind(mash, 'H', hs.hints.windowHints)
 hs.hotkey.bind(mashalt, 'H', hs.hints.windowHints)
 
@@ -36,6 +37,3 @@ hs.hotkey.bind(mashalt, 'L', grid.snap_east)
 hs.hotkey.bind(mashalt, 'M', grid.snap_southwest)
 hs.hotkey.bind(mashalt, ',', grid.snap_south)
 hs.hotkey.bind(mashalt, '.', grid.snap_southeast)
-
-hs.hotkey.bind({'cmd'}, '1', function() hs.application.launchOrFocus("FirefoxAurora") end)
-hs.hotkey.bind({'cmd'}, '2', function() hs.application.launchOrFocus("iTerm") end)
