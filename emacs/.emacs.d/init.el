@@ -5,15 +5,17 @@
 (setq-default indent-tabs-mode nil)                       ;;; indentation
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "C-o") 'other-window)
+(define-key global-map (kbd "RET") 'newline-and-indent)
 (global-linum-mode t)                                     ;;; show line numbers
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
-(global-set-key (kbd "C-c C-s") 'magit-status)            ;;; magit keybind
-(global-set-key (kbd "C-c s") 'magit-status)              ;;; magit keybind
+(set-default 'truncate-lines t)                           ;;; disable line wrapping
+
 (setq js-indent-level 2                                   ;;; javascript-mode
-      truncate-lines t                                    ;;; disable line wrapping
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
+      uniquify-min-dir-content 2
+      truncate-partial-width-windows nil
       temporary-file-directory "~/.emacs.d/saves"
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -27,7 +29,8 @@
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
- '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
+ '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
+ '(coffee-tab-width 2))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                 PACKAGE CONFIGURATION                                ;;
@@ -106,8 +109,9 @@
   :ensure t
   :init (load-theme 'sanityinc-tomorrow-eighties t))
 
-;;; ido-mode
+;;; ido-mode/flx/flx-ido
 (use-package flx-ido
+  :ensure t
   :bind ("C-x f" . ido-find-file)
   :idle (progn
           (ido-mode 1)
@@ -136,10 +140,36 @@
   :init (powerline-default-theme))
 
 ;;; ace-jump
-(use-package ace-jump-mode
+(use-package ace-window
   :ensure t
-  :bind (("C-c SPC" . ace-jump-mode)))
+  :bind (("C-j" . avi-goto-char-2)))
 
 ;;; gist
 (use-package gist
+  :ensure t)
+
+;;; magit
+(use-package magit
+  :ensure t
+  :bind (("C-c C-s" . magit-status)
+         ("C-c s" . magit-status)))
+
+;;; web-mode
+(use-package web-mode
+  :ensure t)
+
+;;; yaml-mode
+(use-package yaml-mode
+  :ensure t)
+
+;;; ruby-mode
+(use-package ruby-mode
+  :ensure t)
+
+;; coffee-mode
+(use-package coffee-mode
+  :ensure t)
+
+;; lua-mode
+(use-package lua-mode
   :ensure t)
