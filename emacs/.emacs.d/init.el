@@ -20,7 +20,10 @@
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/"))
-      inferior-lisp-program "sbcl")
+      inferior-lisp-program "sbcl"
+      mac-command-modifier 'control
+      mac-control-modifier 'meta
+      ring-bell-function #'ignore)
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
