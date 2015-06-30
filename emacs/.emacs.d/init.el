@@ -146,7 +146,7 @@
 ;;; powerline
 (use-package powerline
   :ensure t
-  :init (powerline-default-theme))
+  :init (powerline-center-theme))
 
 ;;; ace-jump
 (use-package ace-jump-mode
