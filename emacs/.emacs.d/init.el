@@ -12,6 +12,7 @@
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
 (set-default 'truncate-lines t)                           ;;; disable line wrapping
 (tool-bar-mode -1)
+(toggle-scroll-bar -1)
 
 (setq js-indent-level 2                                   ;;; javascript-mode
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
