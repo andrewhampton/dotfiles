@@ -76,14 +76,14 @@
 ;;; show-paren-mode
 (use-package paren
   :ensure t
-  :idle (progn
+  :init (progn
             (setq show-paren-delay 0)
             (show-paren-mode 1)))
 
 ;;; integrate with the clipboard
 (use-package pbcopy
   :ensure t
-  :idle (turn-on-pbcopy))
+  :init (turn-on-pbcopy))
 
 ;;; projectile
 (use-package projectile
@@ -98,18 +98,18 @@
 (use-package helm
   :ensure t
   :bind ("M-x" . helm-M-x)
-  :idle (progn (setq helm-locate-fuzzy-match t
+  :init (progn (setq helm-locate-fuzzy-match t
                      helm-M-x-fuzzy-match t)))
 
 (use-package helm-projectile
   :ensure t
-  :idle (helm-projectile-on))
+  :init (helm-projectile-on))
 
 ;;; flycheck
 (use-package flycheck
   :ensure t
   :commands global-flycheck-mode
-  :idle (global-flycheck-mode 1))
+  :init (global-flycheck-mode 1))
 
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
@@ -120,7 +120,7 @@
 (use-package flx-ido
   :ensure t
   :bind ("C-x f" . ido-find-file)
-  :idle (progn
+  :init (progn
           (ido-mode 1)
           (ido-everywhere 1)
           (flx-ido-mode 1)
