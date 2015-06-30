@@ -5,11 +5,13 @@
 (setq-default indent-tabs-mode nil)                       ;;; indentation
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "M-SPC") 'set-mark-command)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-linum-mode t)                                     ;;; show line numbers
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
 (set-default 'truncate-lines t)                           ;;; disable line wrapping
+(tool-bar-mode -1)
 
 (setq js-indent-level 2                                   ;;; javascript-mode
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
@@ -25,7 +27,11 @@
       inferior-lisp-program "sbcl"
       mac-command-modifier 'control
       mac-control-modifier 'meta
-      ring-bell-function #'ignore)
+      ring-bell-function #'ignore
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-progressive-speed nil
+      scroll-step 1
+      exec-path (append exec-path '("/usr/local/bin")))
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
@@ -140,9 +146,9 @@
   :init (powerline-default-theme))
 
 ;;; ace-jump
-(use-package ace-window
+(use-package ace-jump-mode
   :ensure t
-  :bind (("C-j" . avi-goto-char-2)))
+  :bind (("C-j" . ace-jump-char-mode)))
 
 ;;; gist
 (use-package gist
@@ -168,8 +174,4 @@
 
 ;; coffee-mode
 (use-package coffee-mode
-  :ensure t)
-
-;; lua-mode
-(use-package lua-mode
   :ensure t)
