@@ -1,16 +1,3 @@
-(fset 'html-helper-mode 'html-mode)
-(setq-default indent-tabs-mode nil)                       ;;; indentation
-(defalias 'yes-or-no-p 'y-or-n-p)
-(global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "M-SPC") 'set-mark-command)
-(define-key global-map (kbd "RET") 'newline-and-indent)
-(global-linum-mode t)                                     ;;; show line numbers
-(add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
-(global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
-(set-default 'truncate-lines t)                           ;;; disable line wrapping
-(tool-bar-mode -1)
-(toggle-scroll-bar -1)
-
 (setq js-indent-level 2                                   ;;; javascript-mode
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
@@ -22,7 +9,6 @@
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/"))
-      inferior-lisp-program "sbcl"
       mac-command-modifier 'control
       mac-control-modifier 'meta
       ring-bell-function #'ignore
@@ -44,12 +30,6 @@
 
 (package-initialize)
 (require 'use-package)
-
-;;; disable toolbar and menu bar
-(menu-bar-mode -1)
-
-;;; hilight current line
-(global-hl-line-mode)
 
 ;;; paredit
 (use-package paredit
@@ -213,3 +193,23 @@
           (add-hook 'go-mode-hook (lambda ()
                       (set (make-local-variable 'company-backends) '(company-go))
                       (company-mode)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; emacs quality of life
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq-default indent-tabs-mode nil) ;;; use spaces by default
+(global-set-key (kbd "M-SPC") 'set-mark-command)
+(global-linum-mode t)                                     ;;; show line numbers
+(add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
+(define-key global-map (kbd "RET") 'newline-and-indent)
+(global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
+(set-default 'truncate-lines t)                           ;;; disable line wrapping
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(fset 'html-helper-mode 'html-mode)
+(global-set-key (kbd "C-o") 'other-window)
+(global-hl-line-mode)
