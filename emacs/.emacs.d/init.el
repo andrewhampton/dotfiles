@@ -153,8 +153,8 @@
   :ensure t
   :bind (("C-j" . ace-jump-word-mode)))
 
-;;; gist
-(use-package gist
+;;; yagist
+(use-package yagist
   :ensure t)
 
 ;;; magit
