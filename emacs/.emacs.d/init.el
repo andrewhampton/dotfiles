@@ -76,7 +76,8 @@
 ;;; helm
 (use-package helm
   :ensure t
-  :bind ("M-x" . helm-M-x)
+  :bind (("M-x" . helm-M-x)
+         ("C-x b" . helm-mini))
   :init (progn (setq helm-locate-fuzzy-match t
                      helm-M-x-fuzzy-match t
                      helm-autoresize-max-height 15
