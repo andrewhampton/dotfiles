@@ -103,8 +103,8 @@
   :init (progn (setq helm-locate-fuzzy-match t
                      helm-M-x-fuzzy-match t
                      helm-autoresize-max-height 15
-                     helm-autoresize-min-height 15)
-               (helm-autoresize-mode 1)))
+                     helm-autoresize-min-height 15))
+  :config (helm-autoresize-mode 1))
 
 (use-package helm-projectile
   :ensure t
