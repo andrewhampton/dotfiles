@@ -54,7 +54,12 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin/:/Users/andrew/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
+
+# Go
+export GOPATH="/go"
+export PATH="$PATH:/usr/local/go/bin"
+export PATH="$PATH:/go/bin"
+
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
