@@ -1,6 +1,3 @@
-;((load (expand-file-name "~/p/slime-helper.el"))
-
-(add-to-list 'load-path "~/.emacs.d/elisp")               ;;; ELSIPS
 (fset 'html-helper-mode 'html-mode)
 (setq-default indent-tabs-mode nil)                       ;;; indentation
 (defalias 'yes-or-no-p 'y-or-n-p)
