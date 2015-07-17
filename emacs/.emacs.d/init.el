@@ -178,3 +178,38 @@
 ;; coffee-mode
 (use-package coffee-mode
   :ensure t)
+
+;;; rainbow-delimeters
+(use-package rainbow-delimiters
+  :ensure t)
+
+;;;;;;;;;;
+;;; Go ;;;
+;;;;;;;;;;
+
+;;; go-eldoc
+(use-package go-eldoc
+  :ensure t)
+
+;;; company-go
+
+(use-package company
+  :ensure t)
+
+(use-package company-go
+  :ensure t
+  :init (progn
+          (setq company-idle-delay .25)
+          (setq company-echo-delay 0)))
+
+;;; go-mode
+(use-package go-mode
+  :ensure t
+  :bind (("C-c C-r" . go-remove-unused-imports)
+         ("M-." . godef-jump))
+  :init (progn
+          (add-hook 'before-save-hook  #'gofmt-before-save)
+          (add-hook 'go-mode-hook 'go-eldoc-setup)
+          (add-hook 'go-mode-hook (lambda ()
+                      (set (make-local-variable 'company-backends) '(company-go))
+                      (company-mode)))))
