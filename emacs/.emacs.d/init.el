@@ -194,6 +194,14 @@
                       (set (make-local-variable 'company-backends) '(company-go))
                       (company-mode)))))
 
+;;; gotest
+(use-package gotest
+  :ensure t
+  :bind (("C-c C-t" . go-test-current-test)
+         ("C-c C-f" . go-test-current-file)
+         ("C-c C-p" . go-test-current-project)
+         ("C-c C-r" . go-run)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
