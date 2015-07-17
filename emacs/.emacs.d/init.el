@@ -185,7 +185,7 @@
 ;;; go-mode
 (use-package go-mode
   :ensure t
-  :bind (("C-c C-r" . go-remove-unused-imports)
+  :bind (("C-c r" . go-remove-unused-imports)
          ("M-." . godef-jump))
   :init (progn
           (add-hook 'before-save-hook  #'gofmt-before-save)
