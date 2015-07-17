@@ -222,6 +222,5 @@
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (fset 'html-helper-mode 'html-mode)
-(global-set-key (kbd "C-o") 'other-window)
 (global-hl-line-mode)
 (setq default-tab-width 2)
