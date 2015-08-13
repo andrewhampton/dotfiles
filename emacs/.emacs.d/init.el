@@ -15,9 +15,7 @@
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
       scroll-step 1
-      exec-path (append exec-path '("/usr/local/bin"))
-      projectile-file-exists-remote-cache-expire (* 10 60)
-      projectile-enable-caching t)
+      exec-path (append exec-path '("/usr/local/bin")))
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
