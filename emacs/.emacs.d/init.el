@@ -130,9 +130,10 @@
 ;;; ace-jump
 (use-package ace-jump-mode
   :ensure t
-  :bind (("C-c j" . ace-jump-word-mode)
+  :bind (("C-j" . ace-jump-word-mode)
          ("C-c w" . ace-select-window)
-         ("C-c d" . ace-delete-window)))
+         ("C-c d" . ace-delete-window)
+         ("C-c l" . ace-jump-line-mode)))
 
 ;;; yagist
 (use-package yagist
