@@ -350,7 +350,7 @@ prompt_char() {
 
 build_prompt() {
   RETVAL=$?
-  prompt_time
+  # prompt_time
   prompt_status
   prompt_context
   prompt_dir
@@ -359,6 +359,4 @@ build_prompt() {
   prompt_end
 }
 
-PROMPT='
-%{%f%b%k%}$(build_prompt)
-%{${fg_bold[default]}%}$(prompt_char) %{$reset_color%}'
+PROMPT='%{%f%b%k%}$(build_prompt)%{$reset_color%} '
