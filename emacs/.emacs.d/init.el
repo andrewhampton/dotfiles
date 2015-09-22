@@ -130,7 +130,7 @@
 ;;; ace-jump
 (use-package ace-jump-mode
   :ensure t
-  :bind (("C-j" . ace-jump-word-mode)
+  :bind (("C-c j" . ace-jump-word-mode)
          ("C-c w" . ace-select-window)
          ("C-c d" . ace-delete-window)
          ("C-c l" . ace-jump-line-mode)))
@@ -204,6 +204,10 @@
          ("C-c C-p" . go-test-current-project)
          ("C-c C-r" . go-run)))
 
+;;; slime
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -223,3 +227,5 @@
 (fset 'html-helper-mode 'html-mode)
 (global-hl-line-mode)
 (setq default-tab-width 2)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
