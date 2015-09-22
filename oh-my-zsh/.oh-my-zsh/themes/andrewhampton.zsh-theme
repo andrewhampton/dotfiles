@@ -51,48 +51,6 @@ if [ ! -n "${BULLETTRAIN_TIME_FG+1}" ]; then
   BULLETTRAIN_TIME_FG=black
 fi
 
-# VIRTUALENV
-if [ ! -n "${BULLETTRAIN_VIRTUALENV_SHOW+1}" ]; then
-  BULLETTRAIN_VIRTUALENV_SHOW=true
-fi
-if [ ! -n "${BULLETTRAIN_VIRTUALENV_BG+1}" ]; then
-  BULLETTRAIN_VIRTUALENV_BG=yellow
-fi
-if [ ! -n "${BULLETTRAIN_VIRTUALENV_FG+1}" ]; then
-  BULLETTRAIN_VIRTUALENV_FG=white
-fi
-if [ ! -n "${BULLETTRAIN_VIRTUALENV_PREFIX+1}" ]; then
-  BULLETTRAIN_VIRTUALENV_PREFIX=🐍
-fi
-
-# NVM
-if [ ! -n "${BULLETTRAIN_NVM_SHOW+1}" ]; then
-  BULLETTRAIN_NVM_SHOW=false
-fi
-if [ ! -n "${BULLETTRAIN_NVM_BG+1}" ]; then
-  BULLETTRAIN_NVM_BG=green
-fi
-if [ ! -n "${BULLETTRAIN_NVM_FG+1}" ]; then
-  BULLETTRAIN_NVM_FG=white
-fi
-if [ ! -n "${BULLETTRAIN_NVM_PREFIX+1}" ]; then
-  BULLETTRAIN_NVM_PREFIX="⬡ "
-fi
-
-# RUBY
-if [ ! -n "${BULLETTRAIN_RUBY_SHOW+1}" ]; then
-  BULLETTRAIN_RUBY_SHOW=true
-fi
-if [ ! -n "${BULLETTRAIN_RUBY_BG+1}" ]; then
-  BULLETTRAIN_RUBY_BG=magenta
-fi
-if [ ! -n "${BULLETTRAIN_RUBY_FG+1}" ]; then
-  BULLETTRAIN_RUBY_FG=white
-fi
-if [ ! -n "${BULLETTRAIN_RUBY_PREFIX+1}" ]; then
-  BULLETTRAIN_RUBY_PREFIX=♦️
-fi
-
 # DIR
 if [ ! -n "${BULLETTRAIN_DIR_SHOW+1}" ]; then
   BULLETTRAIN_DIR_SHOW=true
@@ -334,51 +292,6 @@ prompt_dir() {
   prompt_segment $BULLETTRAIN_DIR_BG $BULLETTRAIN_DIR_FG $dir
 }
 
-# RUBY
-# RVM: only shows RUBY info if on a gemset that is not the default one
-# RBENV: shows current ruby version active in the shell
-prompt_ruby() {
-  if [[ $BULLETTRAIN_RUBY_SHOW == false ]]; then
-    return
-  fi
-
-  if which rvm-prompt &> /dev/null; then
-    if [[ ! -n $(rvm gemset list | grep "=> (default)") ]]
-    then
-      prompt_segment $BULLETTRAIN_RUBY_BG $BULLETTRAIN_RUBY_FG $BULLETTRAIN_RUBY_PREFIX"  $(rvm-prompt i v g)"
-    fi
-  elif which rbenv &> /dev/null; then
-    prompt_segment $BULLETTRAIN_RUBY_BG $BULLETTRAIN_RUBY_FG $BULLETTRAIN_RUBY_PREFIX"  $(rbenv version | sed -e 's/ (set.*$//')"
-  fi
-}
-
-# Virtualenv: current working virtualenv
-prompt_virtualenv() {
-  if [[ $BULLETTRAIN_VIRTUALENV_SHOW == false ]]; then
-    return
-  fi
-
-  local virtualenv_path="$VIRTUAL_ENV"
-  if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment $BULLETTRAIN_VIRTUALENV_BG $BULLETTRAIN_VIRTUALENV_FG $BULLETTRAIN_VIRTUALENV_PREFIX"  $(basename $virtualenv_path)"
-  fi
-}
-
-# NVM: Node version manager
-prompt_nvm() {
-  if [[ $BULLETTRAIN_NVM_SHOW == false ]]; then
-    return
-  fi
-
-  $(type nvm >/dev/null 2>&1) || return
-
-  local nvm_prompt
-  nvm_prompt=$(node -v 2>/dev/null)
-  [[ "${nvm_prompt}x" == "x" ]] && return
-  nvm_prompt=${nvm_prompt:1}
-  prompt_segment $BULLETTRAIN_NVM_BG $BULLETTRAIN_NVM_FG $BULLETTRAIN_NVM_PREFIX$nvm_prompt
-}
-
 prompt_time() {
   if [[ $BULLETTRAIN_TIME_SHOW == false ]]; then
     return
@@ -420,7 +333,7 @@ prompt_char() {
   local bt_prompt_char
 
   if [[ ${#BULLETTRAIN_PROMPT_CHAR} -eq 1 ]]; then
-    bt_prompt_char="${BULLETTRAIN_PROMPT_CHAR}"
+    bt_prompt_char="%{$fg[blue]%}${BULLETTRAIN_PROMPT_CHAR}"
   fi
 
   if [[ $BULLETTRAIN_PROMPT_ROOT == true ]]; then
@@ -439,9 +352,6 @@ build_prompt() {
   RETVAL=$?
   prompt_time
   prompt_status
-  prompt_ruby
-  prompt_virtualenv
-  prompt_nvm
   prompt_context
   prompt_dir
   prompt_git
