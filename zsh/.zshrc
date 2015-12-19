@@ -47,7 +47,7 @@ ZSH_THEME="andrewhampton"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rails bundler vagrant ansible-playbook ansible)
+plugins=(git git-flow rails bundler vagrant ansible-playbook ansible go)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -90,9 +90,4 @@ export PATH="$PATH:/go/bin"
 source /usr/local/share/chruby/chruby.sh
 chruby ruby-2.1.3
 
-# config nvm
-if command -v nvm; then
-   export NVM_DIR="/home/andrew/.nvm"
-   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-   nvm use v0.12.0 1> /dev/null
-fi
+export GO15VENDOREXPERIMENT=1 

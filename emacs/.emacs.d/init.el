@@ -145,6 +145,12 @@
   :bind (("C-c C-s" . magit-status)
          ("C-c s" . magit-status)))
 
+;;; magit-gitflow
+(use-package magit-gitflow
+  :ensure t
+  :init (progn
+          (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
+
 ;;; web-mode
 (use-package web-mode
   :ensure t)
