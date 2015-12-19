@@ -1,0 +1,13 @@
+Author = "HaaTa (Jacob Alexander) 2014";
+Base = "HackerBlank";
+Date = "2014-09-14";
+Generator = "KIICONF 0.2";
+KLL = "0.3";
+Layout = "HackerBlank";
+Name = "MD1";
+Version = "0.2";
+
+U"CTRL" : U"LCTRL";
+U"LALT" : U"LGUI";
+U"LGUI" : U"LALT";
+
