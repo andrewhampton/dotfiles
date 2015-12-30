@@ -236,8 +236,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "BACKSPACE",
-                    "label": "BKSP"
+                    "key": "BACKSLASH",
+                    "label": "\\"
                 }
             },
             "w": 4,
@@ -455,8 +455,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "BACKSLASH",
-                    "label": "\\"
+                    "key": "BACKSPACE",
+                    "label": "BKSP"
                 }
             },
             "w": 6,
