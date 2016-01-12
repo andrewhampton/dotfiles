@@ -19,8 +19,10 @@
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
- '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
- '(coffee-tab-width 2))
+ '(coffee-tab-width 2)
+ '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
+ '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
+ '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                 PACKAGE CONFIGURATION                                ;;
