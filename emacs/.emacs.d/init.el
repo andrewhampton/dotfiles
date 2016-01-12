@@ -213,6 +213,21 @@
          ("C-c C-p" . go-test-current-project)
          ("C-c C-r" . go-run)))
 
+;;; dockerfile
+(use-package dockerfile-mode
+  :ensure t
+  :mode "Dockerfile\\'")
+
+;;; markdown
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.text\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode)
+         ("\\.md\\'" . gfm-mode)))
+
+(use-package markdown-toc
+  :ensure t)
+
 ;;; slime
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
