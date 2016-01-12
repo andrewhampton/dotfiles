@@ -98,7 +98,7 @@
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
-  :init (load-theme 'sanityinc-tomorrow-bright t))
+  :init (load-theme 'sanityinc-tomorrow-eighties t))
 
 ;;; ido-mode/flx/flx-ido
 (use-package flx-ido
