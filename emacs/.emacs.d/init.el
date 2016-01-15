@@ -151,8 +151,7 @@
 ;;; magit-gitflow
 (use-package magit-gitflow
   :ensure t
-  :init (progn
-          (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
+  :init (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
 
 ;;; web-mode
 (use-package web-mode
@@ -254,5 +253,4 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-(provide 'init)
-;;; init ends here
+
