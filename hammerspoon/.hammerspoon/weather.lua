@@ -4,7 +4,7 @@ local cacheTTL = 600
 local cachedWeather = nil
 local specificLatLong = nil
 
-function weather.weather(apiKey)
+function weather.weather(apiKey, cb)
    local latlong = nil
 
    if specificLatLong ~= nil then
@@ -13,7 +13,7 @@ function weather.weather(apiKey)
       latlong = findLatLong()
    end
 
-   return getWeather(apiKey, latlong)
+   getWeather(apiKey, latlong, cb)
 end
 
 function weather.getIcon(iconCode)
@@ -51,20 +51,24 @@ function weather.setSpecificLatLong(latlong)
    specificLatLog = latlong
 end
 
-function getWeather(apiKey, latlong)
+function getWeather(apiKey, latlong, cb)
    if os.time() < lastUpdate + cacheTTL then
       return cachedWeather
    end
 
    local url = 'https://api.forecast.io/forecast/' .. apiKey .. '/' .. latlong .. "?v=" .. math.floor(math.random() * 100)
 
-   local code, body = hs.http.get(url, nil)
-   local w = hs.json.decode(body)
+   hs.http.asyncGet(url, nil, function(status, body)
+                                     local w = hs.json.decode(body)
 
-   cachedWeather = w
-   lastUpdate = os.time()
+                                     cachedWeather = w
+                                     lastUpdate = os.time()
+                                     cb(status, w)
+   end)
+end
 
-   return w
+function getWeatherCBHandler(status, body, headers)
+
 end
 
 function findLatLong()

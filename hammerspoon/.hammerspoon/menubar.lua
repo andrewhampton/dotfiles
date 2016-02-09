@@ -11,19 +11,20 @@ function menubar.init()
       updateWeatherBar()
       hs.timer.doEvery(15*60, updateWeatherBar)
    else
-      print('No forecast.io api key found')
+      hs.alert.show('Weatherbar in use, but no forecast.io api key found!')
    end
 end
 
 function updateWeatherBar()
-   local w = weather.weather(apiKey)
-   weatherBar:setTitle(weather.getIcon(w.currently.icon) ..
-                          math.floor(w.currently.temperature + 0.5) ..
-                          '/' ..
-                          math.floor(w.daily.data[1].temperatureMin + 0.5) ..
-                          '/' ..
-                          math.floor(w.daily.data[1].temperatureMax + 0.5))
-   weatherBar:setMenu(genWeatherBarMenu(w))
+   local w = weather.weather(apiKey, function(status, w)
+                                weatherBar:setTitle(weather.getIcon(w.currently.icon) ..
+                                                       math.floor(w.currently.temperature + 0.5) ..
+                                                       '/' ..
+                                                       math.floor(w.daily.data[1].temperatureMin + 0.5) ..
+                                                       '/' ..
+                                                       math.floor(w.daily.data[1].temperatureMax + 0.5))
+                                weatherBar:setMenu(genWeatherBarMenu(w))
+   end)
 end
 
 function genWeatherBarMenu(w)
