@@ -131,11 +131,15 @@
   :init (powerline-center-theme))
 
 ;;; ace-jump
+(use-package ace-window
+  :ensure t
+  :bind (("C-c w" . ace-select-window)
+         ("C-c d" . ace-delete-window))
+  :init (ace-window-display-mode))
+
 (use-package ace-jump-mode
   :ensure t
   :bind (("C-c j" . ace-jump-word-mode)
-         ("C-c w" . ace-select-window)
-         ("C-c d" . ace-delete-window)
          ("C-c l" . ace-jump-line-mode)))
 
 ;;; yagist
@@ -155,7 +159,8 @@
 
 ;;; web-mode
 (use-package web-mode
-  :ensure t)
+  :ensure t
+  :mode (("\\.erb\\'" . web-mode)))
 
 ;;; yaml-mode
 (use-package yaml-mode
