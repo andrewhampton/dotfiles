@@ -63,7 +63,7 @@ fi
 export GOPATH="/go"
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/go/bin"
-
+export GO15VENDOREXPERIMENT=1
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -89,9 +89,3 @@ export PATH="$PATH:/go/bin"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# config chruby
-source /usr/local/share/chruby/chruby.sh
-chruby ruby-2.1.3
-
-export GO15VENDOREXPERIMENT=1 

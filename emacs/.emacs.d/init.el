@@ -19,8 +19,10 @@
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
- '(uniquify-buffer-name-style (quote post-forward) nil (uniquify))
- '(coffee-tab-width 2))
+ '(coffee-tab-width 2)
+ '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
+ '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
+ '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                 PACKAGE CONFIGURATION                                ;;
@@ -55,7 +57,8 @@
   :ensure t
   :init (progn
             (setq show-paren-delay 0)
-            (show-paren-mode 1)))
+            (show-paren-mode 1)
+            (setq show-paren-style 'mixed)))
 
 ;;; integrate with the clipboard
 (use-package pbcopy
@@ -95,7 +98,7 @@
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
-  :init (load-theme 'sanityinc-tomorrow-bright t))
+  :init (load-theme 'sanityinc-tomorrow-eighties t))
 
 ;;; ido-mode/flx/flx-ido
 (use-package flx-ido
@@ -148,8 +151,7 @@
 ;;; magit-gitflow
 (use-package magit-gitflow
   :ensure t
-  :init (progn
-          (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
+  :init (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
 
 ;;; web-mode
 (use-package web-mode
@@ -210,9 +212,20 @@
          ("C-c C-p" . go-test-current-project)
          ("C-c C-r" . go-run)))
 
-;;; slime
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
+;;; dockerfile
+(use-package dockerfile-mode
+  :ensure t
+  :mode "Dockerfile\\'")
+
+;;; markdown
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.text\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode)
+         ("\\.md\\'" . gfm-mode)))
+
+(use-package markdown-toc
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
@@ -235,3 +248,5 @@
 (setq default-tab-width 2)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+
