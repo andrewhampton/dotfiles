@@ -1,45 +1,22 @@
 local weather = {}
+local lastUpdate = 0
+local cacheTTL = 600
+local cachedWeather = nil
+local specificLatLong = nil
 
 function weather.weather(apiKey)
-   return getWeather(latlong(), apiKey)
+   local latlong = nil
+
+   if specificLatLong ~= nil then
+      latlong = specificLatLong
+   else
+      latlong = findLatLong()
+   end
+
+   return getWeather(apiKey, latlong)
 end
 
-function getWeather(latlong, apiKey)
-   local url = 'https://api.forecast.io/forecast/' .. apiKey .. '/' .. latlong .. "?v=" .. math.floor(math.random() * 100)
-
-   local code, body = hs.http.get(url, nil)
-   local w = hs.json.decode(body)
-
-   return {
-      icon = getIcon(w.currently.icon),
-      temp = math.floor(w.currently.temperature + 0.5),
-      min = math.floor(w.daily.data[1].temperatureMin + 0.5),
-      max = math.floor(w.daily.data[1].temperatureMax + 0.5),
-      toolbarDetails = {
-         {title = getIcon(w.minutely.icon) .. ' ' .. w.minutely.summary},
-         {title = getIcon(w.hourly.icon) .. ' ' .. w.hourly.summary},
-         {title = getIcon(w.daily.icon) .. ' ' .. w.daily.summary,
-          menu = {
-             {title = os.date('%a', w.daily.data[2].time) .. ':  \t' .. getIcon(w.daily.data[2].icon) .. ' ' .. w.daily.data[2].summary},
-             {title = os.date('%a', w.daily.data[3].time) .. ':  \t' .. getIcon(w.daily.data[3].icon) .. ' ' .. w.daily.data[3].summary},
-             {title = os.date('%a', w.daily.data[4].time) .. ':  \t' .. getIcon(w.daily.data[4].icon) .. ' ' .. w.daily.data[4].summary},
-             {title = os.date('%a', w.daily.data[5].time) .. ':  \t' .. getIcon(w.daily.data[5].icon) .. ' ' .. w.daily.data[5].summary},
-             {title = os.date('%a', w.daily.data[6].time) .. ':  \t' .. getIcon(w.daily.data[6].icon) .. ' ' .. w.daily.data[6].summary},
-             {title = os.date('%a', w.daily.data[7].time) .. ':  \t' .. getIcon(w.daily.data[7].icon) .. ' ' .. w.daily.data[7].summary},
-             {title = os.date('%a', w.daily.data[8].time) .. ':  \t' .. getIcon(w.daily.data[8].icon) .. ' ' .. w.daily.data[8].summary}
-          }
-         }
-      }}
-end
-
-function latlong()
-   hs.location.start()
-   local l = hs.location.get()
-   hs.location.stop()
-   return l.latitude .. ',' .. l.longitude
-end
-
-function getIcon(iconCode)
+function weather.getIcon(iconCode)
    local icon = ''
    if iconCode == 'clear-day' then
       icon = '☀️'
@@ -66,5 +43,35 @@ function getIcon(iconCode)
    return icon
 end
 
+function weather.setCacheTTL(ttl)
+   cacheTTL = ttl
+end
+
+function weather.setSpecificLatLong(latlong)
+   specificLatLog = latlong
+end
+
+function getWeather(apiKey, latlong)
+   if os.time() < lastUpdate + cacheTTL then
+      return cachedWeather
+   end
+
+   local url = 'https://api.forecast.io/forecast/' .. apiKey .. '/' .. latlong .. "?v=" .. math.floor(math.random() * 100)
+
+   local code, body = hs.http.get(url, nil)
+   local w = hs.json.decode(body)
+
+   cachedWeather = w
+   lastUpdate = os.time()
+
+   return w
+end
+
+function findLatLong()
+   hs.location.start()
+   local l = hs.location.get()
+   hs.location.stop()
+   return l.latitude .. ',' .. l.longitude
+end
 
 return weather
