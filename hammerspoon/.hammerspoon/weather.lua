@@ -67,10 +67,6 @@ function getWeather(apiKey, latlong, cb)
    end)
 end
 
-function getWeatherCBHandler(status, body, headers)
-
-end
-
 function findLatLong()
    hs.location.start()
    local l = hs.location.get()
