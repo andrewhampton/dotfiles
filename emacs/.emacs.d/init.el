@@ -227,6 +227,9 @@
 (use-package markdown-toc
   :ensure t)
 
+(use-package lua-mode
+  :ensure t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -248,5 +251,3 @@
 (setq default-tab-width 2)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-
