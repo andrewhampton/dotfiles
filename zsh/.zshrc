@@ -55,6 +55,10 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin/:/Users/andrew/bin"
 
+if [ -f ~/.env ]; then
+  . ~/.env
+fi
+
 # Go
 export GOPATH="/go"
 export PATH="$PATH:/usr/local/go/bin"

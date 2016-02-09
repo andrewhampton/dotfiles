@@ -10,3 +10,4 @@ emacs/.emacs.d/tramp
 emacs/.emacs.d/var
 emacs/.emacs.d/.mc-lists.el
 emacs/.emacs.d/auto-save-list
+/hammerspoon/.hammerspoon/forecast_io_api_key.lua
