@@ -66,9 +66,11 @@ export PATH="$PATH:/go/bin"
 export GO15VENDOREXPERIMENT=1
 
 # Ruby
-source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh
-chruby ruby-2.3.0
+if hash chruby 2>/dev/null; then
+    source /usr/local/share/chruby/chruby.sh
+    source /usr/local/share/chruby/auto.sh
+    chruby ruby-2.3.0
+fi
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
