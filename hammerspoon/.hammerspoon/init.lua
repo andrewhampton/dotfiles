@@ -1,4 +1,8 @@
 local grid = require "grid"
+local menubar = require "menubar"
+
+-- menubar
+menubar.init()
 
 local mash =    {"cmd", "shift", "ctrl"}
 local mashalt = {"ctrl", "shift", "alt"}
