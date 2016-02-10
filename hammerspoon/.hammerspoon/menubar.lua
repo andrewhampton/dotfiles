@@ -17,32 +17,52 @@ end
 
 function updateWeatherBar()
    local w = weather.weather(apiKey, function(status, w)
-                                weatherBar:setTitle(weather.getIcon(w.currently.icon) ..
-                                                       math.floor(w.currently.temperature + 0.5) ..
-                                                       '/' ..
-                                                       math.floor(w.daily.data[1].temperatureMin + 0.5) ..
-                                                       '/' ..
-                                                       math.floor(w.daily.data[1].temperatureMax + 0.5))
-                                weatherBar:setMenu(genWeatherBarMenu(w))
+                                if status == 200 then
+                                   weatherBar:setTitle(weather.getIcon(w.currently.icon) ..
+                                                          math.floor(w.currently.temperature + 0.5) ..
+                                                          '/' ..
+                                                          math.floor(w.daily.data[1].temperatureMin + 0.5) ..
+                                                          '/' ..
+                                                          math.floor(w.daily.data[1].temperatureMax + 0.5))
+                                   weatherBar:setMenu(genWeatherBarMenu(w))
+                                else
+                                   hs.alert.show("forecast.io call failed. Check console for details.")
+                                end
    end)
 end
 
 function genWeatherBarMenu(w)
-   return {
-      {title = weather.getIcon(w.minutely.icon) .. ' ' .. w.minutely.summary},
-      {title = weather.getIcon(w.hourly.icon) .. ' ' .. w.hourly.summary},
-      {title = weather.getIcon(w.daily.icon) .. ' ' .. w.daily.summary,
-       menu = {
-          {title = os.date('%a', w.daily.data[2].time) .. ':  \t' .. weather.getIcon(w.daily.data[2].icon) .. ' ' .. w.daily.data[2].summary},
-          {title = os.date('%a', w.daily.data[3].time) .. ':  \t' .. weather.getIcon(w.daily.data[3].icon) .. ' ' .. w.daily.data[3].summary},
-          {title = os.date('%a', w.daily.data[4].time) .. ':  \t' .. weather.getIcon(w.daily.data[4].icon) .. ' ' .. w.daily.data[4].summary},
-          {title = os.date('%a', w.daily.data[5].time) .. ':  \t' .. weather.getIcon(w.daily.data[5].icon) .. ' ' .. w.daily.data[5].summary},
-          {title = os.date('%a', w.daily.data[6].time) .. ':  \t' .. weather.getIcon(w.daily.data[6].icon) .. ' ' .. w.daily.data[6].summary},
-          {title = os.date('%a', w.daily.data[7].time) .. ':  \t' .. weather.getIcon(w.daily.data[7].icon) .. ' ' .. w.daily.data[7].summary},
-          {title = os.date('%a', w.daily.data[8].time) .. ':  \t' .. weather.getIcon(w.daily.data[8].icon) .. ' ' .. w.daily.data[8].summary}
-       }
-      }
-   }
+   local menu = {}
+
+   if w.minutely ~= nil then
+      table.insert(menu, {title = weather.getIcon(w.minutely.icon) .. ' ' .. w.minutely.summary})
+   end
+
+   if w.hourly ~= nil then
+      local hourlyMenu = {}
+
+      for index, hour in ipairs(w.hourly.data) do
+         table.insert(hourlyMenu, {title = os.date('%H', hour.time) .. ':\t' .. math.floor(hour.temperature + 0.5) .. '°\t' .. weather.getIcon(hour.icon) .. ' ' .. hour.summary})
+      end
+
+      table.insert(menu, {title = weather.getIcon(w.hourly.icon) .. ' ' .. w.hourly.summary,
+                          menu = hourlyMenu})
+   end
+
+   if w.daily ~= nil then
+      local dailyMenu = {}
+
+      for index, day in ipairs(w.daily.data) do
+         if index > 1 then
+            table.insert(dailyMenu, {title = os.date('%a', day.time) .. ':  \t' .. weather.getIcon(day.icon) .. ' ' .. day.summary})
+         end
+      end
+
+      table.insert(menu, {title = weather.getIcon(w.daily.icon) .. ' ' .. w.daily.summary,
+                       menu = dailyMenu})
+   end
+
+   return menu
 end
 
 function file_exists(name)

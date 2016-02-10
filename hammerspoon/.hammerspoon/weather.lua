@@ -68,12 +68,19 @@ function getWeather(apiKey, latlong, cb)
       url = url .. '&units=' .. unit
    end
 
-   hs.http.asyncGet(url, nil, function(status, body)
-                                     local w = hs.json.decode(body)
+   hs.http.asyncGet(url, nil, function(status, body, headers)
+                       if status ~= 200 then
+                          print("Weather.io call failed with status code: " .. status)
+                          print("Please log an issue with the below information to https://github.com/andrewhampton/dotfiles")
+                          print(hs.inspect.inspect(headers))
+                          print(body)
+                       end
 
-                                     cachedWeather = w
-                                     lastUpdate = os.time()
-                                     cb(status, w)
+                       local w = hs.json.decode(body)
+
+                       cachedWeather = w
+                       lastUpdate = os.time()
+                       cb(status, w)
    end)
 end
 
