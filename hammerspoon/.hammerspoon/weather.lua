@@ -3,6 +3,7 @@ local lastUpdate = 0
 local cacheTTL = 600
 local cachedWeather = nil
 local specificLatLong = nil
+local unit = nil
 
 function weather.weather(apiKey, cb)
    local latlong = nil
@@ -51,12 +52,21 @@ function weather.setSpecificLatLong(latlong)
    specificLatLog = latlong
 end
 
+-- Set to 'si' if you want metric
+function weather.setUnit(newUnit)
+   unit = newUnit
+end
+
 function getWeather(apiKey, latlong, cb)
    if os.time() < lastUpdate + cacheTTL then
       return cachedWeather
    end
 
    local url = 'https://api.forecast.io/forecast/' .. apiKey .. '/' .. latlong .. "?v=" .. math.floor(math.random() * 100)
+
+   if unit ~= nil then
+      url = url .. '&units=' .. unit
+   end
 
    hs.http.asyncGet(url, nil, function(status, body)
                                      local w = hs.json.decode(body)
