@@ -1,11 +1,23 @@
 local weather = require "weather"
+local gmail = require "gmail"
 local menubar = {}
 
 local weatherBar = hs.menubar.new()
+local gmailBars = {}
 
 local apiKey = nil
+local credFile = nil
+local gmailCreds = {}
 
 function menubar.init()
+   if file_exists("gmail_creds.lua") then
+      credFile = require "gmail_creds"
+      updateGmailBar()
+      hs.timer.doEvery(2*60, updateGmailBar)
+   else
+      hs.alert.show('GmailBar in use, but no gmail_creds file found!')
+   end
+
    if file_exists("forecast_io_api_key.lua") then
       apiKey = require "forecast_io_api_key"
       updateWeatherBar()
@@ -16,18 +28,18 @@ function menubar.init()
 end
 
 function updateWeatherBar()
-   local w = weather.weather(apiKey, function(status, w)
-                                if status == 200 then
-                                   weatherBar:setTitle(weather.getIcon(w.currently.icon) ..
-                                                          math.floor(w.currently.temperature + 0.5) ..
-                                                          '/' ..
-                                                          math.floor(w.daily.data[1].temperatureMin + 0.5) ..
-                                                          '/' ..
-                                                          math.floor(w.daily.data[1].temperatureMax + 0.5))
-                                   weatherBar:setMenu(genWeatherBarMenu(w))
-                                else
-                                   hs.alert.show("forecast.io call failed. Check console for details.")
-                                end
+   weather.weather(apiKey, function(status, w)
+                      if status == 200 then
+                         weatherBar:setTitle(weather.getIcon(w.currently.icon) ..
+                                                math.floor(w.currently.temperature + 0.5) ..
+                                                '/' ..
+                                                math.floor(w.daily.data[1].temperatureMin + 0.5) ..
+                                                '/' ..
+                                                math.floor(w.daily.data[1].temperatureMax + 0.5))
+                         weatherBar:setMenu(genWeatherBarMenu(w))
+                      else
+                         hs.alert.show("forecast.io call failed. Check console for details.")
+                      end
    end)
 end
 
@@ -63,6 +75,27 @@ function genWeatherBarMenu(w)
    end
 
    return menu
+end
+
+function updateGmailBar()
+   for index, gmailBar in ipairs(gmailBars) do
+      gmailBar:delete()
+   end
+
+   gmailBars = {}
+
+   for index, creds in ipairs(credFile) do
+      gmail.mailCount(creds.username, creds.password, function(count)
+                         if count > 0 then
+                            local gmailBar = hs.menubar.new()
+                            gmailBar:setTitle('📬' .. count)
+                            gmailBar:setMenu({
+                                  {title = creds.username,
+                                   fn = updateGmailBar}})
+                            table.insert(gmailBars, gmailBar)
+                         end
+      end)
+   end
 end
 
 function file_exists(name)
