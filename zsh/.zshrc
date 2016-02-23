@@ -53,7 +53,8 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin/:/Users/andrew/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin:/Users/andrew/bin"
+export NVM_DIR=~/.nvm
 
 if [ -f ~/.env ]; then
   . ~/.env
@@ -65,11 +66,19 @@ export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/go/bin"
 export GO15VENDOREXPERIMENT=1
 
+# Pollev
+export PATH="$PATH:$HOME/.pollev/bin"
+
 # Ruby
 if hash chruby 2>/dev/null; then
     source /usr/local/share/chruby/chruby.sh
     source /usr/local/share/chruby/auto.sh
-    chruby ruby-2.3.0
+    chruby ruby-2.1.6
+fi
+
+# boot2docker
+if hash boot2docker 2>/dev/null; then
+    $(boot2docker shellinit 2>/dev/null)
 fi
 
 # You may need to manually set your language environment
@@ -96,3 +105,6 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export NVM_DIR="/Users/ah/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
