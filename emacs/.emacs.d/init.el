@@ -250,7 +250,6 @@
 (set-default 'truncate-lines t)                           ;;; disable line wrapping
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
 (fset 'html-helper-mode 'html-mode)
 (global-hl-line-mode)
 (setq default-tab-width 2)
