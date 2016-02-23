@@ -54,7 +54,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin:/Users/andrew/bin"
-export NVM_DIR=~/.nvm
 
 if [ -f ~/.env ]; then
   . ~/.env
@@ -81,6 +80,10 @@ if hash boot2docker 2>/dev/null; then
     $(boot2docker shellinit 2>/dev/null)
 fi
 
+# nvm
+export NVM_DIR="/Users/ah/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -105,6 +108,3 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export NVM_DIR="/Users/ah/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
