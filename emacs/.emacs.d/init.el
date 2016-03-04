@@ -69,24 +69,28 @@
 (use-package projectile
   :ensure t
   :commands (projectile-switch-project)
-  :bind (("C-x C-f" . projectile-find-file)
-         ("C-t" . projectile-find-file))
+  :bind (("C-x C-f" . projectile-find-file))
   :config (progn (projectile-global-mode)
-               (setq projectile-completion-system 'helm)))
+                 (setq projectile-completion-system 'helm)))
 
 ;;; helm
 (use-package helm
   :ensure t
   :bind (("M-x" . helm-M-x)
-         ("C-x b" . helm-mini))
-  :config (progn (setq helm-locate-fuzzy-match t
-                     helm-M-x-fuzzy-match t
-                     helm-autoresize-max-height 15
-                     helm-autoresize-min-height 15)
-                 (helm-autoresize-mode 1)))
+         ("C-x b" . helm-mini)
+         ("C-c C-f" . helm-imenu)
+         ("C-x f" . helm-find-files))
+  :init (helm-mode 1)
+  :config (progn
+            (setq helm-mode-fuzzy-match t
+                  helm-completion-in-region-fuzzy-match t)
+            (defun pl/helm-alive-p ()
+              (if (boundp 'helm-alive-p)
+                  (symbol-value 'helm-alive-p)))))
 
 (use-package helm-projectile
   :ensure t
+  :bind (("C-t" . helm-projectile-find-file))
   :config (helm-projectile-on))
 
 ;;; flycheck
@@ -103,12 +107,11 @@
 ;;; ido-mode/flx/flx-ido
 (use-package flx-ido
   :ensure t
-  :bind ("C-x f" . ido-find-file)
   :config (progn
-          (ido-mode 1)
-          (ido-everywhere 1)
-          (flx-ido-mode 1)
-          (setq ido-enable-flex-matching t
+            (ido-mode 1)
+            (ido-everywhere 1)
+            (flx-ido-mode 1)
+            (setq ido-enable-flex-matching t
                   ido-use-faces nil)))
 
 ;;; multiple cursors
@@ -166,8 +169,22 @@
 (use-package yaml-mode
   :ensure t)
 
-;;; ruby-mode
+;;; Ruby
 (use-package ruby-mode
+  :ensure t)
+
+(use-package rspec-mode
+  :ensure t)
+
+(use-package robe
+  :ensure t
+  :init (progn (add-hook 'ruby-mode-hook 'robe-mode)
+               (add-hook 'ruby-mode-hook (lambda ()
+                                         (set (make-local-variable 'company-backends) '(company-robe))
+                                         (company-mode)))))
+
+;; haml-mode
+(use-package haml-mode
   :ensure t)
 
 ;; coffee-mode
@@ -213,7 +230,7 @@
 (use-package gotest
   :ensure t
   :bind (("C-c C-t" . go-test-current-test)
-         ("C-c C-f" . go-test-current-file)
+         ("C-c C-c C-f" . go-test-current-file)
          ("C-c C-p" . go-test-current-project)
          ("C-c C-r" . go-run)))
 
@@ -234,6 +251,18 @@
 
 (use-package lua-mode
   :ensure t)
+
+(use-package golden-ratio
+  :ensure t
+  :init (progn (golden-ratio-mode 1)
+               (setq golden-ratio-extra-commands
+                     (append golden-ratio-extra-commands
+                             '(ace-select-window
+                               ace-delete-window))
+
+                     golden-ratio-inhibit-functions
+                     (append golden-ratio-inhibit-functions
+                             '(pl/helm-alive-p)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
