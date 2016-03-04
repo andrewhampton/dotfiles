@@ -12,3 +12,5 @@ emacs/.emacs.d/.mc-lists.el
 emacs/.emacs.d/auto-save-list
 /hammerspoon/.hammerspoon/forecast_io_api_key.lua
 /hammerspoon/.hammerspoon/gmail_creds.lua
+/emacs/.emacs.d/ido.last
+/emacs/.emacs.d/recentf

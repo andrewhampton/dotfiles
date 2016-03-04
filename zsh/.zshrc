@@ -75,9 +75,9 @@ if hash chruby 2>/dev/null; then
     chruby ruby-2.1.6
 fi
 
-# boot2docker
-if hash boot2docker 2>/dev/null; then
-    $(boot2docker shellinit 2>/dev/null)
+# docker machine
+if hash docker-machine 2>/dev/null; then
+    eval $(docker-machine env 2>/dev/null)
 fi
 
 # nvm
