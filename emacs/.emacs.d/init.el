@@ -55,7 +55,7 @@
 ;;; show-paren-mode
 (use-package paren
   :ensure t
-  :init (progn
+  :config (progn
             (setq show-paren-delay 0)
             (show-paren-mode 1)
             (setq show-paren-style 'mixed)))
@@ -63,7 +63,7 @@
 ;;; integrate with the clipboard
 (use-package pbcopy
   :ensure t
-  :init (turn-on-pbcopy))
+  :config (turn-on-pbcopy))
 
 ;;; projectile
 (use-package projectile
@@ -71,7 +71,7 @@
   :commands (projectile-switch-project)
   :bind (("C-x C-f" . projectile-find-file)
          ("C-t" . projectile-find-file))
-  :init (progn (projectile-global-mode)
+  :config (progn (projectile-global-mode)
                (setq projectile-completion-system 'helm)))
 
 ;;; helm
@@ -79,15 +79,15 @@
   :ensure t
   :bind (("M-x" . helm-M-x)
          ("C-x b" . helm-mini))
-  :init (progn (setq helm-locate-fuzzy-match t
+  :config (progn (setq helm-locate-fuzzy-match t
                      helm-M-x-fuzzy-match t
                      helm-autoresize-max-height 15
-                     helm-autoresize-min-height 15))
-  :config (helm-autoresize-mode 1))
+                     helm-autoresize-min-height 15)
+                 (helm-autoresize-mode 1)))
 
 (use-package helm-projectile
   :ensure t
-  :init (helm-projectile-on))
+  :config (helm-projectile-on))
 
 ;;; flycheck
 (use-package flycheck
@@ -98,13 +98,13 @@
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
-  :init (load-theme 'sanityinc-tomorrow-eighties t))
+  :config (load-theme 'sanityinc-tomorrow-eighties t))
 
 ;;; ido-mode/flx/flx-ido
 (use-package flx-ido
   :ensure t
   :bind ("C-x f" . ido-find-file)
-  :init (progn
+  :config (progn
           (ido-mode 1)
           (ido-everywhere 1)
           (flx-ido-mode 1)
@@ -128,19 +128,19 @@
 ;;; powerline
 (use-package powerline
   :ensure t
-  :init (powerline-center-theme))
+  :config (powerline-center-theme))
 
 ;;; ace-jump
 (use-package ace-window
   :ensure t
   :bind (("C-c w" . ace-select-window)
          ("C-c d" . ace-delete-window))
-  :init (ace-window-display-mode))
+  :config (ace-window-display-mode))
 
 (use-package ace-jump-mode
   :ensure t
   :bind (("C-c j" . ace-jump-word-mode)
-         ("C-c l" . ace-jump-line-mode)))
+           ("C-c l" . ace-jump-line-mode)))
 
 ;;; yagist
 (use-package yagist
@@ -155,7 +155,7 @@
 ;;; magit-gitflow
 (use-package magit-gitflow
   :ensure t
-  :init (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
+  :config (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
 
 ;;; web-mode
 (use-package web-mode
@@ -193,7 +193,7 @@
 
 (use-package company-go
   :ensure t
-  :init (progn
+  :config (progn
           (setq company-idle-delay .25)
           (setq company-echo-delay 0)))
 
@@ -202,7 +202,7 @@
   :ensure t
   :bind (("C-c r" . go-remove-unused-imports)
          ("M-." . godef-jump))
-  :init (progn
+  :config (progn
           (add-hook 'before-save-hook  #'gofmt-before-save)
           (add-hook 'go-mode-hook 'go-eldoc-setup)
           (add-hook 'go-mode-hook (lambda ()
