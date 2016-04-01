@@ -19,9 +19,17 @@
 
 ;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(coffee-tab-width 2)
+ '(magit-branch-arguments nil)
  '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
  '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
+ '(magit-merge-arguments (quote ("--ff-only")))
+ '(magit-pull-arguments nil)
+ '(magit-rebase-arguments (quote ("--interactive")))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -83,7 +91,10 @@
   :init (helm-mode 1)
   :config (progn
             (setq helm-mode-fuzzy-match t
-                  helm-completion-in-region-fuzzy-match t)
+                  helm-completion-in-region-fuzzy-match t
+                  helm-autoresize-max-height 15
+                  helm-autoresize-min-height 15)
+            (helm-autoresize-mode 1)
             (defun pl/helm-alive-p ()
               (if (boundp 'helm-alive-p)
                   (symbol-value 'helm-alive-p)))))
@@ -142,7 +153,7 @@
 
 (use-package ace-jump-mode
   :ensure t
-  :bind (("C-c j" . ace-jump-word-mode)
+  :bind (("C-j" . ace-jump-word-mode)
            ("C-c l" . ace-jump-line-mode)))
 
 ;;; yagist
@@ -252,17 +263,24 @@
 (use-package lua-mode
   :ensure t)
 
-(use-package golden-ratio
-  :ensure t
-  :init (progn (golden-ratio-mode 1)
-               (setq golden-ratio-extra-commands
-                     (append golden-ratio-extra-commands
-                             '(ace-select-window
-                               ace-delete-window))
+(use-package helm-ag
+  :ensure t)
 
-                     golden-ratio-inhibit-functions
-                     (append golden-ratio-inhibit-functions
-                             '(pl/helm-alive-p)))))
+(use-package ag
+  :ensure t)
+
+(use-package scss-mode
+  :ensure t)
+
+;;      .-"-.            .-"-.            .-"-.
+;;    _/_-.-_\_        _/.-.-.\_        _/.-.-.\_
+;;   / __} {__ \      /|( o o )|\      ( ( o o ) )
+;;  / //  "  \\ \    | //  "  \\ |      |/  "  \|
+;; / / \'---'/ \ \  / / \'---'/ \ \      \'/^\'/
+;; \ \_/`"""`\_/ /  \ \_/`"""`\_/ /      /`\ /`\
+;;  \           /    \           /      /  /|\  \
+;; (use-package evil
+;;   :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
@@ -277,10 +295,11 @@
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
 (set-default 'truncate-lines t)                           ;;; disable line wrapping
+(setq-default fill-column 200)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (fset 'html-helper-mode 'html-mode)
 (global-hl-line-mode)
-(setq default-tab-width 2)
+(setq tab-width 2)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
