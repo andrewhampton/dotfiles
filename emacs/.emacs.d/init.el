@@ -220,14 +220,13 @@
 ;;; go-mode
 (use-package go-mode
   :ensure t
-  :bind (("C-c r" . go-remove-unused-imports)
-         ("M-." . godef-jump))
+  :bind (("C-c r" . go-remove-unused-imports))
   :config (progn
           (add-hook 'before-save-hook  #'gofmt-before-save)
           (add-hook 'go-mode-hook 'go-eldoc-setup)
           (add-hook 'go-mode-hook (lambda ()
-                      (set (make-local-variable 'company-backends) '(company-go))
-                      (company-mode)))))
+                                    (set (make-local-variable 'company-backends) '(company-go))
+                                    (company-mode)))))
 
 ;;; gotest
 (use-package gotest
