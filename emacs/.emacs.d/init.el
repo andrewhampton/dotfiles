@@ -107,7 +107,14 @@
 (use-package flycheck
   :ensure t
   :commands global-flycheck-mode
-  :init (global-flycheck-mode 1))
+  :init (progn
+          (global-flycheck-mode 1)
+          ;; Enable flyspell-prog-mode for programming modes
+          (mapcar (lambda (mode-hook) (add-hook mode-hook 'flyspell-prog-mode))
+                  '(ruby-mode-hook go-mode-hook coffee-mode-hook web-mode-hook elixir-mode-hook))
+          ;; Enable flyspell-mode for text modes
+          (mapcar (lambda (mode-hook) (add-hook mode-hook 'flyspell-mode))
+                  '(markdown-mode-hook text-mode-hook))))
 
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
