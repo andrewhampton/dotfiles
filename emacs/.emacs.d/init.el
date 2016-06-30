@@ -16,7 +16,6 @@
       scroll-step 1
       exec-path (append exec-path '("/usr/local/bin")))
 
-;;; If two buffers have the same name, it will append "|<dir" name> instead of "|<counter>"
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -26,6 +25,7 @@
  '(magit-branch-arguments nil)
  '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
  '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
+ '(magit-log-arguments (quote ("--graph" "--color" "--decorate" "-n256")))
  '(magit-merge-arguments (quote ("--ff-only")))
  '(magit-pull-arguments nil)
  '(magit-rebase-arguments (quote ("--interactive")))
@@ -185,13 +185,6 @@
 
 (use-package rspec-mode
   :ensure t)
-
-(use-package robe
-  :ensure t
-  :init (progn (add-hook 'ruby-mode-hook 'robe-mode)
-               (add-hook 'ruby-mode-hook (lambda ()
-                                         (set (make-local-variable 'company-backends) '(company-robe))
-                                         (company-mode)))))
 
 ;; haml-mode
 (use-package haml-mode
