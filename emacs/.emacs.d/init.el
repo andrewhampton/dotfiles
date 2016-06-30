@@ -287,6 +287,13 @@
 ;; (use-package evil
 ;;   :ensure t)
 
+(use-package dumb-jump
+  :ensure t
+  :bind (("M-." . dumb-jump-go)
+         ("M-," . dumb-jump-back)
+         ("M-/" . dumb-jump-quick-look))
+  :init (dumb-jump-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
