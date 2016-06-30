@@ -301,3 +301,21 @@
 (setq tab-width 2)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+
+;;; Display magit fullscreen
+(add-to-list 'display-buffer-alist
+             `(,(rx "*magit: ")
+               (lunaryorn-display-buffer-fullframe)
+               (reusable-frames . nil)))
+
+(defun lunaryorn-display-buffer-fullframe (buffer alist)
+  "Display BUFFER in fullscreen.
+ALIST is a `display-buffer' ALIST.
+Return the new window for BUFFER."
+  (let ((window
+         (or (display-buffer-use-some-window buffer alist)
+             (display-buffer-pop-up-window buffer alist))))
+    (when window
+      (delete-other-windows window))
+    window))
