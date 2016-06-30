@@ -263,6 +263,13 @@
 (use-package scss-mode
   :ensure t)
 
+(use-package alchemist
+  :ensure t
+  :config (progn
+            (setq alchemist-hooks-test-on-save t)
+            (setq alchemist-hooks-compile-on-save t)
+            (add-hook 'elixir-mode-hook 'company-mode)))
+
 ;;      .-"-.            .-"-.            .-"-.
 ;;    _/_-.-_\_        _/.-.-.\_        _/.-.-.\_
 ;;   / __} {__ \      /|( o o )|\      ( ( o o ) )
