@@ -106,3 +106,20 @@ export NVM_DIR="/Users/ah/.nvm"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias fs="foreman start"
+alias fsl="foreman start --env=.env,environments/local.env,environments/local-docker.env"
+
+alias nsl="npm run start:local"
+
+alias berc="bundle exec rails console"
+alias ber="bundle exec rspec"
+alias assets="ASSET_GEM_PATH=../assets"
+
+alias afs="assets fs"
+alias aberc="assets berc"
+alias aber="assets ber"
+
+alias dc="docker-compose"
+
+alias ag="ag --path-to-agignore ~/.agignore"
