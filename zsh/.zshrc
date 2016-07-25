@@ -75,10 +75,8 @@ if hash chruby 2>/dev/null; then
     chruby ruby-2.1.6
 fi
 
-# docker machine
-if hash docker-machine 2>/dev/null; then
-    eval $(docker-machine env 2>/dev/null)
-fi
+# docker for mac
+export DOCKER_HOST="unix:///var/run/docker.sock"
 
 # nvm
 export NVM_DIR="/Users/ah/.nvm"
