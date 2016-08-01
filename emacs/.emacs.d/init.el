@@ -14,7 +14,8 @@
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
       scroll-step 1
-      exec-path (append exec-path '("/usr/local/bin")))
+      exec-path (append exec-path '("/usr/local/bin"))
+      company-minimum-prefix-length 2)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -213,10 +214,15 @@
 (use-package go-eldoc
   :ensure t)
 
-;;; company-go
-
+;;; company
 (use-package company
-  :ensure t)
+  :ensure t
+  :init (progn
+          ;; Add company-mode hooks
+          (mapcar (lambda (mode-hook) (add-hook mode-hook 'company-mode))
+                  '(ruby-mode-hook coffee-mode-hook web-mode-hook elixir-mode-hook))))
+
+;;; company-go
 
 (use-package company-go
   :ensure t
@@ -274,8 +280,7 @@
   :ensure t
   :config (progn
             (setq alchemist-hooks-test-on-save t)
-            (setq alchemist-hooks-compile-on-save t)
-            (add-hook 'elixir-mode-hook 'company-mode)))
+            (setq alchemist-hooks-compile-on-save t)))
 
 ;;      .-"-.            .-"-.            .-"-.
 ;;    _/_-.-_\_        _/.-.-.\_        _/.-.-.\_
