@@ -1,5 +1,9 @@
 local grid = require "grid"
 local menubar = require "menubar"
+hyperterm = require "hyperterm"
+
+-- hyperterm
+hyperterm.init()
 
 -- menubar
 menubar.init()
