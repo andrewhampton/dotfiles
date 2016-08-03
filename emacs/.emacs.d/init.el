@@ -299,6 +299,10 @@
          ("M-/" . dumb-jump-quick-look))
   :init (dumb-jump-mode))
 
+(use-package git-messenger
+  :ensure t
+  :bind (("C-x v p" . git-messenger:popup-message)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
