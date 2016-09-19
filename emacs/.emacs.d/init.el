@@ -1,4 +1,6 @@
 (setq js-indent-level 2                                   ;;; javascript-mode
+      web-mode-markup-indent-offset 2
+      web-mode-code-indent-offset 2
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
       uniquify-min-dir-content 2
@@ -77,7 +79,8 @@
 (use-package projectile
   :ensure t
   :commands (projectile-switch-project)
-  :bind (("C-x C-f" . projectile-find-file))
+  :bind (("C-x C-f" . projectile-find-file)
+	 ("C-c p p" . projectile-switch-project))
   :config (progn (projectile-global-mode)
                  (setq projectile-completion-system 'helm)))
 
@@ -138,7 +141,7 @@
   :bind (
          ("C-c ." . mc/mark-all-like-this-dwim)
          ("C-c ," . mc/edit-lines)
-         ("C-c C-c ." . mc/mark-next-like-this)
+         ("C-c /" . mc/mark-next-like-this)
          ("C-c C-c ," . mc/mark-previous-like-this)))
 
 ;;; rust mode
@@ -181,7 +184,11 @@
 ;;; web-mode
 (use-package web-mode
   :ensure t
-  :mode (("\\.erb\\'" . web-mode)))
+  :mode (("\\.erb\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode)))
+
+;; javascript
+
 
 ;;; yaml-mode
 (use-package yaml-mode
@@ -302,6 +309,10 @@
 (use-package git-messenger
   :ensure t
   :bind (("C-x v p" . git-messenger:popup-message)))
+
+(use-package neotree
+  :ensure t
+  :bind (([f5] . neotree-toggle)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
