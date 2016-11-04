@@ -10,8 +10,6 @@
       backup-directory-alist `((".*" . ,temporary-file-directory))
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/"))
-      mac-command-modifier 'control
-      mac-control-modifier 'meta
       ring-bell-function #'ignore
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
@@ -32,6 +30,9 @@
  '(magit-merge-arguments (quote ("--ff-only")))
  '(magit-pull-arguments nil)
  '(magit-rebase-arguments (quote ("--interactive")))
+ '(package-selected-packages
+   (quote
+    (visual-fill-column visual-fill-column-mode chruby multi-eshell shell-switcher exec-path-from-shell yaml-mode yagist web-mode use-package scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors markdown-toc magit-gitflow lua-mode inf-ruby helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flx-ido dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode alchemist ag ace-window ace-jump-mode)))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -81,8 +82,10 @@
   :commands (projectile-switch-project)
   :bind (("C-x C-f" . projectile-find-file)
 	 ("C-c p p" . projectile-switch-project))
-  :config (progn (projectile-global-mode)
-                 (setq projectile-completion-system 'helm)))
+  :config
+  (projectile-global-mode)
+  (setq projectile-completion-system 'helm)
+  )
 
 ;;; helm
 (use-package helm
@@ -104,8 +107,10 @@
 
 (use-package helm-projectile
   :ensure t
-  :bind (("C-t" . helm-projectile-find-file))
-  :config (helm-projectile-on))
+  :bind (
+         ("C-t" . helm-projectile-find-file)
+         ("C-c p s s" . helm-projectile-ag))
+  :init (helm-projectile-on))
 
 ;;; flycheck
 (use-package flycheck
@@ -168,7 +173,9 @@
 
 ;;; yagist
 (use-package yagist
-  :ensure t)
+  :ensure t
+  :config
+  (if (file-exists-p "~/.emacs.d/yagist-github.el") (load-file "~/.emacs.d/yagist-github.el")))
 
 ;;; magit
 (use-package magit
@@ -321,8 +328,6 @@
 ;;; emacs quality of life
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default indent-tabs-mode nil) ;;; use spaces by default
-(global-set-key (kbd "M-SPC") 'set-mark-command)
-(global-linum-mode t)                                     ;;; show line numbers
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
@@ -336,6 +341,15 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
+(blink-cursor-mode 0)
+
+;; don't show line number in the shell
+(define-global-minor-mode my-global-linum-mode global-linum-mode
+  (lambda ()
+    (when (not (memq major-mode
+                    (list 'eshell-mode 'ansi-term-mode 'term-mode)))
+    (linum-mode 1))))
+(my-global-linum-mode t)                                     ;;; show line numbers
 
 ;;; Display magit fullscreen
 (add-to-list 'display-buffer-alist
