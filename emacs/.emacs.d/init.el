@@ -203,7 +203,13 @@
 
 ;;; Ruby
 (use-package ruby-mode
-  :ensure t)
+  :ensure t
+  :init
+  (setq flycheck-command-wrapper-function
+        (lambda (command)
+          (if (equal major-mode 'ruby-mode)
+              (append '("bundle" "exec") command)
+            command))))
 
 (use-package rspec-mode
   :ensure t)
