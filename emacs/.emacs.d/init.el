@@ -327,6 +327,15 @@
   :ensure t
   :bind (([f5] . neotree-toggle)))
 
+
+(use-package chruby
+  :ensure t
+  :init (add-hook 'flycheck-before-syntax-check-hook
+                  (lambda ()
+                    (if (equal major-mode 'ruby-mode)
+                        (chruby-use-corresponding)))))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
