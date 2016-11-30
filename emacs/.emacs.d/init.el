@@ -166,11 +166,6 @@
          ("C-c d" . ace-delete-window))
   :config (ace-window-display-mode))
 
-(use-package ace-jump-mode
-  :ensure t
-  :bind (("C-j" . ace-jump-word-mode)
-           ("C-c l" . ace-jump-line-mode)))
-
 ;;; yagist
 (use-package yagist
   :ensure t

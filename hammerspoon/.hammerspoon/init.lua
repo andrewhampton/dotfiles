@@ -1,6 +1,7 @@
 local grid = require "grid"
 local menubar = require "menubar"
 local hyperterm = require "hyperterm"
+local anycomplete = require "anycomplete"
 
 -- hyperterm
 hyperterm.init()
@@ -10,6 +11,10 @@ menubar.init()
 
 local mash =    {"cmd", "shift", "ctrl"}
 local mashalt = {"ctrl", "shift", "alt"}
+
+-- anycomplete
+hs.hotkey.bind(mash, "A", anycomplete.complete)
+hs.hotkey.bind(mashalt, "A", anycomplete.complete)
 
 -- window hints
 hs.hints.showTitleThresh = 0
