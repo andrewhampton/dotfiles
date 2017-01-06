@@ -32,6 +32,9 @@
  '(magit-merge-arguments (quote ("--ff-only")))
  '(magit-pull-arguments nil)
  '(magit-rebase-arguments (quote ("--interactive")))
+ '(package-selected-packages
+   (quote
+    (counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -79,40 +82,37 @@
 (use-package projectile
   :ensure t
   :commands (projectile-switch-project)
-  :bind (("C-x C-f" . projectile-find-file)
+  :bind (("C-t" . projectile-find-file)
 	 ("C-c p p" . projectile-switch-project))
   :config
   (projectile-global-mode)
-  (setq projectile-completion-system 'helm)
-  )
+  (setq projectile-completion-system 'ivy))
 
-;;; helm
-(use-package helm
+;;; ivy
+(use-package ivy
   :ensure t
-  :bind (("M-x" . helm-M-x)
-         ("C-x b" . helm-mini)
-         ("C-c C-f" . helm-imenu)
-         ("C-x f" . helm-find-files))
-  :init (helm-mode 1)
-  :config (progn
-            (setq helm-mode-fuzzy-match t
-                  helm-completion-in-region-fuzzy-match t
-                  helm-autoresize-max-height 15
-                  helm-autoresize-min-height 15)
-            (helm-autoresize-mode 1)
-            (defun pl/helm-alive-p ()
-              (if (boundp 'helm-alive-p)
-                  (symbol-value 'helm-alive-p)))))
+  :bind (("C-c C-r" . ivy-resume)
+         ("C-x b" . ivy-switch-buffer))
+  :init (ivy-mode 1)
+  :config
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "
+        ivy-height 10
+        magit-completing-read-function 'ivy-completing-read
+        ;ivy-re-builders-alist '((t . ivy--regex-fuzzy))
+        ))
 
-(use-package helm-projectile
+(use-package counsel
   :ensure t
-  :bind (
-         ("C-t" . helm-projectile-find-file)
-         ("C-c p s s" . helm-projectile-ag))
-  :init (helm-projectile-on))
+  :bind (("M-x" . counsel-M-x)
+         ("C-x f" . counsel-find-file)
+         ("C-c k" . counsel-ag))
+  :init (counsel-mode 1))
 
-(use-package helm-swoop
-  :ensure t)
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)))
+
 
 ;;; flycheck
 (use-package flycheck
@@ -255,7 +255,8 @@
   :bind (("C-c C-t" . go-test-current-test)
          ("C-c C-c C-f" . go-test-current-file)
          ("C-c C-p" . go-test-current-project)
-         ("C-c C-r" . go-run)))
+         ;("C-c C-r" . go-run)
+         ))
 
 ;;; dockerfile
 (use-package dockerfile-mode
@@ -273,9 +274,6 @@
   :ensure t)
 
 (use-package lua-mode
-  :ensure t)
-
-(use-package helm-ag
   :ensure t)
 
 (use-package ag
@@ -375,3 +373,9 @@ Return the new window for BUFFER."
     (when window
       (delete-other-windows window))
     window))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
