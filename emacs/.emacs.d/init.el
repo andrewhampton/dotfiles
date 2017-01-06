@@ -15,6 +15,8 @@
       mouse-wheel-progressive-speed nil
       scroll-step 1
       exec-path (append exec-path '("/usr/local/bin"))
+      mac-command-modifier 'control
+      mac-control-modifier 'meta
       company-minimum-prefix-length 2)
 
 (custom-set-variables
