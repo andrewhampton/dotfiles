@@ -191,22 +191,13 @@
   :mode (("\\.erb\\'" . web-mode)
          ("\\.jsx\\'" . web-mode)))
 
-;; javascript
-
-
 ;;; yaml-mode
 (use-package yaml-mode
   :ensure t)
 
 ;;; Ruby
 (use-package ruby-mode
-  :ensure t
-  :init
-  (setq flycheck-command-wrapper-function
-        (lambda (command)
-          (if (equal major-mode 'ruby-mode)
-              (append '("bundle" "exec") command)
-            command))))
+  :ensure t)
 
 (use-package rspec-mode
   :ensure t)
