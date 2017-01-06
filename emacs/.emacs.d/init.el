@@ -350,7 +350,7 @@
 (define-global-minor-mode my-global-linum-mode global-linum-mode
   (lambda ()
     (when (not (memq major-mode
-                    (list 'eshell-mode 'ansi-term-mode 'term-mode)))
+                    (list 'eshell-mode 'ansi-term-mode 'term-mode 'magit-mode)))
     (linum-mode 1))))
 (my-global-linum-mode t)                                     ;;; show line numbers
 
