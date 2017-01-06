@@ -32,9 +32,6 @@
  '(magit-merge-arguments (quote ("--ff-only")))
  '(magit-pull-arguments nil)
  '(magit-rebase-arguments (quote ("--interactive")))
- '(package-selected-packages
-   (quote
-    (visual-fill-column visual-fill-column-mode chruby multi-eshell shell-switcher exec-path-from-shell yaml-mode yagist web-mode use-package scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors markdown-toc magit-gitflow lua-mode inf-ruby helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flx-ido dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode alchemist ag ace-window ace-jump-mode)))
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -113,6 +110,9 @@
          ("C-t" . helm-projectile-find-file)
          ("C-c p s s" . helm-projectile-ag))
   :init (helm-projectile-on))
+
+(use-package helm-swoop
+  :ensure t)
 
 ;;; flycheck
 (use-package flycheck
