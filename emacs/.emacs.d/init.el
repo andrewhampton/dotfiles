@@ -323,6 +323,11 @@
                     (if (equal major-mode 'ruby-mode)
                         (chruby-use-corresponding)))))
 
+(use-package which-key
+  :ensure t
+  :init (progn
+          (which-key-mode)
+          (which-key-setup-side-window-bottom)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
