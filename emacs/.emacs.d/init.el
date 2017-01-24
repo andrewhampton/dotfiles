@@ -99,13 +99,14 @@
         ivy-count-format "(%d/%d) "
         ivy-height 10
         magit-completing-read-function 'ivy-completing-read
-        ;ivy-re-builders-alist '((t . ivy--regex-fuzzy))
-        ))
+        ivy-re-builders-alist '((swiper . ivy--regex-plus)
+                                (t . ivy--regex-fuzzy))))
 
 (use-package counsel
   :ensure t
   :bind (("M-x" . counsel-M-x)
          ("C-x f" . counsel-find-file)
+         ("C-c f" . counsel-imenu)
          ("C-c k" . counsel-ag))
   :init (counsel-mode 1))
 
