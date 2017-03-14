@@ -350,13 +350,25 @@
 
 (blink-cursor-mode 0)
 
-;; don't show line number in the shell
-(define-global-minor-mode my-global-linum-mode global-linum-mode
-  (lambda ()
-    (when (not (memq major-mode
-                    (list 'eshell-mode 'ansi-term-mode 'term-mode 'magit-mode)))
-    (linum-mode 1))))
-(my-global-linum-mode t)                                     ;;; show line numbers
+;; don't show line numbers everywhere
+(add-hook 'after-change-major-mode-hook
+          '(lambda ()
+             (linum-mode (if (memq major-mode '(eshell-mode
+                                                ansi-term-mode
+                                                term-mode
+                                                magit-mode
+                                                magit-status-mode
+                                                magit-cherry-mode
+                                                magit-log-select-mode
+                                                magit-reflog-mode
+                                                magit-refs-mode
+                                                magit-revision-mode
+                                                magit-stash-mode
+                                                magit-stashes-mode
+                                                magit-diff-mode
+                                                magit-log-mode)) 0 1))))
+
+(global-set-key (kbd "M-SPC") 'set-mark-command)
 
 ;;; Display magit fullscreen
 (add-to-list 'display-buffer-alist
