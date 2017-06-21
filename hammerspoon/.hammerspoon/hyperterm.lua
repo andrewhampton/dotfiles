@@ -10,10 +10,10 @@ function hyperterm.init()
 end
 
 function hypertermActivationHandler(appName, eventType, app)
-   if appName == "HyperTerm" then
+   if appName == "HyperTerm" or appName == "Emacs" then
       if eventType == hs.application.watcher.activated then
-         logger:d("activated")
          hyperterm.keyDownHandler:start()
+         logger:d("activated")
       elseif eventType == hs.application.watcher.deactivated then
          logger:d("deactivated")
          hyperterm.keyDownHandler:stop()
@@ -39,7 +39,8 @@ function handleKeyDown(event)
    end
 
    if flags.ctrl then
-      -- newFlags.alt = true
+      -- This may need to be set per app
+      newFlags.alt = true
       includeMetaEvent = true
    end
 
@@ -55,6 +56,8 @@ function handleKeyDown(event)
       returnEvents = {event}
    end
 
+   --logger:d(hs.inspect.inspect(flags))
+   --logger:d(hs.inspect.inspect(newFlags))
    return true, returnEvents
 end
 
