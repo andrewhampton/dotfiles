@@ -117,7 +117,11 @@ export NVM_DIR="/Users/ah/.nvm"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias fs="foreman start"
-alias fsl="foreman start --env=.env,environments/local.env,environments/local-docker.env"
+alias fsla="foreman start --env=.env,environments/local.env -f Procfile.dockerish"
+alias fsl="fsla | grep web.1"
+alias fsda="foreman start -f Procfile.dockerish"
+alias fsd="fsda | grep web.1"
+
 
 alias nsl="npm run start:local"
 
@@ -131,7 +135,7 @@ alias aber="assets ber"
 
 alias dc="docker-compose"
 
-alias ag="ag --path-to-agignore ~/.agignore"
+alias ag="ag --path-to-ignore ~/.agignore"
 
 # Colorized man pages
 # http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
