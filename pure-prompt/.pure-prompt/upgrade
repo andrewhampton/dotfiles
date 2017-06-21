@@ -1,0 +1,15 @@
+#!/bin/bash
+#INSTALL_DIR=/usr/local/share/zsh/site-functions
+INSTALL_DIR="$HOME/.oh-my-zsh/custom"
+
+rm "$INSTALL_DIR/prompt_pure_setup"
+rm "$INSTALL_DIR/async"
+
+mv pure.zsh pure.zsh.bak
+mv async.zsh async.zsh.bak
+
+curl -O https://raw.githubusercontent.com/sindresorhus/pure/master/pure.zsh
+curl -O https://raw.githubusercontent.com/sindresorhus/pure/master/async.zsh
+
+ln -s "$PWD/pure.zsh" "$INSTALL_DIR/pure.zsh"
+ln -s "$PWD/async.zsh" "$INSTALL_DIR/async.zsh"
