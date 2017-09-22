@@ -17,5 +17,6 @@
   lg = !"git lg1"
   gui = log --graph --format=format:'%h %d' --all
   recent = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"
+  unmerged = branch --no-merged master
 [merge]
 	conflictStyle = diff3
