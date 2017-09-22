@@ -386,6 +386,16 @@ Return the new window for BUFFER."
     (when window
       (delete-other-windows window))
     window))
+(defun toggle-maximize-buffer () "Maximize buffer"
+       (interactive)
+       (if (= 1 (length (window-list)))
+           (jump-to-register '_)
+         (progn
+           (window-configuration-to-register '_)
+           (delete-other-windows))))
+
+(define-key global-map (kbd "C-c m") 'toggle-maximize-buffer)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
