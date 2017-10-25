@@ -1,0 +1,78 @@
+Name = "MDErgo1";
+Variant = "standard";
+Layout = "Default";
+Base = "Blank";
+Version = "0.1";
+Author = "HaaTa (Jacob Alexander) 2015";
+KLL = "0.3c";
+Date = "2015-09-12";
+Generator = "KIICONF 0.2";
+
+
+
+U"ESC" : U"BACKTICK";
+U"5" : U"5";
+U"4" : U"4";
+U"3" : U"3";
+U"2" : U"2";
+U"1" : U"1";
+U"EQUALS" : U"ESCAPE";
+U"T" : U"T";
+U"R" : U"R";
+U"E" : U"E";
+U"W" : U"W";
+U"Q" : U"Q";
+U"BACKSLASH" : U"TAB";
+U"G" : U"G";
+U"F" : U"F";
+U"D" : U"D";
+U"S" : U"S";
+U"A" : U"A";
+U"TAB" : U"LGUI";
+U"LALT" : U"LCK2";
+U"FUNCTION2" : U"DELETE";
+U"B" : U"B";
+U"V" : U"V";
+U"C" : U"C";
+U"X" : U"X";
+U"Z" : U"Z";
+U"LSHIFT" : U"LSHIFT";
+U"DELETE" : U"[";
+U"BACKSPACE" : U"LCTRL";
+U"FUNCTION5" : U"BACKSPACE";
+U"FUNCTION4" : U"RALT";
+U"6" : U"6";
+U"7" : U"7";
+U"8" : U"8";
+U"9" : U"9";
+U"0" : U"0";
+U"MINUS" : U"MINUS";
+U"Y" : U"Y";
+U"U" : U"U";
+U"I" : U"I";
+U"O" : U"O";
+U"P" : U"P";
+U"RBRACE" : U"\";
+U"H" : U"H";
+U"J" : U"J";
+U"K" : U"K";
+U"L" : U"L";
+U"SEMICOLON" : U"SEMICOLON";
+U"QUOTE" : U"QUOTE";
+U"RALT" : CONS"VOLUMEDOWN";
+U"RCTRL" : CONS"VOLUMEUP";
+U"N" : U"N";
+U"M" : U"M";
+U"COMMA" : U"COMMA";
+U"PERIOD" : U"PERIOD";
+U"SLASH" : U"SLASH";
+U"RSHIFT" : U"FUN1";
+U"ENTER" : U"]";
+U"SPACE" : U"ENTER";
+U"LEFT" : U"SPACE";
+U"DOWN" : U"EQUALS";
+
+
+
+
+

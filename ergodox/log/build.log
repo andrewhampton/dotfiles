@@ -1,0 +1,234 @@
+cgi-bin/build_layout.bash b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f MDErgo1 standard "MDErgo1-Default-0.kll" "MDErgo1-Default-1.kll" "MDErgo1-Default-2.kll"  2>&1
++ DefaultMapOverride='infinity_ergodox/lcdFuncMap MDErgo1-Default-0'
++ PartialMapsExpandedOverride='infinity_ergodox/lcdFuncMap MDErgo1-Default-1;infinity_ergodox/lcdFuncMap MDErgo1-Default-2'
++ CMakeExtraArgs=-DCONFIGURATOR=1
++ /srv/KiiConf/controller/Keyboards/ergodox-l.bash -c /srv/KiiConf/controller -o /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left
+linux-gnu/Linux is supported.
+Selected Generator: Ninja
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left
+-- Build CPU Detected:
+x86_64
+-- Build OS Detected:
+Linux 4.9.7-x86_64-linode80
+-- Compiler Family:
+arm
+-- Compiler Selected:
+gcc
+-- Chip Selected:
+mk20dx256vlh7
+-- Chip Family:
+mk20dx
+-- CPU Selected:
+cortex-m4
+-- Compiler Source Files:
+Lib/mk20dx.c;Lib/delay.c;Lib/entropy.c;Lib/time.c
+-- Bootloader Type:
+dfu
+-- Full Compiler:
+/usr/bin/arm-none-eabi-gcc 
+-- Detected Scan Module Source Files:
+Scan/Devices/ISSILed/i2c.c;Scan/Devices/ISSILed/led_scan.c;Scan/Devices/MatrixARM/matrix_scan.c;Scan/Devices/STLcd/lcd_scan.c;Scan/Devices/UARTConnect/connect_scan.c;Scan/Infinity_Ergodox/scan_loop.c
+-- Detected Macro Module Source Files:
+Macro/PartialMap/macro.c;Macro/PartialMap/result.c;Macro/PartialMap/trigger.c;Macro/PixelMap/pixel.c;/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/generatedPixelmap.c
+-- Detected Output Module Source Files:
+Output/HID-IO/hidio_com.c;Output/pjrcUSB/output_com.c;Output/pjrcUSB/arm/usb_desc.c;Output/pjrcUSB/arm/usb_dev.c;Output/pjrcUSB/arm/usb_joystick.c;Output/pjrcUSB/arm/usb_keyboard.c;Output/pjrcUSB/arm/usb_mem.c;Output/pjrcUSB/arm/usb_mouse.c;Output/pjrcUSB/arm/usb_rawio.c;Output/pjrcUSB/arm/usb_serial.c
+-- Detected Debug Module Source Files:
+Debug/cli/cli.c;Debug/led/led.c;Debug/print/print.c
+-- Found Git: /usr/bin/git (found version "1.9.1") 
+-- Found Ctags: /usr/bin/ctags (found version "5.9~svn20110310") 
+ctags: cannot open tag file : Permission denied
+-- Found PythonInterp: python3 (found suitable version "3.4.3", minimum required is "3") 
+-- Detected Layout Files:
+/srv/KiiConf/controller/Scan/Devices/ISSILed/capabilities.kll
+/srv/KiiConf/controller/Scan/Devices/MatrixARM/capabilities.kll
+/srv/KiiConf/controller/Scan/Devices/STLcd/capabilities.kll
+/srv/KiiConf/controller/Scan/Devices/UARTConnect/capabilities.kll
+/srv/KiiConf/controller/Macro/PartialMap/capabilities.kll
+/srv/KiiConf/controller/Macro/PixelMap/capabilities.kll
+/srv/KiiConf/controller/Output/HID-IO/capabilities.kll
+/srv/KiiConf/controller/Output/pjrcUSB/capabilities.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/scancode_map.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/leftHand.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/slave1.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/rightHand.kll
+/srv/KiiConf/controller/kll/layouts/infinity_ergodox/lcdFuncMap.kll
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/MDErgo1-Default-0.kll
+/srv/KiiConf/controller/kll/layouts/infinity_ergodox/lcdFuncMap.kll
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/MDErgo1-Default-1.kll
+/srv/KiiConf/controller/kll/layouts/infinity_ergodox/lcdFuncMap.kll
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/MDErgo1-Default-2.kll
+-- Found DFU_SUFFIX: /usr/local/bin/dfu-suffix (found version "0.8") 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left
+[1/33] Generating KLL Layout
+kll BETA 0.5c.f0f1032e4690f103be99d616c17d0c22a2a7633c - 2017-10-14 15:44:22 -0700
+[2/33] Building C object CMakeFiles/kiibohd.dir/main.c.o
+[3/33] Building C object CMakeFiles/kiibohd.dir/Lib/mk20dx.c.o
+[4/33] Building C object CMakeFiles/kiibohd.dir/Lib/delay.c.o
+[5/33] Building C object CMakeFiles/kiibohd.dir/Lib/entropy.c.o
+[6/33] Building C object CMakeFiles/kiibohd.dir/Lib/time.c.o
+[7/33] Building C object CMakeFiles/kiibohd.dir/Macro/PartialMap/trigger.c.o
+[8/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/STLcd/lcd_scan.c.o
+[9/33] Building C object CMakeFiles/kiibohd.dir/Macro/PixelMap/pixel.c.o
+[10/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/ISSILed/i2c.c.o
+[11/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/ISSILed/led_scan.c.o
+[12/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/UARTConnect/connect_scan.c.o
+[13/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/MatrixARM/matrix_scan.c.o
+[14/33] Building C object CMakeFiles/kiibohd.dir/Scan/Infinity_Ergodox/scan_loop.c.o
+[15/33] Building C object CMakeFiles/kiibohd.dir/Macro/PartialMap/macro.c.o
+[16/33] Building C object CMakeFiles/kiibohd.dir/Macro/PartialMap/result.c.o
+[17/33] Building C object CMakeFiles/kiibohd.dir/generatedPixelmap.c.o
+[18/33] Building C object CMakeFiles/kiibohd.dir/Debug/cli/cli.c.o
+[19/33] Building C object CMakeFiles/kiibohd.dir/Output/HID-IO/hidio_com.c.o
+[20/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/output_com.c.o
+[21/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_desc.c.o
+[22/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_dev.c.o
+[23/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_joystick.c.o
+[24/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_keyboard.c.o
+[25/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_mem.c.o
+[26/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_mouse.c.o
+[27/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_rawio.c.o
+[28/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_serial.c.o
+[29/33] Building C object CMakeFiles/kiibohd.dir/Debug/led/led.c.o
+[30/33] Building C object CMakeFiles/kiibohd.dir/Debug/print/print.c.o
+[31/33] Linking C executable kiibohd.elf
+Setting new key
+Key Prepended: 0000000000000000
+[32/33] Message for DFU targets
+[33/33] Chip usage for mk20dx256vlh7
+NOTE: kiibohd.secure.dfu.bin is required for secure Kiibohd Bootloaders.
+Only keyboards from late 2017 and onwards, support this.
+See lsusb -d 1c11: -v and look for iInterface 4 Kiibohd DFU Secure.
+Otherwise, use the kiibohd.dfu.bin file when it says iInterface 4 Kiibohd DFU.
+Use the physical reset button on the back of the keyboard to temporarily disable secure mode.
+NOTE2: Secure mode is disabled currently, but will be enabled when key negotiation is supported.
+	 SRAM: 	15% 	10352/65536	bytes
+	Flash: 	22% 	57540/253952	bytes
+Firmware has been compiled into: '/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left'
+/srv/KiiConf/dist
++ RETVAL_L=0
++ DefaultMapOverride='infinity_ergodox/lcdFuncMap MDErgo1-Default-0'
++ PartialMapsExpandedOverride='infinity_ergodox/lcdFuncMap MDErgo1-Default-1;infinity_ergodox/lcdFuncMap MDErgo1-Default-2'
++ CMakeExtraArgs=-DCONFIGURATOR=1
++ /srv/KiiConf/controller/Keyboards/ergodox-r.bash -c /srv/KiiConf/controller -o /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right
+linux-gnu/Linux is supported.
+Selected Generator: Ninja
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right
+-- Build CPU Detected:
+x86_64
+-- Build OS Detected:
+Linux 4.9.7-x86_64-linode80
+-- Compiler Family:
+arm
+-- Compiler Selected:
+gcc
+-- Chip Selected:
+mk20dx256vlh7
+-- Chip Family:
+mk20dx
+-- CPU Selected:
+cortex-m4
+-- Compiler Source Files:
+Lib/mk20dx.c;Lib/delay.c;Lib/entropy.c;Lib/time.c
+-- Bootloader Type:
+dfu
+-- Full Compiler:
+/usr/bin/arm-none-eabi-gcc 
+-- Detected Scan Module Source Files:
+Scan/Devices/ISSILed/i2c.c;Scan/Devices/ISSILed/led_scan.c;Scan/Devices/MatrixARM/matrix_scan.c;Scan/Devices/STLcd/lcd_scan.c;Scan/Devices/UARTConnect/connect_scan.c;Scan/Infinity_Ergodox/scan_loop.c
+-- Detected Macro Module Source Files:
+Macro/PartialMap/macro.c;Macro/PartialMap/result.c;Macro/PartialMap/trigger.c;Macro/PixelMap/pixel.c;/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/generatedPixelmap.c
+-- Detected Output Module Source Files:
+Output/HID-IO/hidio_com.c;Output/pjrcUSB/output_com.c;Output/pjrcUSB/arm/usb_desc.c;Output/pjrcUSB/arm/usb_dev.c;Output/pjrcUSB/arm/usb_joystick.c;Output/pjrcUSB/arm/usb_keyboard.c;Output/pjrcUSB/arm/usb_mem.c;Output/pjrcUSB/arm/usb_mouse.c;Output/pjrcUSB/arm/usb_rawio.c;Output/pjrcUSB/arm/usb_serial.c
+-- Detected Debug Module Source Files:
+Debug/cli/cli.c;Debug/led/led.c;Debug/print/print.c
+-- Found Git: /usr/bin/git (found version "1.9.1") 
+-- Found Ctags: /usr/bin/ctags (found version "5.9~svn20110310") 
+ctags: cannot open tag file : Permission denied
+-- Found PythonInterp: python3 (found suitable version "3.4.3", minimum required is "3") 
+-- Detected Layout Files:
+/srv/KiiConf/controller/Scan/Devices/ISSILed/capabilities.kll
+/srv/KiiConf/controller/Scan/Devices/MatrixARM/capabilities.kll
+/srv/KiiConf/controller/Scan/Devices/STLcd/capabilities.kll
+/srv/KiiConf/controller/Scan/Devices/UARTConnect/capabilities.kll
+/srv/KiiConf/controller/Macro/PartialMap/capabilities.kll
+/srv/KiiConf/controller/Macro/PixelMap/capabilities.kll
+/srv/KiiConf/controller/Output/HID-IO/capabilities.kll
+/srv/KiiConf/controller/Output/pjrcUSB/capabilities.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/scancode_map.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/rightHand.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/slave1.kll
+/srv/KiiConf/controller/Scan/Infinity_Ergodox/leftHand.kll
+/srv/KiiConf/controller/kll/layouts/infinity_ergodox/lcdFuncMap.kll
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/MDErgo1-Default-0.kll
+/srv/KiiConf/controller/kll/layouts/infinity_ergodox/lcdFuncMap.kll
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/MDErgo1-Default-1.kll
+/srv/KiiConf/controller/kll/layouts/infinity_ergodox/lcdFuncMap.kll
+/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/MDErgo1-Default-2.kll
+-- Found DFU_SUFFIX: /usr/local/bin/dfu-suffix (found version "0.8") 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right
+[1/33] Generating KLL Layout
+kll BETA 0.5c.f0f1032e4690f103be99d616c17d0c22a2a7633c - 2017-10-14 15:44:22 -0700
+[2/33] Building C object CMakeFiles/kiibohd.dir/main.c.o
+[3/33] Building C object CMakeFiles/kiibohd.dir/Lib/mk20dx.c.o
+[4/33] Building C object CMakeFiles/kiibohd.dir/Lib/delay.c.o
+[5/33] Building C object CMakeFiles/kiibohd.dir/Lib/entropy.c.o
+[6/33] Building C object CMakeFiles/kiibohd.dir/Lib/time.c.o
+[7/33] Building C object CMakeFiles/kiibohd.dir/Macro/PartialMap/trigger.c.o
+[8/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/STLcd/lcd_scan.c.o
+[9/33] Building C object CMakeFiles/kiibohd.dir/Macro/PixelMap/pixel.c.o
+[10/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/ISSILed/i2c.c.o
+[11/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/ISSILed/led_scan.c.o
+[12/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/UARTConnect/connect_scan.c.o
+[13/33] Building C object CMakeFiles/kiibohd.dir/Scan/Devices/MatrixARM/matrix_scan.c.o
+[14/33] Building C object CMakeFiles/kiibohd.dir/Scan/Infinity_Ergodox/scan_loop.c.o
+[15/33] Building C object CMakeFiles/kiibohd.dir/Macro/PartialMap/macro.c.o
+[16/33] Building C object CMakeFiles/kiibohd.dir/Macro/PartialMap/result.c.o
+[17/33] Building C object CMakeFiles/kiibohd.dir/generatedPixelmap.c.o
+[18/33] Building C object CMakeFiles/kiibohd.dir/Debug/cli/cli.c.o
+[19/33] Building C object CMakeFiles/kiibohd.dir/Output/HID-IO/hidio_com.c.o
+[20/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/output_com.c.o
+[21/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_desc.c.o
+[22/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_dev.c.o
+[23/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_joystick.c.o
+[24/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_keyboard.c.o
+[25/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_mem.c.o
+[26/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_mouse.c.o
+[27/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_rawio.c.o
+[28/33] Building C object CMakeFiles/kiibohd.dir/Output/pjrcUSB/arm/usb_serial.c.o
+[29/33] Building C object CMakeFiles/kiibohd.dir/Debug/led/led.c.o
+[30/33] Building C object CMakeFiles/kiibohd.dir/Debug/print/print.c.o
+[31/33] Linking C executable kiibohd.elf
+Setting new key
+Key Prepended: 0000000000000000
+[32/33] Message for DFU targets
+[33/33] Chip usage for mk20dx256vlh7
+NOTE: kiibohd.secure.dfu.bin is required for secure Kiibohd Bootloaders.
+Only keyboards from late 2017 and onwards, support this.
+See lsusb -d 1c11: -v and look for iInterface 4 Kiibohd DFU Secure.
+Otherwise, use the kiibohd.dfu.bin file when it says iInterface 4 Kiibohd DFU.
+Use the physical reset button on the back of the keyboard to temporarily disable secure mode.
+NOTE2: Secure mode is disabled currently, but will be enabled when key negotiation is supported.
+	 SRAM: 	16% 	10492/65536	bytes
+	Flash: 	22% 	57816/253952	bytes
+Firmware has been compiled into: '/srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right'
+/srv/KiiConf/dist
++ RETVAL_R=0
++ (( 0 != 0 ))
++ (( 0 != 0 ))
++ RETVAL=0
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/kiibohd.dfu.bin /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left_kiibohd.dfu.bin
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/kiibohd.secure.dfu.bin /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left_kiibohd.secure.dfu.bin
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/kll.json /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left_kll.json
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/log/generatedKeymap.h /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left_generatedKeymap.h
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left/log/kll_defs.h /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/left_kll_defs.h
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/kiibohd.dfu.bin /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right_kiibohd.dfu.bin
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/kiibohd.secure.dfu.bin /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right_kiibohd.secure.dfu.bin
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/kll.json /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right_kll.json
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/log/generatedKeymap.h /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right_generatedKeymap.h
++ ln -s /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right/log/kll_defs.h /srv/KiiConf/tmp/b602a6f8a3062af4824e541e589eb8eb159f0c1e1a954f/right_kll_defs.h
++ set +x
+Compilation Completed.

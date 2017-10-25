@@ -1,0 +1,16 @@
+Name = "MDErgo1";
+Variant = "standard";
+Layout = "Default";
+Base = "Blank";
+Version = "0.1";
+Author = "HaaTa (Jacob Alexander) 2015";
+KLL = "0.3c";
+Date = "2015-09-12";
+Generator = "KIICONF 0.2";
+
+U"TAB" : U"RCTRL";
+U"BACKSPACE" : U"LALT";
+U"FUNCTION4" : U"LGUI";
+
+
+
