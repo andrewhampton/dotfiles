@@ -41,6 +41,8 @@ U"DELETE" : U"[";
 U"BACKSPACE" : U"LCTRL";
 U"FUNCTION5" : U"BACKSPACE";
 U"FUNCTION4" : U"RALT";
+U"BACKTICK" : animation_control( 4 );
+U"LGUI" : animation_control( 5 );
 U"6" : U"6";
 U"7" : U"7";
 U"8" : U"8";
@@ -71,6 +73,8 @@ U"ENTER" : U"]";
 U"SPACE" : U"ENTER";
 U"LEFT" : U"SPACE";
 U"DOWN" : U"EQUALS";
+U"RIGHT" : ledControl( 0, 15 );
+U"RGUI" : ledControl( 1, 15 );
 
 
 
