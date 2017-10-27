@@ -136,7 +136,10 @@
             "w": 4,
             "h": 6,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -351,7 +354,10 @@
             "w": 4,
             "h": 4,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -452,7 +458,10 @@
             "w": 4,
             "h": 4,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -462,7 +471,10 @@
             "w": 4,
             "h": 4,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -509,10 +521,6 @@
                 "1": {
                     "key": "CONS:SCANNEXTTRACK",
                     "label": "NEXT"
-                },
-                "2": {
-                    "key": "BACKSPACE",
-                    "label": "BKSP"
                 }
             }
         },
@@ -544,6 +552,10 @@
             "w": 4,
             "h": 4,
             "layers": {
+                "0": {
+                    "key": "BACKTICK",
+                    "label": "`"
+                },
                 "1": {
                     "key": "CONS:SCANPREVIOUSTRACK",
                     "label": "PREV"
@@ -558,12 +570,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "#:animation_control( 4 )",
-                    "label": "V:RESET"
-                },
-                "1": {
-                    "key": "#:animation_control( 2 )",
-                    "label": "V:PLAY"
+                    "key": "#:None",
+                    "label": "NONE"
                 }
             }
         },
@@ -575,12 +583,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "#:animation_control( 5 )",
-                    "label": "V:WIPE"
-                },
-                "1": {
-                    "key": "#:animation_control( 3 )",
-                    "label": "V:STOP"
+                    "key": "#:None",
+                    "label": "NONE"
                 }
             }
         },
@@ -702,7 +706,10 @@
             "w": 4,
             "h": 6,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -894,7 +901,10 @@
             "w": 4,
             "h": 6,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -982,7 +992,10 @@
             "w": 4,
             "h": 4,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -992,7 +1005,10 @@
             "w": 4,
             "h": 4,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {
@@ -1054,7 +1070,10 @@
             "w": 4,
             "h": 4,
             "layers": {
-
+                "0": {
+                    "key": "#:None",
+                    "label": "NONE"
+                }
             }
         },
         {

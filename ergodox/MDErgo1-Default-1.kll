@@ -25,16 +25,14 @@ U"A" : U"LEFT";
 U"FUNCTION5" : CONS"SCANNEXTTRACK";
 U"FUNCTION4" : CONS"PAUSEPLAY";
 U"FUNCTION3" : CONS"SCANPREVIOUSTRACK";
-U"BACKTICK" : animation_control( 2 );
-U"LGUI" : animation_control( 3 );
 U"FUNCTION6" : U"F12";
 U"6" : U"F6";
 U"7" : U"F7";
 U"8" : U"F8";
 U"9" : U"F9";
 U"0" : U"F10";
-U"RIGHT" : ledControl( 3, 0 );
-U"RGUI" : ledControl( 4, 255 );
+U"RIGHT" : ledControl( 5, 0, 0);
+#U"RGUI" : #:ledControl( 4, 255 );
 
 
 
