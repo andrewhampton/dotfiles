@@ -2,7 +2,6 @@
       web-mode-markup-indent-offset 2
       web-mode-code-indent-offset 2
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
-      css-indent-offset 2
       inhibit-splash-screen t
       uniquify-min-dir-content 2
       truncate-partial-width-windows nil
@@ -21,7 +20,12 @@
       company-minimum-prefix-length 2
       org-directory "~/org"
       org-default-notes-file (concat org-directory "/notes.org")
-      org-agenda-files '("~/org/notes.org"))
+      org-agenda-files '("~/org/notes.org")
+      require-final-newline t)
+
+;; reduce the frequency of garbage collection by making it happen on
+;; each 50MB of allocated data (the default is on every 0.76MB)
+(setq gc-cons-threshold 50000000)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -38,7 +42,7 @@
  '(magit-rebase-arguments (quote ("--interactive")))
  '(package-selected-packages
    (quote
-    (fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
+    (js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -84,8 +88,10 @@
   :bind (("C-t" . projectile-find-file)
 	 ("C-c p p" . projectile-switch-project))
   :config
-  (projectile-global-mode)
-  (setq projectile-completion-system 'ivy))
+  (projectile-global-mode t)
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-mode-line
+        '(:eval (format " P[%s]" (projectile-project-name)))))
 
 ;;; ivy
 (use-package ivy
@@ -115,63 +121,42 @@
 
 (use-package counsel-projectile
   :ensure t
-  :bind (("C-c k" . counsel-projectile-ag))
-  :init (counsel-projectile-on))
-
+  :bind (("C-c k" . counsel-projectile-ag)))
 
 ;;; flycheck
 (use-package flycheck
   :ensure t
-  :commands global-flycheck-mode
+  :commands (global-flycheck-mode)
   :init
   (global-flycheck-mode 1)
   ;; Enable flyspell-mode for text modes
   (mapcar (lambda (mode-hook) (add-hook mode-hook 'flyspell-mode))
           '(markdown-mode-hook text-mode-hook))
-  (setq flycheck-highlighting-mode 'columns)
-  (set-face-attribute 'flycheck-error nil :background "pink" :foreground "black"
-                      ))
+  (setq flycheck-highlighting-mode 'columns
+        flycheck-coffeelintrc "node_modules/@polleverywhere/js-config/coffeelint.json")
+  (set-face-attribute 'flycheck-error nil :background "pink" :foreground "black"))
 
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
   :config (load-theme 'sanityinc-tomorrow-eighties t))
 
-;;; ido-mode/flx/flx-ido
-;; (use-package flx-ido
-;;   :ensure t
-;;   :config (progn
-;;             (ido-mode 1)
-;;             (ido-everywhere 1)
-;;             (flx-ido-mode 1)
-;;             (setq ido-enable-flex-matching t
-;;                   ido-use-faces nil)))
-
-;;; multiple cursors
-;; (use-package multiple-cursors
-;;   :ensure t
-;;   :bind (
-;;          ("C-c ." . mc/mark-all-like-this-dwim)
-;;          ("C-c ," . mc/edit-lines)
-;;          ("C-c /" . mc/mark-next-like-this)
-;;          ("C-c C-c ," . mc/mark-previous-like-this)))
-
-;;; rust mode
-;; (use-package rust-mode
-;;   :ensure t
-;;   :mode "\\.rs\\'")
-
-;;; powerline
-;; (use-package powerline
-;;   :ensure t
-;;   ;; :config (powerline-center-theme)
-;;   )
-
+;;; Mode line
 (use-package spaceline
   :ensure t
   :config
   (require 'spaceline-config)
   (spaceline-spacemacs-theme))
+
+(use-package diminish
+  :ensure t
+  :config
+  (diminish 'ivy-mode)
+  (diminish 'counsel-mode)
+  (diminish 'company-mode)
+  (diminish 'flycheck-mode)
+  (diminish 'paredit-mode)
+  (diminish 'paredit))
 
 ;;; ace-jump
 (use-package ace-window
@@ -196,16 +181,18 @@
         git-commit-summary-max-length 72
         git-commit-fill-column 72))
 
-;;; magit-gitflow
-;; (use-package magit-gitflow
-;;   :ensure t
-;;   :config (add-hook 'magit-mode-hook  #'turn-on-magit-gitflow))
-
 ;;; web-mode
 (use-package web-mode
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode)))
+         ("\\.html\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode))
+  :config ((custom-set-variables
+            '(web-mode-markup-indent-offset 2)
+            '(web-mode-css-indent-offset 2)
+            '(web-mode-code-indent-offset 2)
+            '(web-mode-enable-auto-quoting nil)
+            '(css-indent-offset 2))))
 
 ;;; yaml-mode
 (use-package yaml-mode
@@ -227,9 +214,12 @@
 (use-package coffee-mode
   :ensure t)
 
-;; ;;; rainbow-delimeters
-;; (use-package rainbow-delimiters
-;;   :ensure t)
+;; javascript
+(use-package js2-mode
+  :ensure t
+  :mode (("\\.js\\'" . js2-mode))
+  :config (custom-set-variables '(js-indent-level 2)
+                                '(js2-basic-offset 2)))
 
 ;;;;;;;;;;
 ;;; Go ;;;
@@ -266,14 +256,6 @@
                                     (set (make-local-variable 'company-backends) '(company-go))
                                     (company-mode)))))
 
-;;; gotest
-;; (use-package gotest
-;;   :ensure t
-;;   :bind (("C-c C-t" . go-test-current-test)
-;;          ("C-c C-c C-f" . go-test-current-file)
-;;          ("C-c C-p" . go-test-current-project)
-;;          ;("C-c C-r" . go-run)
-;;          ))
 
 ;;; dockerfile
 (use-package dockerfile-mode
@@ -322,13 +304,6 @@
          ("M-/" . dumb-jump-quick-look))
   :init (dumb-jump-mode))
 
-;; (use-package git-messenger
-;;   :ensure t
-;;   :bind (("C-x v p" . git-messenger:popup-message)))
-
-;; (use-package neotree
-;;   :ensure t
-;;   :bind (([f5] . neotree-toggle)))
 
 (use-package chruby
   :ensure t
@@ -337,11 +312,6 @@
                     (if (equal major-mode 'ruby-mode)
                         (chruby-use-corresponding)))))
 
-;; (use-package which-key
-;;   :ensure t
-;;   :init (progn
-;;           (which-key-mode)
-;;           (which-key-setup-side-window-bottom)))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -362,20 +332,6 @@
   (mapcar (lambda (mode-hook) (add-hook mode-hook 'add-node-modules-path))
                   '(js-mode-hook coffee-mode-hook)))
 
-;; (use-package elfeed
-;;   :ensure t
-;;   :bind ("C-x w" . elfeed)
-;;   :init
-;;   (setq
-;;    elfeed-feeds '("http://xkcd.com/rss.xml" "http://what-if.xkcd.com/feed.atom" "http://timharford.com/feed/" "http://feeds.feedburner.com/TheWirecutter" "http://9-eyes.com/rss" "http://feeds.feedburner.com/LayeredThoughts" "http://feeds.feedburner.com/thesweethome/NpUt" "http://fortydaysofdating.com/feed/" "https://unsplash.com/rss" "http://www.track-trump.com/feed.rss" "http://www.str.org/podcast/weekly" "https://www.govtrack.us/events/events.rss?feeds=p%3A412485" "https://www.govtrack.us/events/events.rss?feeds=p%3A412582" "https://www.govtrack.us/events/events.rss?feeds=p%3A412321" "http://feeds.feedburner.com/thechangelog" "http://www.joelonsoftware.com/rss.xml" "http://feeds.feedburner.com/IgnoreTheCode" "http://feeds.feedburner.com/JohnResig" "http://prog21.dadgum.com/atom.xml" "http://feeds.feedburner.com/JavascriptJavascript" "http://feeds.feedburner.com/PerfectionKills" "http://feeds.feedburner.com/paul-irish" "http://feeds.feedburner.com/uxmovement" "http://feeds.feedburner.com/codinghorror" "http://www.aaronsw.com/2002/feeds/pgessays.rss" "http://feeds.feedburner.com/Ruby5" "http://martinfowler.com/feed.atom" "http://feeds.feedburner.com/AVc" "http://steveblank.com/feed/" "http://steve-yegge.blogspot.com/feeds/posts/default?alt=rss" "http://web-design-weekly.com/feed/" "http://www.phoboslab.org/log/feed" "http://software.ericsink.com/rss.xml" "http://scribbling.net/feed/" "https://signalvnoise.com/posts.rss" "http://macro.ycombinator.com/feed.xml" "http://feeds.feedburner.com/html5rocks" "http://feeds.feedburner.com/PlataformaBlog" "http://www.masteringemacs.org/feed/" "http://reefpoints.dockyard.com/atom.xml" "http://blog.golang.org/feed.atom" "http://tjake.github.io/atom.xml" "http://feeds.feedburner.com/jquery/" "http://blog.docker.io/feed/" "http://maiagame.com/feed/" "http://www.d3noob.org/feeds/posts/default?alt=rss" "http://endlessparentheses.com/atom.xml" "http://www.planetnodejs.com/feed" "http://www.lunaryorn.com/feed.atom" "https://medium.com/feed/@benbjohnson" "https://www.hashicorp.com/feed.xml" "http://kubernetesio.blogspot.com/feeds/posts/default" "http://nathanleclaire.com/index.xml" "http://rspec.info/blog/feed.xml" "http://pragmaticemacs.com/feed/" "http://marcio.io/index.xml" "http://malisper.me/feed/" "http://kamalmarhubi.com/blog/feed.xml" "https://blog.gopheracademy.com/index.xml" "http://distill.pub/rss.xml" "http://golangweekly.com/rss/2067m4b1" "https://increment.com/feed.xml")
-;;    url-queue-timeout 30))
-
-;; (use-package dired-subtree
-;;   :ensure t
-;;   :config
-;;   (bind-keys :map dired-mode-map
-;;              ("i" . dired-subtree-insert)
-;;              (";" . dired-subtree-remove)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
@@ -396,7 +352,7 @@
 (setq tab-width 2)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
+(delete-selection-mode t)
 (blink-cursor-mode 0)
 
 ;; don't show line numbers everywhere
