@@ -77,11 +77,6 @@
             (show-paren-mode 1)
             (setq show-paren-style 'mixed)))
 
-;;; integrate with the clipboard
-(use-package pbcopy
-  :ensure t
-  :config (turn-on-pbcopy))
-
 ;;; projectile
 (use-package projectile
   :ensure t
