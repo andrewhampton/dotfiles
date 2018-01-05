@@ -81,6 +81,11 @@
             (show-paren-mode 1)
             (setq show-paren-style 'mixed)))
 
+;;; integrate with the clipboard
+(use-package pbcopy
+  :ensure t
+  :config (turn-on-pbcopy))
+
 ;;; projectile
 (use-package projectile
   :ensure t
@@ -428,6 +433,21 @@ Return the new window for BUFFER."
 
 (define-key global-map (kbd "C-c m") 'toggle-maximize-buffer)
 
+(defun ah/turn-off-slow-packages ()
+  (interactive)
+  "Turn off all slow packages so macros can run quickly"
+  (progn
+    (linum-mode 0)
+    (ivy-mode 0)
+    (turn-off-pbcopy)))
+
+(defun ah/turn-on-slow-packages ()
+  (interactive)
+  "Turn on slow packages"
+  (progn
+    (linum-mode 1)
+    (ivy-mode 1)
+    (turn-on-pbcopy)))
 
 (global-set-key (kbd "C-c h") 'hs-hide-block)
 (global-set-key (kbd "C-c C-h") 'hs-show-block)
