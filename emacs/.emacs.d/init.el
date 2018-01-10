@@ -435,7 +435,11 @@ Return the new window for BUFFER."
 
 (defun ah/turn-off-slow-packages ()
   (interactive)
-  "Turn off all slow packages so macros can run quickly"
+  "Turn off all slow packages so macros can run quickly
+To find slow packages:
+1. M-x profiler-start RET RET`
+2. Do something
+3. M-x profilter-report"
   (progn
     (linum-mode 0)
     (ivy-mode 0)
