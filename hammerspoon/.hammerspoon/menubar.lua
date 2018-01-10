@@ -2,7 +2,8 @@ local weather = require "weather"
 local gmail = require "gmail"
 local menubar = {}
 
-local weatherBar = hs.menubar.new()
+local UTCBar = nil
+local weatherBar = {}
 local gmailBars = {}
 
 local apiKey = nil
@@ -19,12 +20,32 @@ function menubar.init()
    end
 
    if file_exists("forecast_io_api_key.lua") then
+      weatherBar = hs.menubar.new()
       apiKey = require "forecast_io_api_key"
       updateWeatherBar()
       hs.timer.doEvery(15*60, updateWeatherBar)
    else
       hs.alert.show('Weatherbar in use, but no forecast.io api key found!')
    end
+
+   updateUTCBar()
+end
+
+function updateUTCBar()
+   if UTCBar ~= nil then
+      UTCBar:delete()
+   end
+
+   UTCBar = hs.menubar.new()
+   hs.timer.doAfter(nextMinute() - hs.timer.localTime(), updateUTCBar)
+   UTCBar:setTitle(os.date("!%H:%M UTC"))
+   UTCBar:setMenu({{
+            title = "reset", fn = updateUTCBar
+   }})
+end
+
+function nextMinute()
+   return (math.floor(hs.timer.localTime() / 60) * 60) + 60
 end
 
 function updateWeatherBar()
