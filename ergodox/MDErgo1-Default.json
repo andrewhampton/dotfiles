@@ -329,8 +329,8 @@
                     "label": "LGUI"
                 },
                 "2": {
-                    "key": "RCTRL",
-                    "label": "RCTRL"
+                    "key": "LCTRL",
+                    "label": "LCTRL"
                 }
             }
         },
@@ -342,8 +342,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "LCK2",
-                    "label": "LOCK-2"
+                    "key": "CONS:PAUSEPLAY",
+                    "label": "PL\/PS"
                 }
             }
         },
@@ -355,8 +355,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "#:None",
-                    "label": "NONE"
+                    "key": "LCK2",
+                    "label": "LOCK-2"
                 }
             }
         },
@@ -459,8 +459,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "#:None",
-                    "label": "NONE"
+                    "key": "CONS:SCANNEXTTRACK",
+                    "label": "NEXT"
                 }
             }
         },
@@ -472,8 +472,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "#:None",
-                    "label": "NONE"
+                    "key": "CONS:SCANPREVIOUSTRACK",
+                    "label": "PREV"
                 }
             }
         },
@@ -500,10 +500,6 @@
                 "0": {
                     "key": "LCTRL",
                     "label": "LCTRL"
-                },
-                "2": {
-                    "key": "LALT",
-                    "label": "LALT"
                 }
             }
         },
@@ -517,10 +513,6 @@
                 "0": {
                     "key": "BACKSPACE",
                     "label": "BKSP"
-                },
-                "1": {
-                    "key": "CONS:SCANNEXTTRACK",
-                    "label": "NEXT"
                 }
             }
         },
@@ -532,16 +524,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "RALT",
-                    "label": "RALT"
-                },
-                "1": {
-                    "key": "CONS:PAUSEPLAY",
-                    "label": "PL\/PS"
-                },
-                "2": {
-                    "key": "LGUI",
-                    "label": "LGUI"
+                    "key": "LALT",
+                    "label": "LALT"
                 }
             }
         },
@@ -555,10 +539,6 @@
                 "0": {
                     "key": "BACKTICK",
                     "label": "`"
-                },
-                "1": {
-                    "key": "CONS:SCANPREVIOUSTRACK",
-                    "label": "PREV"
                 }
             }
         },
@@ -583,8 +563,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "#:None",
-                    "label": "NONE"
+                    "key": "LGUI",
+                    "label": "LGUI"
                 }
             }
         },

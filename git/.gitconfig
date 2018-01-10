@@ -3,12 +3,7 @@
 	email = andrewwh@gmail.com
 [core]
 	excludesfile = /Users/andrew/.gitignore_global
-[difftool "sourcetree"]
-	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
-	trustExitCode = true
+	ignoreCase = false
 [push]
 	default = simple
 [alias]
@@ -20,3 +15,8 @@
   unmerged = branch --no-merged master
 [merge]
 	conflictStyle = diff3
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
