@@ -10,7 +10,7 @@ function hyperterm.init()
 end
 
 function hypertermActivationHandler(appName, eventType, app)
-   if appName == "HyperTerm" or appName == "Emacs" then
+   if appName == "HyperTerm" or appName == "Emacs" or appName == "Terminal" then
       if eventType == hs.application.watcher.activated then
          hyperterm.keyDownHandler:start()
          logger:d("activated")
