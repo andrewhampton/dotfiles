@@ -1,11 +1,14 @@
 [user]
 	name = Andrew Hampton
 	email = andrewwh@gmail.com
+
 [core]
 	excludesfile = /Users/andrew/.gitignore_global
 	ignoreCase = false
+
 [push]
 	default = simple
+
 [alias]
   lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
   lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
@@ -13,10 +16,18 @@
   gui = log --graph --format=format:'%h %d' --all
   recent = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"
   unmerged = branch --no-merged master
+
 [merge]
 	conflictStyle = diff3
+
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+
+[diff]
+	algorithm = patience
+
+[pull]
+	rebase = true
