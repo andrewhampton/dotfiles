@@ -23,6 +23,21 @@
       org-agenda-files '("~/org/notes.org")
       require-final-newline t)
 
+;; Tomorrow night eighties colors
+(defvar tne-background "#2d2d2d")
+(defvar tne-current-line "#393939")
+(defvar tne-selection "#515151")
+(defvar tne-foreground "#cccccc")
+(defvar tne-comment "#999999")
+(defvar tne-red "#f2777a")
+(defvar tne-orange "#f99157")
+(defvar tne-yellow "#ffcc66")
+(defvar tne-green "#99cc99")
+(defvar tne-aqua "#66cccc")
+(defvar tne-blue "#6699cc")
+(defvar tne-purple "#cc99cc")
+
+
 ;; reduce the frequency of garbage collection by making it happen on
 ;; each 50MB of allocated data (the default is on every 0.76MB)
 (setq gc-cons-threshold 50000000)
