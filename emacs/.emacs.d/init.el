@@ -139,7 +139,7 @@
           '(markdown-mode-hook text-mode-hook))
   (setq flycheck-highlighting-mode 'columns
         flycheck-coffeelintrc "node_modules/@polleverywhere/js-config/coffeelint.json")
-  (set-face-attribute 'flycheck-error nil :background "pink" :foreground "black"))
+  (set-face-attribute 'flycheck-error nil :underline t))
 
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
