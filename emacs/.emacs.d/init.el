@@ -33,6 +33,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(coffee-tab-width 2)
+ '(js-indent-level 2)
  '(magit-branch-arguments nil)
  '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
  '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
