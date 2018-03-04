@@ -184,7 +184,12 @@
   :init
   (setq magit-diff-refine-hunk t
         git-commit-summary-max-length 72
-        git-commit-fill-column 72))
+        git-commit-fill-column 72)
+  :config
+  ;;; blame colors: https://github.com/magit/magit/blob/94e18ded035adc7bf998310deacd0395e91f8147/lisp/magit-blame.el#L89
+  (set-face-attribute 'magit-blame-heading nil :foreground tne-comment :background tne-current-line)
+  (set-face-attribute 'magit-blame-date nil :foreground tne-green)
+  (set-face-attribute 'magit-blame-name nil :foreground tne-blue))
 
 ;;; web-mode
 (use-package web-mode
