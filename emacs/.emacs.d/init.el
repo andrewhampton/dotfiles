@@ -337,7 +337,6 @@
   (mapcar (lambda (mode-hook) (add-hook mode-hook 'add-node-modules-path))
                   '(js-mode-hook coffee-mode-hook)))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -384,7 +383,7 @@
 
 ;;; Display magit fullscreen
 (add-to-list 'display-buffer-alist
-             `(,(rx "*magit: ")
+             `(,(rx "magit: ")
                (lunaryorn-display-buffer-fullframe)
                (reusable-frames . nil)))
 
