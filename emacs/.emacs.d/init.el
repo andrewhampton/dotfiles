@@ -146,6 +146,10 @@
   :ensure t
   :config (load-theme 'sanityinc-tomorrow-eighties t))
 
+(use-package linum
+  :config
+  (set-face-attribute 'linum nil :foreground tne-comment :background tne-current-line))
+
 ;;; Mode line
 (use-package spaceline
   :ensure t
