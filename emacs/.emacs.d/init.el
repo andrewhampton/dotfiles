@@ -59,7 +59,7 @@
  '(magit-rebase-arguments (quote ("--interactive")))
  '(package-selected-packages
    (quote
-    (lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
+    (rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -67,6 +67,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (package-initialize)
+
+;;; Bootstrap use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 (require 'use-package)
 
 ;;; paredit
@@ -74,6 +79,7 @@
   :ensure t
   :commands (enable-paredit-mode)
   :bind ("C-M-u" . backward-up-list+)
+  :diminish paredit-mode
   :init (progn
           (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
           (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
@@ -93,10 +99,11 @@
 ;;; show-paren-mode
 (use-package paren
   :ensure t
-  :config (progn
-            (setq show-paren-delay 0)
-            (show-paren-mode 1)
-            (setq show-paren-style 'mixed)))
+  :config
+  (setq show-paren-delay 0)
+  (setq show-paren-style 'parenthesis)
+  (show-paren-mode 1)
+  (set-face-attribute 'show-paren-match-face nil :foreground tne-background :background tne-foreground))
 
 ;;; integrate with the clipboard
 (use-package pbcopy
@@ -121,6 +128,7 @@
   :bind (("C-c C-r" . ivy-resume)
          ("C-x b" . ivy-switch-buffer))
   :init (ivy-mode 1)
+  :diminish ivy-mode
   :config
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "
@@ -129,11 +137,14 @@
         ivy-re-builders-alist '((swiper . ivy--regex-plus)
                                 (t . ivy--regex-fuzzy))))
 
+(setq ivy-initial-inputs-alist nil)
+
 (use-package counsel
   :ensure t
   :bind (("M-x" . counsel-M-x)
          ("C-x f" . counsel-find-file)
          ("C-c f" . counsel-imenu))
+  :diminish counsel-mode
   :init
   (counsel-mode 1))
 
@@ -145,10 +156,15 @@
   :ensure t
   :bind (("C-c k" . counsel-projectile-ag)))
 
+;;; Smex so counsel M-x is smarter
+(use-package smex
+  :ensure t)
+
 ;;; flycheck
 (use-package flycheck
   :ensure t
   :commands (global-flycheck-mode)
+  :diminish flycheck-mode
   :init
   (global-flycheck-mode 1)
   ;; Enable flyspell-mode for text modes
@@ -175,14 +191,7 @@
   (spaceline-spacemacs-theme))
 
 (use-package diminish
-  :ensure t
-  :config
-  (diminish 'ivy-mode)
-  (diminish 'counsel-mode)
-  (diminish 'company-mode)
-  (diminish 'flycheck-mode)
-  (diminish 'paredit-mode)
-  (diminish 'paredit))
+  :ensure t)
 
 ;;; ace-jump
 (use-package ace-window
@@ -263,6 +272,7 @@
 ;;; company
 (use-package company
   :ensure t
+  :diminish company-mode
   :init (progn
           ;; Add company-mode hooks
           (mapcar (lambda (mode-hook) (add-hook mode-hook 'company-mode))
@@ -362,6 +372,13 @@
   :init
   (mapcar (lambda (mode-hook) (add-hook mode-hook 'add-node-modules-path))
                   '(js-mode-hook coffee-mode-hook)))
+
+;; Cold folding
+(use-package origami
+  :ensure t
+  :bind (("C-h h" . origami-toggle-node))
+  :init
+  (global-origami-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
