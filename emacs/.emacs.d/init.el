@@ -59,7 +59,7 @@
  '(magit-rebase-arguments (quote ("--interactive")))
  '(package-selected-packages
    (quote
-    (rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
+    (evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -192,13 +192,6 @@
 
 (use-package diminish
   :ensure t)
-
-;;; ace-jump
-(use-package ace-window
-  :ensure t
-  :bind (("C-c w" . ace-select-window)
-         ("C-c d" . ace-delete-window))
-  :config (ace-window-display-mode))
 
 ;;; yagist
 (use-package yagist
@@ -335,8 +328,28 @@
 ;; / / \'---'/ \ \  / / \'---'/ \ \      \'/^\'/
 ;; \ \_/`"""`\_/ /  \ \_/`"""`\_/ /      /`\ /`\
 ;;  \           /    \           /      /  /|\  \
-;; (use-package evil
-;;   :ensure t)
+(use-package evil
+  :ensure t
+  :diminish undo-tree-mode
+  :config
+  (evil-mode 1)
+
+  ;; evil keybindings
+  (add-hook 'magit-mode-hook
+            (lambda ()
+              (evil-add-hjkl-bindings magit-mode-map 'emacs
+                (kbd "K") 'magit-discard
+                (kbd "L") 'magit-log-popup)))
+  (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
+  (define-key evil-normal-state-map "K" 'counsel-apropos)
+  (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
+  (define-key evil-insert-state-map "\C-t" 'projectile-find-file)
+
+  ;; evil related packages
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode)))
 
 (use-package dumb-jump
   :ensure t
