@@ -28,6 +28,9 @@
 
 [diff]
 	algorithm = patience
+        colorMoved = plain
 
 [pull]
 	rebase = true
+[github]
+	user = andrewhampton
