@@ -133,11 +133,10 @@
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "
         ivy-height 10
+        ivy-initial-inputs-alist nil
         magit-completing-read-function 'ivy-completing-read
         ivy-re-builders-alist '((swiper . ivy--regex-plus)
                                 (t . ivy--regex-fuzzy))))
-
-(setq ivy-initial-inputs-alist nil)
 
 (use-package counsel
   :ensure t
@@ -251,8 +250,11 @@
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'" . js2-mode))
-  :config (custom-set-variables '(js-indent-level 2)
-                                '(js2-basic-offset 2)))
+  :config
+  (custom-set-variables '(js-indent-level 2)
+                        '(js2-basic-offset 2)
+                        '(js2-mode-show-parse-errors nil)
+                        '(js2-mode-show-strict-warnings nil)))
 
 ;;;;;;;;;;
 ;;; Go ;;;
