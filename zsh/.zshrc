@@ -77,18 +77,24 @@ export GO15VENDOREXPERIMENT=1
 # Pollev
 export PATH="$PATH:$HOME/.pollev/bin"
 
+# Pip bins
+export PATH="$PATH:$HOME/.local/bin"
+
 # Ruby
-if hash chruby 2>/dev/null; then
+if [[ -f /usr/local/share/chruby/chruby.sh ]] then
     source /usr/local/share/chruby/chruby.sh
     source /usr/local/share/chruby/auto.sh
-    chruby ruby-2.1.6
+    chruby ruby 2.4.1
 fi
 
 # docker for mac
 export DOCKER_HOST="unix:///var/run/docker.sock"
+if [[ -f ~/.zsh/completion/_docker-compose ]] then
+   fpath=(~/.zsh/completion $fpath)
+fi
 
 # nvm
-export NVM_DIR="/Users/ah/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # You may need to manually set your language environment
@@ -116,12 +122,14 @@ export NVM_DIR="/Users/ah/.nvm"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias fs="foreman start| grep web.1"
+alias fs="foreman start --env ~/.env| grep web.1"
 
 alias nsl="npm run start:local"
 
 alias berc="bundle exec rails console"
 alias ber="bundle exec rspec"
+alias berof="bundle exec rspec --only-failures"
+alias bernf="bundle exec rspec --next-failure"
 alias assets="ASSET_GEM_PATH=../assets"
 
 alias afs="assets fs"
@@ -147,3 +155,9 @@ man() {
 }
 
 export PATH="$HOME/.yarn/bin:$PATH"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# zsh completions
+autoload -Uz compinit && compinit -i
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
