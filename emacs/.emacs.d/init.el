@@ -345,6 +345,7 @@
   (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
   (define-key evil-normal-state-map "K" 'counsel-apropos)
   (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
+  (define-key evil-normal-state-map "gd" 'dumb-jump-go)
   (define-key evil-insert-state-map "\C-t" 'projectile-find-file)
 
   ;; evil related packages
