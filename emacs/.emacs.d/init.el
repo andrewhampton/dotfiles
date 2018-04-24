@@ -347,6 +347,7 @@
   (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
   (define-key evil-normal-state-map "gd" 'dumb-jump-go)
   (define-key evil-insert-state-map "\C-t" 'projectile-find-file)
+  (setq evil-shift-width 2)
 
   ;; evil related packages
   (use-package evil-surround
