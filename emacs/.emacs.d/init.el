@@ -50,6 +50,8 @@
  '(coffee-tab-width 2)
  '(ediff-split-window-function (quote split-window-vertically))
  '(js-indent-level 2)
+ '(js2-mode-show-parse-errors nil)
+ '(js2-mode-show-strict-warnings nil)
  '(magit-branch-arguments nil)
  '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
  '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
