@@ -338,12 +338,6 @@
   :config
   (evil-mode 1)
 
-  ;; evil keybindings
-  (add-hook 'magit-mode-hook
-            (lambda ()
-              (evil-add-hjkl-bindings magit-mode-map 'emacs
-                (kbd "K") 'magit-discard
-                (kbd "L") 'magit-log-popup)))
   (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
   (define-key evil-normal-state-map "K" 'counsel-apropos)
   (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
@@ -398,6 +392,10 @@
   :bind (("C-h h" . origami-toggle-node))
   :init
   (global-origami-mode))
+
+(use-package evil-magit
+  :ensure t
+  :after (evil magit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
