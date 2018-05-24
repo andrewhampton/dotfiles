@@ -61,7 +61,7 @@
  '(magit-rebase-arguments (quote ("--interactive")))
  '(package-selected-packages
    (quote
-    (evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
+    (evil-magit flx markdown-mode company magit evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -124,6 +124,9 @@
   (setq projectile-mode-line
         '(:eval (format " P[%s]" (projectile-project-name)))))
 
+(use-package flx
+  :ensure t)
+
 ;;; ivy
 (use-package ivy
   :ensure t
@@ -131,10 +134,12 @@
          ("C-x b" . ivy-switch-buffer))
   :init (ivy-mode 1)
   :diminish ivy-mode
+  :after (flx)
   :config
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "
         ivy-height 10
+        ivy-flx-limit 50
         ivy-initial-inputs-alist nil
         magit-completing-read-function 'ivy-completing-read
         ivy-re-builders-alist '((swiper . ivy--regex-plus)
@@ -344,6 +349,8 @@
   (define-key evil-normal-state-map "gd" 'dumb-jump-go)
   (define-key evil-insert-state-map "\C-t" 'projectile-find-file)
   (setq evil-shift-width 2)
+
+  (evil-ex-define-cmd "cc" 'flycheck-next-error)
 
   ;; evil related packages
   (use-package evil-surround
