@@ -1,6 +1,4 @@
-(setq js-indent-level 2                                   ;;; javascript-mode
-      web-mode-markup-indent-offset 2
-      web-mode-code-indent-offset 2
+(setq
       ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
       uniquify-min-dir-content 2
@@ -20,8 +18,7 @@
       company-minimum-prefix-length 2
       org-directory "~/org"
       org-default-notes-file (concat org-directory "/notes.org")
-      org-agenda-files '("~/org/notes.org")
-      require-final-newline t)
+      org-agenda-files '("~/org/notes.org"))
 
 ;; Tomorrow night eighties colors
 (defvar tne-background "#2d2d2d")
@@ -49,10 +46,10 @@
  ;; If there is more than one, they won't work right.
  '(coffee-tab-width 2)
  '(ediff-split-window-function (quote split-window-vertically))
- '(js-indent-level 2)
  '(js2-mode-show-parse-errors nil)
  '(js2-mode-show-strict-warnings nil)
  '(magit-branch-arguments nil)
+ '(magit-commit-arguments (quote ("--gpg-sign=9C7852D7FE98AC67")))
  '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
  '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
  '(magit-log-arguments (quote ("--graph" "--color" "--decorate" "-n256")))
@@ -61,7 +58,7 @@
  '(magit-rebase-arguments (quote ("--interactive")))
  '(package-selected-packages
    (quote
-    (evil-magit flx markdown-mode company magit evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
+    (editorconfig tide keychain-environment evil-magit flx markdown-mode company magit evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -227,11 +224,8 @@
          ("\\.html\\'" . web-mode)
          ("\\.jsx\\'" . web-mode))
   :config ((custom-set-variables
-            '(web-mode-markup-indent-offset 2)
-            '(web-mode-css-indent-offset 2)
-            '(web-mode-code-indent-offset 2)
-            '(web-mode-enable-auto-quoting nil)
-            '(css-indent-offset 2))))
+            '(web-mode-enable-auto-quoting nil))))
+
 
 ;;; yaml-mode
 (use-package yaml-mode
@@ -258,9 +252,7 @@
   :ensure t
   :mode (("\\.js\\'" . js2-mode))
   :config
-  (custom-set-variables '(js-indent-level 2)
-                        '(js2-basic-offset 2)
-                        '(js2-mode-show-parse-errors nil)
+  (custom-set-variables '(js2-mode-show-parse-errors nil)
                         '(js2-mode-show-strict-warnings nil)))
 
 ;;;;;;;;;;
@@ -404,13 +396,48 @@
   :ensure t
   :after (evil magit))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; typescript
+(use-package typescript-mode
+  :ensure t
+  :mode (("\\.ts\\'" . typescript-mode))
+  :config
+  (setq typescript-indent-level 2))
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . setup-tide-mode)
+          (js2-mode-hook . setup-tide-mode))
+  :config
+  (define-key evil-normal-state-map "gd" 'tide-jump-to-definition))
+
+(defun setup-tide-mode ()
+  "Set up Tide mode."
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save-mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+
+;; gpg signing
+(use-package keychain-environment
+  :ensure t
+  :config
+  (keychain-refresh-environment))
+
+;; editor config
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; emacs quality of life
 (defalias 'yes-or-no-p 'y-or-n-p)
-(setq-default indent-tabs-mode nil) ;;; use spaces by default
 (add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk

@@ -62,7 +62,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin:/Users/andrew/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin:/Users/andrew/bin:/home/ah/bin"
 
 if [ -f ~/.env ]; then
   . ~/.env
@@ -84,7 +84,7 @@ export PATH="$PATH:$HOME/.local/bin"
 if [[ -f /usr/local/share/chruby/chruby.sh ]] then
     source /usr/local/share/chruby/chruby.sh
     source /usr/local/share/chruby/auto.sh
-    chruby ruby 2.4.1
+    chruby ruby 2.4.3
 fi
 
 # docker for mac
@@ -126,15 +126,14 @@ alias fs="foreman start --env ~/.env| grep web.1"
 
 alias nsl="npm run start:local"
 
-alias berc="bundle exec rails console"
-alias ber="bundle exec rspec"
-alias berof="bundle exec rspec --only-failures"
-alias bernf="bundle exec rspec --next-failure"
-alias assets="ASSET_GEM_PATH=../assets"
-
-alias afs="assets fs"
-alias aberc="assets berc"
-alias aber="assets ber"
+alias br="bin/rails"
+alias brc="bin/rails console"
+alias ber="bin/rspec"
+alias berof="bin/rspec --only-failures"
+alias bernf="bin/rspec --next-failure"
+alias brs="bin/rspec"
+alias brsof="bin/rspec --only-failures"
+alias brsnf="bin/rspec --next-failure"
 
 alias dc="docker-compose"
 
@@ -161,3 +160,7 @@ export PATH="$HOME/.yarn/bin:$PATH"
 autoload -Uz compinit && compinit -i
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# gpg config
+export GPG_TTY=$(tty)
+
