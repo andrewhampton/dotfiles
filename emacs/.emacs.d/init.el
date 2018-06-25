@@ -433,6 +433,14 @@
   :config
   (editorconfig-mode 1))
 
+;; gpg
+(use-package pinentry
+  :ensure t
+  :config
+  (setq epa-pinentry-mode 'loopback)
+  (pinentry-start))
+
+
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
