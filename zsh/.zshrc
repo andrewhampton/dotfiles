@@ -9,15 +9,6 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME=""
 
-
-# Pure prompt
-# https://github.com/sindresorhus/pure
-
-PURE_GIT_DELAY_DIRTY_CHECK=60
-PURE_GIT_PULL=1
-autoload -U promptinit; promptinit
-#prompt pure
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -61,6 +52,14 @@ plugins=(git git-flow rails bundler vagrant ansible-playbook ansible go)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+# Pure prompt
+# https://github.com/sindresorhus/pure
+
+PURE_GIT_DELAY_DIRTY_CHECK=60
+PURE_GIT_PULL=1
+autoload -U promptinit; promptinit
+# prompt pure
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin:/Users/andrew/bin:/home/ah/bin"
 
@@ -163,4 +162,3 @@ autoload -Uz compinit && compinit -i
 
 # gpg config
 export GPG_TTY=$(tty)
-
