@@ -55,9 +55,9 @@
  '(magit-merge-arguments (quote ("--ff-only")))
  '(magit-pull-arguments nil)
  '(magit-rebase-arguments (quote ("--interactive")))
- '(package-selected-packages
-   (quote
-    (editorconfig tide keychain-environment evil-magit flx markdown-mode company magit evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
+  '(package-selected-packages
+     (quote
+       (enh-ruby-mode editorconfig tide keychain-environment evil-magit flx markdown-mode company magit evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -524,32 +524,7 @@ Return the new window for BUFFER."
     (buffer-string)))
 
 
-;; function to capture a todo
-(defun ah/org-capture-todo ()
-  (interactive)
-  "Capture a TODO item"
-  (org-capture nil "t"))
-(define-key global-map (kbd "C-x 9") 'ah/org-capture-todo)
-
 (define-key global-map (kbd "C-c r") 'query-replace)
-
-(eval-after-load "hideshow"
-  '(add-to-list 'hs-special-modes-alist
-                `(ruby-mode
-                  ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
-                  ,(rx (or "}" "]" "end"))                       ; Block end
-                  ,(rx (or "#" "=begin"))                        ; Comment start
-                  ruby-forward-sexp nil)))
-
-(defun toggle-maximize-buffer () "Maximize buffer"
-       (interactive)
-       (if (= 1 (length (window-list)))
-           (jump-to-register '_)
-         (progn
-           (window-configuration-to-register '_)
-           (delete-other-windows))))
-
-(define-key global-map (kbd "C-c m") 'toggle-maximize-buffer)
 
 (defun ah/turn-off-slow-packages ()
   (interactive)
@@ -571,8 +546,6 @@ To find slow packages:
     (ivy-mode 1)
     (turn-on-pbcopy)))
 
-(global-set-key (kbd "C-c h") 'hs-hide-block)
-(global-set-key (kbd "C-c C-h") 'hs-show-block)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
