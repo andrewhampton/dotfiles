@@ -1,6 +1,7 @@
 [user]
 	name = Andrew Hampton
 	email = andrewwh@gmail.com
+	signingkey = 9C7852D7FE98AC67
 
 [core]
 	excludesfile = /Users/andrew/.gitignore_global
@@ -34,3 +35,5 @@
 	rebase = true
 [github]
 	user = andrewhampton
+[commit]
+	gpgsign = true
