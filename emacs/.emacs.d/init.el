@@ -1,5 +1,4 @@
 (setq
-      ruby-deep-indent-paren nil                          ;;; ruby indent mode
       inhibit-splash-screen t
       uniquify-min-dir-content 2
       truncate-partial-width-windows nil
@@ -102,7 +101,8 @@
   (setq show-paren-delay 0)
   (setq show-paren-style 'parenthesis)
   (show-paren-mode 1)
-  (set-face-attribute 'show-paren-match-face nil :foreground tne-background :background tne-foreground))
+  ;;(set-face-attribute 'show-paren-match-face nil :foreground tne-background :background tne-foreground)
+  )
 
 ;;; integrate with the clipboard
 (use-package pbcopy
@@ -232,9 +232,25 @@
   :ensure t)
 
 ;;; Ruby
-(use-package ruby-mode
+(use-package enh-ruby-mode
   :ensure t
-  :config (add-hook 'ruby-mode-hook  #'hs-minor-mode))
+  :mode (("\\.rb\\'"           . enh-ruby-mode)
+          ("\\.ru\\'"          . enh-ruby-mode)
+          ("\\.jbuilder\\'"    . enh-ruby-mode)
+          ("\\.gemspec\\'"     . enh-ruby-mode)
+          ("\\.rake\\'"        . enh-ruby-mode)
+          ("[rR]akefile\\'"    . enh-ruby-mode)
+          ("[gG]emfile\\'"     . enh-ruby-mode)
+          ("[gG]uardfile\\'"   . enh-ruby-mode)
+          ("[vV]agrantfile\\'" . enh-ruby-mode))
+  :config
+  (setq
+    enh-ruby-add-encoding-comment-on-save nil
+    enh-ruby-deep-indent-paren nil
+    enh-ruby-bounce-deep-indent t
+    enh-ruby-hanging-indent-level 2
+    ruby-insert-encoding-magic-comment nil
+    enh-ruby-program "/home/ah/.rubies/ruby-2.4.3/bin/ruby"))
 
 (use-package rspec-mode
   :ensure t)
