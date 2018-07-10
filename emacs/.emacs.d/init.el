@@ -113,10 +113,8 @@
 (use-package projectile
   :ensure t
   :commands (projectile-switch-project)
-  :bind (("C-t" . projectile-find-file)
-	 ("C-c p p" . projectile-switch-project))
   :config
-  (projectile-global-mode t)
+  (projectile-mode)
   (setq projectile-completion-system 'ivy)
   (setq projectile-mode-line
         '(:eval (format " P[%s]" (projectile-project-name)))))
@@ -157,7 +155,10 @@
 
 (use-package counsel-projectile
   :ensure t
-  :bind (("C-c k" . counsel-projectile-ag)))
+  :bind ()
+  :bind (("C-c k"    . counsel-projectile-ag)
+          ("C-c p p" . counsel-projectile-switch-project)
+          ("C-t"     . counsel-projectile-find-file)))
 
 ;;; Smex so counsel M-x is smarter
 (use-package smex
