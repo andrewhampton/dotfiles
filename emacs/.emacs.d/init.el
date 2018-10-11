@@ -113,8 +113,10 @@
 (use-package projectile
   :ensure t
   :commands (projectile-switch-project)
+  :bind (("C-c p t" . projectile-toggle-between-implementation-and-test))
   :config
   (projectile-mode)
+  (setq projectile-keymap-prefix (kbd "C-c C-p"))
   (setq projectile-completion-system 'ivy)
   (setq projectile-mode-line
         '(:eval (format " P[%s]" (projectile-project-name)))))
