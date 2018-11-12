@@ -253,7 +253,9 @@
     enh-ruby-program "/home/ah/.rubies/ruby-2.4.3/bin/ruby"))
 
 (use-package rspec-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq compilation-scroll-output t))
 
 ;; haml-mode
 (use-package haml-mode
