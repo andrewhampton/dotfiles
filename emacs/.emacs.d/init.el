@@ -8,16 +8,18 @@
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/"))
       ring-bell-function #'ignore
-      mouse-wheel-scroll-amount '(1 ((shift) . 1))
-      mouse-wheel-progressive-speed nil
+      ;; mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      ;; mouse-wheel-progressive-speed nil
       scroll-step 1
       ;exec-path (append exec-path '("/usr/local/bin"))
       mac-command-modifier 'control
       mac-control-modifier 'meta
       company-minimum-prefix-length 2
-      org-directory "~/org"
+      ;; Fix tab in org mode w/ evil
+      evil-want-C-i-jump nil
+      org-directory "~/Dropbox/orgzly"
       org-default-notes-file (concat org-directory "/notes.org")
-      org-agenda-files '("~/org/notes.org"))
+      org-agenda-files (concat org-directory "/notes.org"))
 
 ;; Tomorrow night eighties colors
 (defvar tne-background "#2d2d2d")
@@ -137,7 +139,8 @@
         ivy-initial-inputs-alist nil
         magit-completing-read-function 'ivy-completing-read
         ivy-re-builders-alist '((swiper . ivy--regex-plus)
-                                (t . ivy--regex-fuzzy))))
+                                 (t . ivy--regex-fuzzy))))
+
 
 (use-package counsel
   :ensure t
@@ -225,9 +228,7 @@
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
          ("\\.html\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode))
-  :config ((custom-set-variables
-            '(web-mode-enable-auto-quoting nil))))
+          ("\\.jsx\\'" . web-mode)))
 
 
 ;;; yaml-mode
