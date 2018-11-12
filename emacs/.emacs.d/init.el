@@ -146,7 +146,10 @@
          ("C-c f" . counsel-imenu))
   :diminish counsel-mode
   :init
-  (counsel-mode 1))
+  (counsel-mode 1)
+  :config
+  ; Add -M 300 so lines over 300 characters long are ignored
+  (setq counsel-rg-base-command "rg -S -M 300 --no-heading --line-number --color never %s ."))
 
 (use-package swiper
   :ensure t
