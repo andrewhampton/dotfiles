@@ -154,8 +154,8 @@
 
 (use-package counsel-projectile
   :ensure t
-  :bind ()
-  :bind (("C-c k"    . counsel-projectile-ag)
+  :bind (("C-c k"    . counsel-projectile-rg)
+          ("C-c C-k"    . counsel-projectile-ag)
           ("C-c p p" . counsel-projectile-switch-project)
           ("C-t"     . counsel-projectile-find-file)))
 
