@@ -339,9 +339,10 @@
 
 (use-package alchemist
   :ensure t
-  :config (progn
-            (setq alchemist-hooks-test-on-save t)
-            (setq alchemist-hooks-compile-on-save t)))
+  :config
+  (setq alchemist-hooks-compile-on-save t)
+  (add-hook 'elixir-mode-hook
+          (lambda () (add-hook 'before-save-hook 'elixir-format nil t))))
 
 ;;      .-"-.            .-"-.            .-"-.
 ;;    _/_-.-_\_        _/.-.-.\_        _/.-.-.\_
