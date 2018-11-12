@@ -55,9 +55,6 @@
  '(magit-merge-arguments (quote ("--ff-only")))
  '(magit-pull-arguments nil)
  '(magit-rebase-arguments (quote ("--interactive")))
-  '(package-selected-packages
-     (quote
-       (enh-ruby-mode editorconfig tide keychain-environment evil-magit flx markdown-mode company magit evil-surround rainbow-delimeters rainbow-mode panda-theme smex origami lsp-mode diminish js2-mode fzf dired-subtree color-theme-oblivion evil elfeed dracula-theme typescript-mode add-node-modules-path browse-at-remote browser-at-remote nyan-mode spaceline-config spaceline counsel-projectile counsel yaml-mode yagist which-key web-mode visual-fill-column use-package swiper shell-switcher scss-mode rust-mode rspec-mode rainbow-delimiters powerline pbcopy paredit neotree multiple-cursors multi-eshell markdown-toc magit-gitflow lua-mode inf-ruby helm-swoop helm-projectile helm-ag haml-mode gotest go-eldoc git-messenger flycheck flx-ido exec-path-from-shell dumb-jump dockerfile-mode cyberpunk-theme company-go color-theme-sanityinc-tomorrow coffee-mode chruby alchemist ag ace-window)))
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -548,9 +545,6 @@ To find slow packages:
     (ivy-mode 1)
     (turn-on-pbcopy)))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; Move emacs package tracking out of init.el
+(setq custom-file "~/.emacs.d/package-selected-packages.el")
+(load custom-file)
