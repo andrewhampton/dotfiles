@@ -351,11 +351,14 @@
   :config
   (evil-mode 1)
 
-  (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
   (define-key evil-normal-state-map "K" 'counsel-apropos)
-  (define-key evil-normal-state-map "\C-t" 'projectile-find-file)
   (define-key evil-normal-state-map "gd" 'dumb-jump-go)
-  (define-key evil-insert-state-map "\C-t" 'projectile-find-file)
+
+  ;; Ensure counsel-projectile C-t isn't overridden
+  (dolist (map '(evil-motion-state-map
+                  evil-insert-state-map
+                  evil-normal-state-map))
+    (define-key (eval map) "\C-t" nil))
   (setq evil-shift-width 2)
 
   (evil-ex-define-cmd "cc" 'flycheck-next-error)
