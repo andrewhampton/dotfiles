@@ -456,6 +456,13 @@
   (setq epa-pinentry-mode 'loopback)
   (pinentry-start))
 
+;; dotenv mode
+(use-package dotenv-mode
+  :ensure t)
+
+;; vue mode
+(use-package vue-mode
+  :ensure t)
 
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
