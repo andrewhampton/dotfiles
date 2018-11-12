@@ -375,6 +375,20 @@
     :config
     (global-evil-surround-mode)))
 
+;; evil org mode
+(use-package evil-org
+  :ensure t
+  :after (org evil)
+  :hook ((org-mode-mode . evil-org-mode))
+  ;; :bind (("<tab>" . org-cycle)
+  ;;         ([tab] . org-cycle))
+  :config
+  (add-hook 'evil-org-mode-hook
+    (lambda ()
+      (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
 (use-package dumb-jump
   :ensure t
   :bind (("M-." . dumb-jump-go)
