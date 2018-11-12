@@ -68,10 +68,9 @@ if [ -f ~/.env ]; then
 fi
 
 # Go
-export GOPATH="/go"
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/go/bin"
-export GO15VENDOREXPERIMENT=1
+export GO111MODULE=on
 
 # Pollev
 export PATH="$PATH:$HOME/.pollev/bin"
