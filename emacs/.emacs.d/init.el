@@ -410,7 +410,14 @@
 
 (use-package evil-magit
   :ensure t
-  :after (evil magit))
+  :after (evil magit)
+  :config
+  ; Ensure C-t is still find file
+  (evil-define-key 'normal evil-magit-toggle-text-minor-mode-map
+    "\C-t" 'counsel-projectile-find-file)
+  (evil-define-key evil-magit-state magit-mode-map
+    "\C-t" 'counsel-projectile-find-file)
+  )
 
 ;; typescript
 (use-package typescript-mode
