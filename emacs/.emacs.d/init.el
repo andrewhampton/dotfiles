@@ -181,7 +181,8 @@
           '(markdown-mode-hook text-mode-hook))
   (setq flycheck-highlighting-mode 'columns
         flycheck-coffeelintrc "node_modules/@polleverywhere/js-config/coffeelint.json")
-  (set-face-attribute 'flycheck-error nil :underline t))
+  (set-face-attribute 'flycheck-warning nil :underline t :background tne-selection :foreground tne-yellow)
+  (set-face-attribute 'flycheck-error nil :underline t :background tne-selection :foreground tne-red))
 
 ;;; Themes!
 (use-package color-theme-sanityinc-tomorrow
