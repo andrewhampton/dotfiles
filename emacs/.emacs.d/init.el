@@ -224,6 +224,9 @@
   (set-face-attribute 'magit-blame-date nil :foreground tne-green)
   (set-face-attribute 'magit-blame-name nil :foreground tne-blue))
 
+(use-package forge
+    :ensure t)
+
 ;;; web-mode
 (use-package web-mode
   :ensure t
