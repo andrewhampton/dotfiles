@@ -121,17 +121,16 @@ export NVM_DIR="$HOME/.nvm"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias fs="foreman start --env ~/.env| grep web.1"
+alias om="overmind"
 
 alias nsl="npm run start:local"
 
 alias br="bin/rails"
 alias brc="bin/rails console"
 alias ber="bin/rspec"
-alias berof="bin/rspec --only-failures"
-alias bernf="bin/rspec --next-failure"
-alias brs="bin/rspec"
-alias brsof="bin/rspec --only-failures"
-alias brsnf="bin/rspec --next-failure"
+alias rs="bin/rspec"
+alias nfrs="bin/rspec --next-failure"
+alias ofrs="bin/rspec --only-failure"
 
 alias dc="docker-compose"
 
