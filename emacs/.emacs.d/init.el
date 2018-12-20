@@ -456,11 +456,11 @@
 
 (use-package tide
   :ensure t
-  :after (typescript-mode company flycheck)
+  :after (typescript-mode company flycheck evil)
   :hook ((typescript-mode . setup-tide-mode)
           (js2-mode-hook . setup-tide-mode))
   :config
-  (define-key evil-normal-state-map "gd" 'tide-jump-to-definition))
+  (evil-define-key 'normal tide-mode-map (kbd "g d") 'tide-jump-to-definition))
 
 (defun setup-tide-mode ()
   "Set up Tide mode."
