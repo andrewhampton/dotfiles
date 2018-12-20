@@ -5,7 +5,7 @@
       temporary-file-directory "~/.emacs.d/saves"
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       backup-directory-alist `((".*" . ,temporary-file-directory))
-      package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/"))
       ring-bell-function #'ignore
       ;; mouse-wheel-scroll-amount '(1 ((shift) . 1))
