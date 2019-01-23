@@ -522,6 +522,11 @@
 (use-package vue-mode
   :ensure t)
 
+;; hcl mode (github actions)
+(use-package hcl-mode
+  :ensure t
+  :mode (("\\.workflow\\'" . hcl-mode)))
+
 ;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
