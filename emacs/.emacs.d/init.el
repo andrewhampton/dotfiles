@@ -418,7 +418,11 @@
   :bind (("M-." . dumb-jump-go)
          ("M-," . dumb-jump-back)
          ("M-/" . dumb-jump-quick-look))
-  :init (dumb-jump-mode))
+  :init (dumb-jump-mode)
+  :config
+  (setq
+    dumb-jump-selector 'ivy
+    dumb-jump-force-searcher 'rg))
 
 
 (use-package chruby
