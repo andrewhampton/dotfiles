@@ -368,6 +368,10 @@
 (use-package evil
   :ensure t
   :diminish undo-tree-mode
+  :init
+  (setq
+    evil-want-integration t
+    evil-want-keybinding nil)
   :config
   (evil-mode 1)
 
@@ -388,6 +392,12 @@
     :ensure t
     :config
     (global-evil-surround-mode)))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
 
 ;; evil org mode
 (use-package evil-org
