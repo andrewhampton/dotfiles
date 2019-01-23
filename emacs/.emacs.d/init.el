@@ -161,7 +161,6 @@
 (use-package counsel-projectile
   :ensure t
   :bind (("C-c k"    . counsel-projectile-rg)
-          ("C-c C-k"    . projectile-ripgrep)
           ("C-c p p" . counsel-projectile-switch-project)
           ("C-t"     . counsel-projectile-find-file)))
 
@@ -343,6 +342,11 @@
 
 (use-package ripgrep
   :ensure t)
+
+(use-package deadgrep
+  :ensure t
+  :after (evil-collection)
+  :bind (("C-c C-k" . deadgrep)))
 
 (use-package scss-mode
   :ensure t)
