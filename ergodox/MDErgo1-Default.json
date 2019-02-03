@@ -325,10 +325,6 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "LGUI",
-                    "label": "LGUI"
-                },
-                "2": {
                     "key": "LCTRL",
                     "label": "LCTRL"
                 }
@@ -498,8 +494,8 @@
             "h": 8,
             "layers": {
                 "0": {
-                    "key": "LCTRL",
-                    "label": "LCTRL"
+                    "key": "LALT",
+                    "label": "LALT"
                 }
             }
         },
@@ -514,7 +510,7 @@
                     "key": "BACKSPACE",
                     "label": "BKSP"
                 },
-                "3": {
+                "2": {
                     "key": "SPACE",
                     "label": "[&nbsp;]"
                 }
@@ -528,8 +524,8 @@
             "h": 4,
             "layers": {
                 "0": {
-                    "key": "LALT",
-                    "label": "LALT"
+                    "key": "LGUI",
+                    "label": "LGUI"
                 }
             }
         },
@@ -695,8 +691,8 @@
             "h": 6,
             "layers": {
                 "0": {
-                    "key": "LCK2",
-                    "label": "LOCK-2"
+                    "key": "#:None",
+                    "label": "NONE"
                 }
             }
         },
@@ -890,8 +886,8 @@
             "h": 6,
             "layers": {
                 "0": {
-                    "key": "LCK3",
-                    "label": "LOCK-3"
+                    "key": "LCK2",
+                    "label": "LOCK-2"
                 }
             }
         },
@@ -1036,7 +1032,7 @@
                     "key": "SPACE",
                     "label": "[&nbsp;]"
                 },
-                "3": {
+                "2": {
                     "key": "BACKSPACE",
                     "label": "BKSP"
                 }
