@@ -1,7 +1,7 @@
 [user]
 	name = Andrew Hampton
 	email = andrewwh@gmail.com
-	signingkey = 9C7852D7FE98AC67
+	signingkey = A4ED54B1C7E10DEF
 
 [core]
 	excludesfile = /Users/andrew/.gitignore_global
