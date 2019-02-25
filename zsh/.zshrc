@@ -61,7 +61,7 @@ PURE_GIT_PULL=1
 autoload -U promptinit; promptinit
 # prompt pure
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/9.3/bin:/usr/local/Cellar/libcouchbase/2.2.0/bin:/usr/local/Cellar/libvbucket/1.8.0.4/bin:/Users/andrew/bin:/home/ah/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrew/bin:/home/ah/bin"
 
 if [ -f ~/.env ]; then
   . ~/.env
