@@ -69,8 +69,8 @@ fi
 
 # Go
 export PATH="$PATH:/usr/local/go/bin"
-export PATH="$PATH:/go/bin"
-export GO111MODULE=on
+export GOPATH=$(go env GOPATH)
+export PATH="$PATH:$GOPATH/bin"
 
 # Pollev
 export PATH="$PATH:$HOME/.pollev/bin"
