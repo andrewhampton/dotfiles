@@ -139,6 +139,11 @@ alias ag="ag --hidden --path-to-ignore ~/.agignore"
 # Better du
 alias ncdu="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 
+# k8s
+alias k="kubectl"
+alias kns="kubens"
+alias kctx="kubectx"
+
 # Colorized man pages
 # http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
 man() {
