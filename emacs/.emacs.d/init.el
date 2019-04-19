@@ -429,12 +429,10 @@
 ;; Javascript
 
 ;; add-node-modules-path add's node_modules/.bin to the path when node_modules
-;; is present. This is to make sure fly-check knows about the eslint.
+;; is present. This is to make sure fly-check knows about eslint and tslint.
 (use-package add-node-modules-path
   :ensure t
-  :init
-  (mapcar (lambda (mode-hook) (add-hook mode-hook 'add-node-modules-path))
-                  '(js-mode-hook coffee-mode-hook)))
+  :hook (js-mode js2-mode coffee-mode typescript-mode tide-mode))
 
 ;; Cold folding
 (use-package origami
