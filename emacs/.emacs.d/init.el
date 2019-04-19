@@ -1,25 +1,25 @@
 (setq
-      inhibit-splash-screen t
-      uniquify-min-dir-content 2
-      truncate-partial-width-windows nil
-      temporary-file-directory "~/.emacs.d/saves"
-      auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
-      backup-directory-alist `((".*" . ,temporary-file-directory))
-      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/"))
-      ring-bell-function #'ignore
-      ;; mouse-wheel-scroll-amount '(1 ((shift) . 1))
-      ;; mouse-wheel-progressive-speed nil
-      scroll-step 1
-      ;exec-path (append exec-path '("/usr/local/bin"))
-      mac-command-modifier 'control
-      mac-control-modifier 'meta
-      company-minimum-prefix-length 2
-      ;; Fix tab in org mode w/ evil
-      evil-want-C-i-jump nil
-      org-directory "~/Dropbox/orgzly"
-      org-default-notes-file (concat org-directory "/notes.org")
-      org-agenda-files (concat org-directory "/notes.org"))
+  inhibit-splash-screen t
+  uniquify-min-dir-content 2
+  truncate-partial-width-windows nil
+  temporary-file-directory "~/.emacs.d/saves"
+  auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+  backup-directory-alist `((".*" . ,temporary-file-directory))
+  package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                      ("melpa" . "https://melpa.org/packages/"))
+  ring-bell-function #'ignore
+  ;; mouse-wheel-scroll-amount '(1 ((shift) . 1))
+  ;; mouse-wheel-progressive-speed nil
+  scroll-step 1
+  ;exec-path (append exec-path '("/usr/local/bin"))
+  mac-command-modifier 'control
+  mac-control-modifier 'meta
+  company-minimum-prefix-length 2
+  ;; Fix tab in org mode w/ evil
+  evil-want-C-i-jump nil
+  org-directory "~/Dropbox/orgzly"
+  org-default-notes-file (concat org-directory "/notes.org")
+  org-agenda-files (concat org-directory "/notes.org"))
 
 ;; Tomorrow night eighties colors
 (defvar tne-background "#2d2d2d")
