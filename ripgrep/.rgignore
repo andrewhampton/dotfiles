@@ -1,0 +1,6 @@
+.git
+.tags
+tags
+.bundle
+.vagrant
+node_modules
