@@ -312,6 +312,27 @@
                                     (company-mode)))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Language Server Protocol ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;
+(use-package lsp-mode
+  :ensure t
+  :commands lsp)
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+;;;;;;;;;;;;
+;;; Misc ;;;
+;;;;;;;;;;;;
+
 ;;; dockerfile
 (use-package dockerfile-mode
   :ensure t
