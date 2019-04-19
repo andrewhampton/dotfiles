@@ -375,13 +375,7 @@
     (define-key (eval map) "\C-t" nil))
   (setq evil-shift-width 2)
 
-  (evil-ex-define-cmd "cc" 'flycheck-next-error)
-
-  ;; evil related packages
-  (use-package evil-surround
-    :ensure t
-    :config
-    (global-evil-surround-mode)))
+  (evil-ex-define-cmd "cc" 'flycheck-next-error))
 
 (use-package evil-collection
   :after evil
