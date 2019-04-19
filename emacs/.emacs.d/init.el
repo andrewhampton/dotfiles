@@ -467,6 +467,7 @@
   :hook ((typescript-mode . setup-tide-mode)
           (js2-mode-hook . setup-tide-mode))
   :config
+  (evil-define-key 'normal tide-mode-map (kbd "C-t") 'counsel-projectile-find-file)
   (evil-define-key 'normal tide-mode-map (kbd "g d") 'tide-jump-to-definition))
 
 (defun setup-tide-mode ()
