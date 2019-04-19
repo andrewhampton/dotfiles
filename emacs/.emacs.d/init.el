@@ -173,11 +173,9 @@
   :ensure t
   :commands (global-flycheck-mode)
   :diminish flycheck-mode
+  :hook ((markdown-mode text-mode) . flyspell-mode)
   :init
   (global-flycheck-mode 1)
-  ;; Enable flyspell-mode for text modes
-  (mapcar (lambda (mode-hook) (add-hook mode-hook 'flyspell-mode))
-          '(markdown-mode-hook text-mode-hook))
   (setq flycheck-highlighting-mode 'columns
         flycheck-coffeelintrc "node_modules/@polleverywhere/js-config/coffeelint.json")
   (set-face-attribute 'flycheck-warning nil :underline t :background tne-selection :foreground tne-yellow)
