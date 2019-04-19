@@ -125,12 +125,13 @@ alias om="overmind"
 
 alias nsl="npm run start:local"
 
-alias br="bin/rails"
-alias brc="bin/rails console"
-alias ber="bin/rspec"
-alias rs="bin/rspec"
-alias nfrs="bin/rspec --next-failure"
-alias ofrs="bin/rspec --only-failure"
+alias br="bin/compose/rails"
+alias brc="bin/compose/rails console"
+alias ber="bin/compose/rspec"
+alias rs="bin/compose/rspec"
+alias nfrs="bin/compose/rspec --next-failure"
+alias ofrs="bin/compose/rspec --only-failure"
+alias ffrs="bin/compose/rspec --fail-fast"
 
 alias dc="docker-compose"
 
