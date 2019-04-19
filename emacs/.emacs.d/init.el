@@ -300,14 +300,6 @@
           (mapcar (lambda (mode-hook) (add-hook mode-hook 'company-mode))
                   '(ruby-mode-hook coffee-mode-hook web-mode-hook elixir-mode-hook))))
 
-;;; company-go
-
-(use-package company-go
-  :ensure t
-  :config (progn
-          (setq company-idle-delay .25)
-          (setq company-echo-delay 0)))
-
 ;;; go-mode
 (use-package go-mode
   :ensure t
