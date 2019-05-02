@@ -164,9 +164,9 @@
           ("C-c p p" . counsel-projectile-switch-project)
           ("C-t"     . counsel-projectile-find-file)))
 
-;;; Smex so counsel M-x is smarter
-(use-package smex
-  :ensure t)
+;; ;;; Smex so counsel M-x is smarter
+;; (use-package smex
+;;   :ensure t)
 
 ;;; flycheck
 (use-package flycheck
@@ -235,7 +235,6 @@
   :mode (("\\.erb\\'" . web-mode)
          ("\\.html\\'" . web-mode)
           ("\\.jsx\\'" . web-mode)))
-
 
 ;;; yaml-mode
 (use-package yaml-mode
@@ -426,9 +425,7 @@
   :init (dumb-jump-mode)
   :config
   (setq
-    dumb-jump-selector 'ivy
-    dumb-jump-force-searcher 'rg))
-
+    dumb-jump-selector 'ivy))
 
 (use-package chruby
   :ensure t
