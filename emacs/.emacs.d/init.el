@@ -477,24 +477,24 @@
   :config
   (setq typescript-indent-level 2))
 
-(use-package tide
-  :ensure t
-  :after (typescript-mode company flycheck evil)
-  :hook ((typescript-mode . setup-tide-mode)
-          (js2-mode-hook . setup-tide-mode))
-  :config
-  (evil-define-key 'normal tide-mode-map (kbd "C-t") 'counsel-projectile-find-file)
-  (evil-define-key 'normal tide-mode-map (kbd "g d") 'tide-jump-to-definition))
+;; (use-package tide
+;;   :ensure t
+;;   :after (typescript-mode company flycheck evil)
+;;   :hook ((typescript-mode . setup-tide-mode)
+;;           (js2-mode-hook . setup-tide-mode))
+;;   :config
+;;   (evil-define-key 'normal tide-mode-map (kbd "C-t") 'counsel-projectile-find-file)
+;;   (evil-define-key 'normal tide-mode-map (kbd "g d") 'tide-jump-to-definition))
 
-(defun setup-tide-mode ()
-  "Set up Tide mode."
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save-mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (company-mode +1))
+;; (defun setup-tide-mode ()
+;;   "Set up Tide mode."
+;;   (interactive)
+;;   (tide-setup)
+;;   (flycheck-mode +1)
+;;   (setq flycheck-check-syntax-automatically '(save-mode-enabled))
+;;   (eldoc-mode +1)
+;;   (tide-hl-identifier-mode +1)
+;;   (company-mode +1))
 
 ;; gpg signing
 (use-package keychain-environment
