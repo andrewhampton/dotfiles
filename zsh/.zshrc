@@ -59,67 +59,8 @@ source $ZSH/oh-my-zsh.sh
 PURE_GIT_DELAY_DIRTY_CHECK=60
 PURE_GIT_PULL=1
 autoload -U promptinit; promptinit
-# prompt pure
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrew/bin:/home/ah/bin"
-
-if [ -f ~/.env ]; then
-  . ~/.env
-fi
-
-# Go
-export PATH="$PATH:/usr/local/go/bin"
-export GOPATH=$(go env GOPATH)
-export PATH="$PATH:$GOPATH/bin"
-
-# Pollev
-export PATH="$PATH:$HOME/.pollev/bin"
-
-# Pip bins
-export PATH="$PATH:$HOME/.local/bin"
-
-# Ruby
-if [[ -f /usr/local/share/chruby/chruby.sh ]] then
-    source /usr/local/share/chruby/chruby.sh
-    source /usr/local/share/chruby/auto.sh
-    chruby ruby-2.4.3
-fi
-
-# docker for mac
-export DOCKER_HOST="unix:///var/run/docker.sock"
-if [[ -f ~/.zsh/completion/_docker-compose ]] then
-   fpath=(~/.zsh/completion $fpath)
-fi
-
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+# aliases
 alias fs="foreman start --env ~/.env| grep web.1"
 alias om="overmind"
 
@@ -159,13 +100,9 @@ man() {
   man "$@"
 }
 
-export PATH="$HOME/.yarn/bin:$PATH"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # zsh completions
 autoload -Uz compinit && compinit -i
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# gpg config
-export GPG_TTY=$(tty)
