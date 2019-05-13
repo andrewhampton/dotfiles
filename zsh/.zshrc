@@ -106,3 +106,8 @@ man() {
 autoload -Uz compinit && compinit -i
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Source ~/.zshenv if it exists
+if [ -f ~/.zshenv ]; then
+  . ~/.zshenv
+fi
