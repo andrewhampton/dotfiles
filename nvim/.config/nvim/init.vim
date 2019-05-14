@@ -43,6 +43,8 @@ let g:rooter_change_directory_for_non_project_files = 'home'
 
 " airline
 let g:airline_theme='tomorrow'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#hunks#enabled = 0
 
 """"""""""""""""""""""""""""""
 """" misc quality of life """"
