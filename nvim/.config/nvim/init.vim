@@ -21,7 +21,7 @@ Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " neomake
-call neomake#configure#automake('nrwi', 500)
+call neomake#configure#automake('rw')
 
 " Colors
 colo Tomorrow-Night-Eighties
@@ -39,7 +39,7 @@ nnoremap <silent> gd :call fzf#vim#tags(expand('<cword>'))<Cr>
 let g:EditorConfig_exclude_patters = ['fugitive://.*']
 
 " rooter
-let g:rooter_change_directory_for_non_project_files = 'home' 
+let g:rooter_change_directory_for_non_project_files = 'home'
 
 " airline
 let g:airline_theme='tomorrow'
