@@ -3,10 +3,16 @@ set number nowrap hidden shiftround
 set clipboard=unnamedplus
 set updatetime=100
 
+" Text file setup
+augroup textBuffers
+  autocmd!
+  autocmd FileType markdown,text setlocal wrap spell list
+augroup END
+
 " Quickly edit vim config
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
-" Quality of life mappings
+" Easier begin/end of line
 nnoremap H ^
 nnoremap L $
 
