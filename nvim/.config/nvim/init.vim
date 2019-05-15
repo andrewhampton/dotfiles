@@ -7,7 +7,7 @@ set updatetime=100
 augroup textBuffers
   autocmd!
   autocmd FileType markdown,text setlocal wrap spell list
-augroup END
+augroup end
 
 " Quickly edit vim config
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
