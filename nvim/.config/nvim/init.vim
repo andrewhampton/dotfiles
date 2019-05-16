@@ -1,7 +1,9 @@
 let mapleader=" "
-set number nowrap hidden shiftround autoread
+set number nowrap hidden shiftround splitright splitbelow incsearch ignorecase smartcase
+set encoding=utf-8
 set clipboard=unnamedplus
 set updatetime=100
+set undolevels=1000
 
 " Text file setup
 augroup textBuffers
@@ -11,13 +13,6 @@ augroup end
 
 " Quickly edit vim config
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-
-" Easier begin/end of line
-nnoremap H ^
-nnoremap L $
-
-" Removed highlights
-nnoremap -- :noh<cr>
 
 " Quicklist navigation
 nnoremap <leader>co :copen<cr>
@@ -48,13 +43,13 @@ Plug 'airblade/vim-rooter'
 Plug 'andrewradev/splitjoin.vim'
 Plug 'brooth/far.vim'
 Plug 'junegunn/fzf.vim'
+Plug 'lambdalisue/gina.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'neomake/neomake'
 Plug 'ruanyl/vim-gh-line'
 Plug 'scrooloose/nerdtree'
 Plug 'sgur/vim-editorconfig'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
@@ -93,3 +88,4 @@ let g:airline#extensions#hunks#enabled = 0
 " nerdtree
 nnoremap <F3> :NERDTreeToggle<cr>
 nnoremap <Shift><F3> :NERDTreeFind<cr>
+let g:NERDTreeShowHidden=1

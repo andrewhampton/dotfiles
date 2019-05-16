@@ -38,3 +38,7 @@ if [[ -f /usr/local/share/chruby/chruby.sh ]] then
     source /usr/local/share/chruby/auto.sh
     chruby ruby-2.4.3
 fi
+
+# fzf
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --line-buffered --smart-case'
+export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
