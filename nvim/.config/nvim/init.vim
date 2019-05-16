@@ -1,5 +1,5 @@
 let mapleader=" "
-set number nowrap hidden shiftround
+set number nowrap hidden shiftround autoread
 set clipboard=unnamedplus
 set updatetime=100
 
@@ -15,6 +15,21 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " Easier begin/end of line
 nnoremap H ^
 nnoremap L $
+
+" Removed highlights
+nnoremap -- :noh<cr>
+
+" Quicklist navigation
+nnoremap <leader>co :copen<cr>
+nnoremap <leader>cj :cnext<cr>
+nnoremap <leader>ck :cprevious<cr>
+nnoremap <leader>cc :cclose<cr>
+
+" Location list navigation
+nnoremap <leader>lo :lopen<cr>
+nnoremap <leader>lj :lnext<cr>
+nnoremap <leader>lk :lprevious<cr>
+nnoremap <leader>lc :lclose<cr>
 
 " Plugin Dependencies:
 " - ripgrep
@@ -36,6 +51,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'neomake/neomake'
 Plug 'ruanyl/vim-gh-line'
+Plug 'scrooloose/nerdtree'
 Plug 'sgur/vim-editorconfig'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -56,11 +72,11 @@ let g:neomake_open_list = 2
 colo Tomorrow-Night-Eighties
 
 " fzf
-nnoremap <leader>s :Rg<Cr>
-nnoremap <leader>f :Files<Cr>
-nnoremap <leader>t :Tags<Cr>
-nnoremap <leader>b :Buffers<Cr>
-nnoremap <leader>r :History<Cr>
+nnoremap <leader>fs :Rg<Cr>
+nnoremap <leader>ff :Files<Cr>
+nnoremap <leader>ft :Tags<Cr>
+nnoremap <leader>fb :Buffers<Cr>
+nnoremap <leader>fr :History<Cr>
 nnoremap <silent> gd :call fzf#vim#tags(expand('<cword>'))<Cr>
 
 " fugitive
@@ -74,11 +90,6 @@ let g:airline_theme='tomorrow'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#hunks#enabled = 0
 
-" Triger `autoread` when files changes on disk
-" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
-" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-" Notification after file change
-" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+" nerdtree
+nnoremap <F3> :NERDTreeToggle<cr>
+nnoremap <Shift><F3> :NERDTreeFind<cr>
