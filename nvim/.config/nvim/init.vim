@@ -1,3 +1,5 @@
+" Variables and Autocommands {{{
+
 let mapleader=" "
 set number nowrap hidden shiftround splitright splitbelow incsearch ignorecase smartcase
 set encoding=utf-8
@@ -11,22 +13,12 @@ augroup textBuffers
   autocmd FileType markdown,text setlocal wrap spell list
 augroup end
 
-" Quickly edit vim config
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-
-" Quicklist navigation
-nnoremap <leader>co :copen<cr>
-nnoremap <leader>cj :cnext<cr>
-nnoremap <leader>ck :cprevious<cr>
-nnoremap <leader>cc :cclose<cr>
-
-" Location list navigation
-nnoremap <leader>lo :lopen<cr>
-nnoremap <leader>lj :lnext<cr>
-nnoremap <leader>lk :lprevious<cr>
-nnoremap <leader>lc :lclose<cr>
-
-" Plugin Dependencies:
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
+" Plugins {{{
 " - ripgrep
 " - git
 " - universal ctags
@@ -35,6 +27,7 @@ nnoremap <leader>lc :lclose<cr>
 " - fira code
 " - fzf
 " - ~/.editorconfig
+
 call plug#begin()
 
 Plug '/usr/local/opt/fzf'
@@ -59,6 +52,8 @@ Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
+" }}}
+" Plugin configuration {{{
 " neomake
 call neomake#configure#automake('rw')
 let g:neomake_open_list = 2
@@ -89,3 +84,20 @@ let g:airline#extensions#hunks#enabled = 0
 nnoremap <F3> :NERDTreeToggle<cr>
 nnoremap <Shift><F3> :NERDTreeFind<cr>
 let g:NERDTreeShowHidden=1
+
+" }}}
+" Custom keybindings {{{
+" Quickly edit vim config
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+" Quicklist navigation
+nnoremap <leader>co :copen<cr>
+nnoremap <leader>cj :cnext<cr>
+nnoremap <leader>ck :cprevious<cr>
+nnoremap <leader>cc :cclose<cr>
+
+" Location list navigation
+nnoremap <leader>lo :lopen<cr>
+nnoremap <leader>lj :lnext<cr>
+nnoremap <leader>lk :lprevious<cr>
+nnoremap <leader>lc :lclose<cr>
