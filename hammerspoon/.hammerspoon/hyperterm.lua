@@ -3,151 +3,62 @@ local hyperterm = {}
 local logger = hs.logger.new("ht", "debug")
 
 function hyperterm.init()
-   hyperterm.terminalModeHandler = hs.eventtap.new({hs.eventtap.event.types.keyDown}, terminalMode)
-   hyperterm.normalModeHandler = hs.eventtap.new({hs.eventtap.event.types.keyDown}, normalMode)
+   hyperterm.keyDownHandler = hs.eventtap.new({hs.eventtap.event.types.keyDown}, handleKeyDown)
    hyperterm.watcher = hs.application.watcher.new(hypertermActivationHandler)
    hyperterm.watcher:start()
+   logger:d("starting")
 end
 
 function hypertermActivationHandler(appName, eventType, app)
-   log(appName)
-   log(eventType)
-   if appName == "HyperTerm" or appName == "Emacs" or appName == "Terminal" or appName == "kitty" then
+   if appName == "HyperTerm" or appName == "Emacs" or appName == "Terminal" then
       if eventType == hs.application.watcher.activated then
-         log("terminal mode activated")
-         hyperterm.terminalModeHandler:start()
-         -- hyperterm.normalModeHandler:stop()
+         hyperterm.keyDownHandler:start()
+         logger:d("activated")
       elseif eventType == hs.application.watcher.deactivated then
-         log("normal mode activated")
-         -- hyperterm.terminalModeHandler:stop()
-         hyperterm.normalModeHandler:start()
+         logger:d("deactivated")
+         hyperterm.keyDownHandler:stop()
       end
    end
 end
 
-function terminalMode(event)
-   log('terminal key press')
-   local terminalMap = {
-      shift = { shift = true },
-      fn    = { fn = true },
-      cmd   = { cmd = true },
-      ctrl  = { ctrl = true },
-      alt   = { alt = true },
-      includeMetaEvent = true
-   }
-
-   return translate(event, terminalMap)
-end
-
-function normalMode(event)
-   log('normal key press')
-   local normalMap = {
-      shift = { shift = true },
-      fn    = { fn = true },
-      cmd   = { alt = true },
-      ctrl  = { cmd = true },
-      alt   = { ctrl = true },
-      includeMetaEvent = false
-   }
-
-   return translate(event, normalMap)
-end
-
--- function normalMode(event)
---    local flags = event:getFlags()
---    local newFlags = {}
---    local returnEvents = {}
---    log('normal key press')
-
---    if flags.ctrl and flags.shift and flags.cmd then
---       return false, {}
---    end
-
---    newFlags.shift = flags.shift
---    newFlags.fn = flags.fn
-
---    merge(flags.cmd, newFlags, { alt = true })
---    log('cmd')
---    log(hs.inspect.inspect(newFlags))
-
---    merge(flags.ctrl, newFlags, { cmd = true })
---    log('ctrl')
---    log(hs.inspect.inspect(newFlags))
-
---    merge(flags.alt, newFlags, { ctrl = true })
---    log('alt')
---    log(hs.inspect.inspect(newFlags))
-
---    event:setFlags(newFlags)
-
---    if false and flags.ctrl and map.includeMetaEvent then
---       returnEvents = {hs.eventtap.event.newKeyEvent({}, "escape", true), hs.eventtap.event.newKeyEvent({}, "escape", false), event}
---    else
---       returnEvents = {event}
---    end
-
---    log('old')
---    log(hs.inspect.inspect(flags))
---    log('new')
---    log(hs.inspect.inspect(newFlags))
---    log('event')
---    log(event)
---    log('\n\n\n------------------------------------------')
---    return true, returnEvents
--- end
-
-function translate(event, map)
+function handleKeyDown(event)
    local flags = event:getFlags()
    local newFlags = {}
+   local includeMetaEvent = false
+   local returnEvents = {}
 
-   log('tranlating')
-   log(hs.inspect.inspect(flags))
    if flags.ctrl and flags.shift and flags.cmd then
       return false, {}
    end
 
-   merge(flags.shift, newFlags, map.shift)
-   log('shift')
-   log(hs.inspect.inspect(newFlags))
+   newFlags.shift = flags.shift
+   newFlags.fn = flags.fn
 
-   merge(flags.fn, newFlags, map.fn)
-   log('fn')
-   log(hs.inspect.inspect(newFlags))
+   if flags.cmd then
+      newFlags.ctrl = true
+   end
 
-   merge(flags.cmd, newFlags, map.cmd)
-   log('cmd')
-   log(hs.inspect.inspect(newFlags))
+   if flags.ctrl then
+      -- This may need to be set per app
+      newFlags.alt = true
+      includeMetaEvent = true
+   end
 
-   merge(flags.ctrl, newFlags, map.ctrl)
-   log('ctrl')
-   log(hs.inspect.inspect(newFlags))
-
-   merge(flags.alt, newFlags, map.alt)
-   log('alt')
-   log(hs.inspect.inspect(newFlags))
+   if flags.alt then
+      newFlags.cmd = true
+   end
 
    event:setFlags(newFlags)
 
-   log('old')
-   log(hs.inspect.inspect(flags))
-   log('new')
-   log(hs.inspect.inspect(newFlags))
-   log('event')
-   log(event)
-   log('\n\n\n------------------------------------------')
-   return true, {event}
-end
-
-function merge(enabled, target, source)
-   if not enabled then
-      return
+   if includeMetaEvent then
+      returnEvents = {hs.eventtap.event.newKeyEvent({}, "escape", true), hs.eventtap.event.newKeyEvent({}, "escape", false), event}
+   else
+      returnEvents = {event}
    end
 
-   for k, v in pairs(source) do target[k] = v end
-end
-
-function log(msg)
-   logger:d(msg)
+   --logger:d(hs.inspect.inspect(flags))
+   --logger:d(hs.inspect.inspect(newFlags))
+   return true, returnEvents
 end
 
 return hyperterm
