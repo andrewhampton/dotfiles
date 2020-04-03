@@ -42,3 +42,6 @@ fi
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --line-buffered --smart-case'
 export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
+
+# set rg config file
+export RIPGREP_CONFIG_PATH=~/.rgconfig
