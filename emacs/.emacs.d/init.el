@@ -259,7 +259,7 @@
     enh-ruby-bounce-deep-indent t
     enh-ruby-hanging-indent-level 2
     ruby-insert-encoding-magic-comment nil
-    enh-ruby-program "/home/ah/.rubies/ruby-2.4.3/bin/ruby"))
+    enh-ruby-program "/Users/ah/.rubies/ruby-2.4.3/bin/ruby"))
 
 (use-package rspec-mode
   :ensure t
