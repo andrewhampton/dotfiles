@@ -1,63 +1,39 @@
 (setq
+  ;; Don't show splash on boot
   inhibit-splash-screen t
-  uniquify-min-dir-content 2
-  truncate-partial-width-windows nil
+
+  ;; Let tab fix indentation
+  evil-want-C-i-jump nil
+
+  ;; Add gnu and melpa package repositories
+  package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                      ("melpa" . "https://melpa.org/packages/"))
+
+  ;; reduce the frequency of garbage collection by making it happen on
+  ;; each 50MB of allocated data (the default is on every 0.76MB)
+  gc-cons-threshold 50000000
+
+  ;; keep temporary files in the emacs folder
   temporary-file-directory "~/.emacs.d/saves"
   auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
   backup-directory-alist `((".*" . ,temporary-file-directory))
-  package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                      ("melpa" . "https://melpa.org/packages/"))
-  ring-bell-function #'ignore
-  ;; mouse-wheel-scroll-amount '(1 ((shift) . 1))
-  ;; mouse-wheel-progressive-speed nil
-  scroll-step 1
-  ;exec-path (append exec-path '("/usr/local/bin"))
-  mac-command-modifier 'control
-  mac-control-modifier 'meta
-  company-minimum-prefix-length 2
-  ;; Fix tab in org mode w/ evil
-  evil-want-C-i-jump nil
-  org-directory "~/Dropbox/orgzly"
-  org-default-notes-file (concat org-directory "/notes.org")
-  org-agenda-files (concat org-directory "/notes.org"))
 
-;; Tomorrow night eighties colors
-(defvar tne-background "#2d2d2d")
-(defvar tne-current-line "#393939")
-(defvar tne-selection "#515151")
-(defvar tne-foreground "#cccccc")
-(defvar tne-comment "#999999")
-(defvar tne-red "#f2777a")
-(defvar tne-orange "#f99157")
-(defvar tne-yellow "#ffcc66")
-(defvar tne-green "#99cc99")
-(defvar tne-aqua "#66cccc")
-(defvar tne-blue "#6699cc")
-(defvar tne-purple "#cc99cc")
+  ;; increase the size of recentf
+  recentf-max-menu-items 50
+  recentf-max-saved-items 50)
 
+;;; disable line wrapping
+(set-default 'truncate-lines t)
 
-;; reduce the frequency of garbage collection by making it happen on
-;; each 50MB of allocated data (the default is on every 0.76MB)
-(setq gc-cons-threshold 50000000)
+;;; Turn off menus
+(menu-bar-mode -1)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(coffee-tab-width 2)
- '(ediff-split-window-function (quote split-window-vertically))
- '(js2-mode-show-parse-errors nil)
- '(js2-mode-show-strict-warnings nil)
- '(magit-branch-arguments nil)
- '(magit-commit-arguments (quote ("--gpg-sign=9C7852D7FE98AC67")))
- '(magit-gitflow-feature-finish-arguments (quote ("--fetch")))
- '(magit-gitflow-feature-start-arguments (quote ("--fetch")))
- '(magit-log-arguments (quote ("--graph" "--color" "--decorate" "-n256")))
- '(magit-merge-arguments (quote ("--ff-only")))
- '(magit-pull-arguments nil)
- '(magit-rebase-arguments (quote ("--interactive")))
- '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+;;; Use emacs 26 line numbers
+(global-display-line-numbers-mode)
+
+(recentf-mode 1)
+;;; Use counsel-M-x instead of the default
+;; (global-set-key (kbd "M-x") 'counsel-M-x)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                 PACKAGE CONFIGURATION                                ;;
@@ -71,302 +47,35 @@
   (package-install 'use-package))
 (require 'use-package)
 
-;;; paredit
-(use-package paredit
-  :ensure t
-  :commands (enable-paredit-mode)
-  :bind ("C-M-u" . backward-up-list+)
-  :diminish paredit-mode
-  :init (progn
-          (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-          (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-          (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-          (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-          (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-          (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-          ;;; Make paredit's backward-up-list handle strings
-          (defun backward-up-list+ ()
-            "backward-up-list doesn't work when cursor is inside a string"
-            (interactive)
-            (if (in-string-p)
-                (while (in-string-p)
-                  (backward-char))
-              backward-up-list))))
+(use-package diminish
+  :ensure t)
 
 ;;; show-paren-mode
 (use-package paren
   :ensure t
   :config
-  (setq show-paren-delay 0)
-  (setq show-paren-style 'parenthesis)
-  (show-paren-mode 1)
-  ;;(set-face-attribute 'show-paren-match-face nil :foreground tne-background :background tne-foreground)
-  )
-
-;;; integrate with the clipboard
-(use-package pbcopy
-  :ensure t
-  :config (turn-on-pbcopy))
-
-;;; projectile
-(use-package projectile
-  :ensure t
-  :commands (projectile-switch-project)
-  :bind (("C-c p t" . projectile-toggle-between-implementation-and-test))
-  :config
-  (projectile-mode)
-  (setq projectile-keymap-prefix (kbd "C-c C-p"))
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-mode-line
-        '(:eval (format " P[%s]" (projectile-project-name)))))
-
-(use-package flx
-  :ensure t)
-
-;;; ivy
-(use-package ivy
-  :ensure t
-  :bind (("C-c C-r" . ivy-resume)
-         ("C-x b" . ivy-switch-buffer))
-  :init (ivy-mode 1)
-  :diminish ivy-mode
-  :after (flx)
-  :config
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) "
-        ivy-height 10
-        ivy-flx-limit 50
-        ivy-initial-inputs-alist nil
-        magit-completing-read-function 'ivy-completing-read
-        ivy-re-builders-alist '((swiper . ivy--regex-plus)
-                                 (t . ivy--regex-fuzzy))))
-
-
-(use-package counsel
-  :ensure t
-  :bind (("M-x" . counsel-M-x)
-         ("C-x f" . counsel-find-file)
-         ("C-c f" . counsel-imenu))
-  :diminish counsel-mode
-  :init
-  (counsel-mode 1)
-  :config
-  ; Add -M 300 so lines over 300 characters long are ignored
-  (setq counsel-rg-base-command "rg -S -M 300 --ignore-file ~/.rgignore --vimgrep --hidden --no-heading --line-number --color never %s ."))
-
-(use-package swiper
-  :ensure t
-  :bind (("C-s" . swiper)))
-
-(use-package counsel-projectile
-  :ensure t
-  :bind (("C-c k"    . counsel-projectile-rg)
-          ("C-c p p" . counsel-projectile-switch-project)
-          ("C-t"     . counsel-projectile-find-file)))
-
-;; ;;; Smex so counsel M-x is smarter
-;; (use-package smex
-;;   :ensure t)
-
-;;; flycheck
-(use-package flycheck
-  :ensure t
-  :commands (global-flycheck-mode)
-  :diminish flycheck-mode
-  :hook ((markdown-mode text-mode) . flyspell-mode)
-  :init
-  (global-flycheck-mode 1)
-  (setq flycheck-highlighting-mode 'columns
-        flycheck-coffeelintrc "node_modules/@polleverywhere/js-config/coffeelint.json")
-  (set-face-attribute 'flycheck-warning nil :underline t :background tne-selection :foreground tne-yellow)
-  (set-face-attribute 'flycheck-error nil :underline t :background tne-selection :foreground tne-red))
-
-;;; Themes!
-(use-package color-theme-sanityinc-tomorrow
-  :ensure t
-  :config (load-theme 'sanityinc-tomorrow-eighties t))
-
-(use-package linum
-  :config
-  (set-face-attribute 'linum nil :foreground tne-comment :background tne-current-line))
-
-;;; Mode line
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
-  (spaceline-toggle-buffer-size-off)
-  (spaceline-toggle-buffer-modified-off)
-  (spaceline-toggle-major-mode-off)
-  (spaceline-toggle-minor-modes-off)
-  (spaceline-toggle-buffer-encoding-abbrev-off)
-  (spaceline-spacemacs-theme))
-
-(use-package diminish
-  :ensure t)
-
-;;; yagist
-(use-package yagist
-  :ensure t
-  :config
-  (if (file-exists-p "~/.emacs.d/yagist-github.el") (load-file "~/.emacs.d/yagist-github.el")))
-
-;;; magit
-(use-package magit
-  :ensure t
-  :bind (("C-c C-s" . magit-status)
-         ("C-c s" . magit-status))
-  :init
-  (setq magit-diff-refine-hunk t
-        git-commit-summary-max-length 72
-        fill-column 72)
-  :config
-  ;;; blame colors: https://github.com/magit/magit/blob/94e18ded035adc7bf998310deacd0395e91f8147/lisp/magit-blame.el#L89
-  (set-face-attribute 'magit-blame-heading nil :foreground tne-comment :background tne-current-line)
-  (set-face-attribute 'magit-blame-date nil :foreground tne-green)
-  (set-face-attribute 'magit-blame-name nil :foreground tne-blue))
-
-(use-package forge
-    :ensure t)
-
-;;; web-mode
-(use-package web-mode
-  :ensure t
-  :mode (("\\.erb\\'" . web-mode)
-         ("\\.html\\'" . web-mode)
-          ("\\.jsx\\'" . web-mode)))
-
-;;; yaml-mode
-(use-package yaml-mode
-  :ensure t)
-
-;;; Ruby
-(use-package enh-ruby-mode
-  :ensure t
-  :mode (("\\.rb\\'"           . enh-ruby-mode)
-          ("\\.ru\\'"          . enh-ruby-mode)
-          ("\\.jbuilder\\'"    . enh-ruby-mode)
-          ("\\.gemspec\\'"     . enh-ruby-mode)
-          ("\\.rake\\'"        . enh-ruby-mode)
-          ("[rR]akefile\\'"    . enh-ruby-mode)
-          ("[gG]emfile\\'"     . enh-ruby-mode)
-          ("[gG]uardfile\\'"   . enh-ruby-mode)
-          ("[vV]agrantfile\\'" . enh-ruby-mode))
-  :config
   (setq
-    enh-ruby-add-encoding-comment-on-save nil
-    enh-ruby-deep-indent-paren nil
-    enh-ruby-bounce-deep-indent t
-    enh-ruby-hanging-indent-level 2
-    ruby-insert-encoding-magic-comment nil
-    enh-ruby-program "/Users/ah/.rubies/ruby-2.4.3/bin/ruby"))
-
-(use-package rspec-mode
-  :ensure t
-  :config
-  (setq compilation-scroll-output t))
-
-;; haml-mode
-(use-package haml-mode
-  :ensure t)
-
-;; coffee-mode
-(use-package coffee-mode
-  :ensure t)
-
-;; javascript
-(use-package js2-mode
-  :ensure t
-  :mode (("\\.js\\'" . js2-mode))
-  :config
-  (custom-set-variables '(js2-mode-show-parse-errors nil)
-                        '(js2-mode-show-strict-warnings nil)))
-
-;;;;;;;;;;
-;;; Go ;;;
-;;;;;;;;;;
-
-;;; go-eldoc
-(use-package go-eldoc
-  :ensure t)
-
-;;; company
-(use-package company
-  :ensure t
-  :diminish company-mode
-  :init (progn
-          ;; Add company-mode hooks
-          (mapcar (lambda (mode-hook) (add-hook mode-hook 'company-mode))
-                  '(ruby-mode-hook coffee-mode-hook web-mode-hook elixir-mode-hook))))
-
-;;; go-mode
-(use-package go-mode
-  :ensure t
-  :bind (("C-c r" . go-remove-unused-imports))
-  :config (progn
-          (add-hook 'before-save-hook  #'gofmt-before-save)
-          (add-hook 'go-mode-hook 'go-eldoc-setup)
-          (add-hook 'go-mode-hook (lambda ()
-                                    (set (make-local-variable 'company-backends) '(company-go))
-                                    (company-mode)))))
-
+    show-paren-delay 0
+    show-paren-style 'parenthesis)
+  (show-paren-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Language Server Protocol ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package company
+  :ensure t
+  :diminish
+  :config
+  (setq
+    company-minimum-prefix-length 1
+    company-idle-delay 0.0))
 
-;;;
 (use-package lsp-mode
   :ensure t
+  :hook (
+          (ruby-mode . lsp)
+          (typescript-mode . lsp))
   :commands lsp)
-
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-
-;;;;;;;;;;;;
-;;; Misc ;;;
-;;;;;;;;;;;;
-
-;;; dockerfile
-(use-package dockerfile-mode
-  :ensure t
-  :mode "Dockerfile\\'")
-
-;;; markdown
-(use-package markdown-mode
-  :ensure t
-  :mode (("\\.text\\'" . gfm-mode)
-         ("\\.markdown\\'" . gfm-mode)
-         ("\\.md\\'" . gfm-mode)))
-
-(use-package markdown-toc
-  :ensure t)
-
-(use-package lua-mode
-  :ensure t)
-
-(use-package ripgrep
-  :ensure t)
-
-(use-package deadgrep
-  :ensure t
-  :after (evil-collection)
-  :bind (("C-c C-k" . deadgrep)))
-
-(use-package scss-mode
-  :ensure t)
-
-(use-package alchemist
-  :ensure t
-  :config
-  (setq alchemist-hooks-compile-on-save t)
-  (add-hook 'elixir-mode-hook
-          (lambda () (add-hook 'before-save-hook 'elixir-format nil t))))
 
 ;;      .-"-.            .-"-.            .-"-.
 ;;    _/_-.-_\_        _/.-.-.\_        _/.-.-.\_
@@ -377,244 +86,204 @@
 ;;  \           /    \           /      /  /|\  \
 (use-package evil
   :ensure t
-  :diminish undo-tree-mode
+  :diminish (undo-tree-mode eldoc-mode)
   :init
   (setq
     evil-want-integration t
     evil-want-keybinding nil)
   :config
   (evil-mode 1)
-
-  (define-key evil-normal-state-map "K" 'counsel-apropos)
-  (define-key evil-normal-state-map "gd" 'dumb-jump-go)
-
-  ;; Ensure counsel-projectile C-t isn't overridden
-  (dolist (map '(evil-motion-state-map
-                  evil-insert-state-map
-                  evil-normal-state-map))
-    (define-key (eval map) "\C-t" nil))
-  (setq evil-shift-width 2)
-
-  (evil-ex-define-cmd "cc" 'flycheck-next-error))
-
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
-
-;; evil org mode
-(use-package evil-org
-  :ensure t
-  :after (org evil)
-  :hook ((org-mode-mode . evil-org-mode))
-  ;; :bind (("<tab>" . org-cycle)
-  ;;         ([tab] . org-cycle))
-  :config
-  (add-hook 'evil-org-mode-hook
-    (lambda ()
-      (evil-org-set-key-theme)))
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
-
-(use-package dumb-jump
-  :ensure t
-  :bind (("M-." . dumb-jump-go)
-         ("M-," . dumb-jump-back)
-         ("M-/" . dumb-jump-quick-look))
-  :init (dumb-jump-mode)
-  :config
   (setq
-    dumb-jump-selector 'ivy))
+    evil-normal-state-cursor '(box "light blue")
+    evil-insert-state-cursor '(bar "medium sea green")
+    evil-visual-state-cursor '(hollow "orange"))
 
-(use-package chruby
+  (use-package evil-collection
+    :ensure t
+    :config
+    (evil-collection-init))
+
+  ;; Leader config
+  (defvar my-leader-map (make-sparse-keymap)
+    "Keymap for \"leader key\" shortcuts.")
+  (define-key evil-normal-state-map (kbd "SPC") my-leader-map)
+  (define-key my-leader-map "b" 'list-buffers)
+  (define-key my-leader-map "tt" 'treemacs)
+  (define-key my-leader-map "tf" 'treemacs-find-file)
+  (define-key my-leader-map "tp" 'treemacs-switch-workspace)
+  (define-key my-leader-map "ff" 'counsel-git)
+  (define-key my-leader-map "fs" 'counsel-git-grep)
+  ;; (define-key my-leader-map "fr" 'fzf-recentf)
+  (define-key my-leader-map "fe" 'lsp-treemacs-errors-list)
+  (define-key my-leader-map "fb" 'bookmark-jump)
+  (define-key my-leader-map "cn" 'flycheck-next-error)
+  (define-key my-leader-map "cp" 'flycheck-previous-error))
+
+(use-package color-theme-sanityinc-tomorrow
   :ensure t
-  :init (add-hook 'flycheck-before-syntax-check-hook
-                  (lambda ()
-                    (if (equal major-mode 'ruby-mode)
-                        (chruby-use-corresponding)))))
+  :config (load-theme 'sanityinc-tomorrow-eighties t))
 
-
-(use-package exec-path-from-shell
+;;;;;;;;;;;;;;;;
+;;; File nav ;;;
+;;;;;;;;;;;;;;;;
+(use-package ivy
   :ensure t
+  :diminish
+  :bind (("C-x b" . ivy-switch-buffer))
   :init
-  (exec-path-from-shell-initialize))
+  (ivy-mode 1)
+  :config
+  (setq ivy-use-virtual-buffers t
+    ivy-count-format "(%d/%d) "))
 
-(use-package browse-at-remote
+(use-package counsel
   :ensure t
-  :bind ("C-c g g" . browse-at-remote))
-
-;; Javascript
-
-;; add-node-modules-path add's node_modules/.bin to the path when node_modules
-;; is present. This is to make sure fly-check knows about eslint and tslint.
-(use-package add-node-modules-path
-  :ensure t
-  :hook (js-mode js2-mode coffee-mode typescript-mode tide-mode))
-
-;; Cold folding
-(use-package origami
-  :ensure t
-  :bind (("C-h h" . origami-toggle-node))
+  :bind (("M-x" . counsel-M-x)
+          ("M-y" . counsel-yank-pop)
+          ("C-x f" . counsel-find-file))
   :init
-  (global-origami-mode))
+  (counsel-mode 1))
+
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)))
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 nil
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-file-name-transformer         #'identity
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-move-forward-on-expand        nil
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        t
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             t
+          treemacs-silent-filewatch              nil
+          treemacs-silent-refresh                nil
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      t
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-user-mode-line-format         nil
+          treemacs-user-header-line-format       nil
+          treemacs-width                         35)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple)))))
+
+(use-package treemacs-evil
+  :after treemacs evil
+  :ensure t)
+
+(use-package treemacs-magit
+  :after treemacs magit
+  :ensure t)
+
+(use-package lsp-treemacs
+  :ensure t
+  :commands lsp-treemacs-errors-list)
+
+;;;;;;;;;;;;;
+;;; Magit ;;;
+;;;;;;;;;;;;;
+(use-package magit
+  :ensure t
+  :bind (("C-c C-s" . magit-status)
+          ("C-c s" . magit-status))
+  :init
+  (setq magit-diff-refine-hunk t
+    git-commit-summary-max-length 72
+    fill-column 72)
+  :config
+  ; Fill the full frame
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+
+  (use-package forge
+    :ensure t))
 
 (use-package evil-magit
   :ensure t
-  :after (evil magit)
-  :config
-  ; Ensure C-t is still find file
-  (evil-define-key 'normal evil-magit-toggle-text-minor-mode-map
-    "\C-t" 'counsel-projectile-find-file)
-  (evil-define-key evil-magit-state magit-mode-map
-    "\C-t" 'counsel-projectile-find-file)
-  )
+  :after (evil magit))
 
-;; typescript
+;;;;;;;;;;;;;;;;;
+;;; Languages ;;;
+;;;;;;;;;;;;;;;;;
+
 (use-package typescript-mode
   :ensure t
   :mode (("\\.ts\\'" . typescript-mode))
   :config
   (setq typescript-indent-level 2))
 
-;; (use-package tide
-;;   :ensure t
-;;   :after (typescript-mode company flycheck evil)
-;;   :hook ((typescript-mode . setup-tide-mode)
-;;           (js2-mode-hook . setup-tide-mode))
-;;   :config
-;;   (evil-define-key 'normal tide-mode-map (kbd "C-t") 'counsel-projectile-find-file)
-;;   (evil-define-key 'normal tide-mode-map (kbd "g d") 'tide-jump-to-definition))
+(use-package yaml-mode
+  :ensure t)
 
-;; (defun setup-tide-mode ()
-;;   "Set up Tide mode."
-;;   (interactive)
-;;   (tide-setup)
-;;   (flycheck-mode +1)
-;;   (setq flycheck-check-syntax-automatically '(save-mode-enabled))
-;;   (eldoc-mode +1)
-;;   (tide-hl-identifier-mode +1)
-;;   (company-mode +1))
+(use-package haml-mode
+  :ensure t)
 
-;; gpg signing
-(use-package keychain-environment
+;;;;;;;;;;;;
+;;; Misc ;;;
+;;;;;;;;;;;;
+;;; flycheck
+(use-package flycheck
   :ensure t
-  :config
-  (keychain-refresh-environment))
+  :commands (global-flycheck-mode)
+  :hook ((markdown-mode text-mode) . flyspell-mode)
+  :init
+  (global-flycheck-mode 1)
+  (setq flycheck-highlighting-mode 'lines
+    flycheck-highlighting-style 'level-face))
 
-;; editor config
+;;; Integrate with osx clipboard
+(use-package osx-clipboard
+  :ensure t
+  :diminish osx-clipboard-mode
+  :config
+  (osx-clipboard-mode +1))
+
+;; Use editorconfig to clean up files
 (use-package editorconfig
   :ensure t
+  :diminish
   :config
   (editorconfig-mode 1))
 
-;; gpg
-(use-package pinentry
-  :ensure t
-  :config
-  (setq epa-pinentry-mode 'loopback)
-  (pinentry-start))
-
-;; dotenv mode
-(use-package dotenv-mode
-  :ensure t)
-
-;; vue mode
-(use-package vue-mode
-  :ensure t)
-
-;; hcl mode (github actions)
-(use-package hcl-mode
-  :ensure t
-  :mode (("\\.workflow\\'" . hcl-mode)))
-
-;;;;;;;;;;;; Other Config ;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;; emacs quality of life
-(defalias 'yes-or-no-p 'y-or-n-p)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)  ;;; Delete trailing whitespace on save
-(define-key global-map (kbd "RET") 'newline-and-indent)
-(global-auto-revert-mode t)                               ;;; auto-refresh files when they change on disk
-(set-default 'truncate-lines t)                           ;;; disable line wrapping
-(setq-default fill-column 80)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(fset 'html-helper-mode 'html-mode)
-(global-hl-line-mode)
-(setq tab-width 2)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(delete-selection-mode t)
-(blink-cursor-mode 0)
-
-;; don't show line numbers everywhere
-(add-hook 'after-change-major-mode-hook
-          '(lambda ()
-             (linum-mode (if (memq major-mode '(eshell-mode
-                                                ansi-term-mode
-                                                term-mode
-                                                magit-mode
-                                                magit-status-mode
-                                                magit-cherry-mode
-                                                magit-log-select-mode
-                                                magit-reflog-mode
-                                                magit-refs-mode
-                                                magit-revision-mode
-                                                magit-stash-mode
-                                                magit-stashes-mode
-                                                magit-diff-mode
-                                                magit-log-mode
-                                                text-mode
-                                                fundemental-mode)) 0 1))))
-
-(global-set-key (kbd "M-SPC") 'set-mark-command)
-
-;;; Display magit fullscreen
-(add-to-list 'display-buffer-alist
-             `(,(rx "magit: ")
-               (lunaryorn-display-buffer-fullframe)
-               (reusable-frames . nil)))
-
-(defun lunaryorn-display-buffer-fullframe (buffer alist)
-  "Display BUFFER in fullscreen.
-ALIST is a `display-buffer' ALIST.
-Return the new window for BUFFER."
-  (let ((window
-         (or (display-buffer-use-some-window buffer alist)
-             (Display-buffer-pop-up-window buffer alist))))
-    (when window
-      (delete-other-windows window))
-    window))
-
-(defun get-string-from-file (filePath)
-  "Return filePath's file content."
-  (with-temp-buffer
-    (insert-file-contents filePath)
-    (buffer-string)))
-
-
-(define-key global-map (kbd "C-c r") 'query-replace)
-
-(defun ah/turn-off-slow-packages ()
-  (interactive)
-  "Turn off all slow packages so macros can run quickly
-To find slow packages:
-1. M-x profiler-start RET RET`
-2. Do something
-3. M-x profilter-report"
-  (progn
-    (linum-mode 0)
-    (ivy-mode 0)
-    (turn-off-pbcopy)))
-
-(defun ah/turn-on-slow-packages ()
-  (interactive)
-  "Turn on slow packages"
-  (progn
-    (linum-mode 1)
-    (ivy-mode 1)
-    (turn-on-pbcopy)))
 
 ;; Move emacs package tracking out of init.el
 (setq custom-file "~/.emacs.d/package-selected-packages.el")
