@@ -14,3 +14,6 @@ emacs/.emacs.d/auto-save-list
 /hammerspoon/.hammerspoon/gmail_creds.lua
 /emacs/.emacs.d/ido.last
 /emacs/.emacs.d/recentf
+/emacs/.emacs.d/package-selected-packages.el
+/emacs/.emacs.d/transient/
+/emacs/.emacs.d/forge-database.sqlite
