@@ -111,3 +111,6 @@ autoload -Uz compinit && compinit -i
 if [ -f ~/.zshenv ]; then
   . ~/.zshenv
 fi
+
+# git helpers
+alias coauth='printf "Co-authored-by: %s" "$(git log --pretty=format:"%an <%ae>" -1000 | sort | uniq | fzf)" | pbcopy'
