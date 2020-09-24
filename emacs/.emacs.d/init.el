@@ -20,13 +20,27 @@
 
   ;; increase the size of recentf
   recentf-max-menu-items 50
-  recentf-max-saved-items 50)
+  recentf-max-saved-items 50
+
+  ;; Don't insert magic utf-8 comments for ruby
+  ruby-insert-encoding-magic-comment nil
+
+  ;; Use native compilation for .elc files
+  ;; https://www.masteringemacs.org/article/speed-up-emacs-libjansson-native-elisp-compilation
+  comp-deferred-compilation t
+
+  ;; Bump how much emacs can read from processes so LSP mode will be happy
+  read-process-output-max (* 1024 1024) ;; 1mb
+  )
 
 ;;; disable line wrapping
 (set-default 'truncate-lines t)
 
 ;;; Turn off menus
 (menu-bar-mode -1)
+
+;;; Better query-replace shortcut
+(define-key global-map (kbd "C-c r") 'query-replace)
 
 ;;; Use emacs 26 line numbers
 (global-display-line-numbers-mode)
@@ -75,7 +89,12 @@
   :hook (
           (ruby-mode . lsp)
           (typescript-mode . lsp))
-  :commands lsp)
+  :commands lsp
+  :config
+  (setq
+    lsp-completion-provider :capf
+    lsp-idle-delay 0.15
+    lsp-modeline-diagnostics-enable t))
 
 ;;      .-"-.            .-"-.            .-"-.
 ;;    _/_-.-_\_        _/.-.-.\_        _/.-.-.\_
@@ -93,6 +112,13 @@
     evil-want-keybinding nil)
   :config
   (evil-mode 1)
+
+  ;; Ensure counsel-projectile C-t isn't overridden
+  (dolist (map '(evil-motion-state-map
+                  evil-insert-state-map
+                  evil-normal-state-map))
+    (define-key (eval map) "\C-t" nil))
+
   (setq
     evil-normal-state-cursor '(box "light blue")
     evil-insert-state-cursor '(bar "medium sea green")
@@ -113,15 +139,19 @@
   (define-key my-leader-map "tp" 'treemacs-switch-workspace)
   (define-key my-leader-map "ff" 'counsel-git)
   (define-key my-leader-map "fs" 'counsel-git-grep)
-  ;; (define-key my-leader-map "fr" 'fzf-recentf)
+  (define-key my-leader-map "fr" 'counsel-recentf)
   (define-key my-leader-map "fe" 'lsp-treemacs-errors-list)
   (define-key my-leader-map "fb" 'bookmark-jump)
   (define-key my-leader-map "cn" 'flycheck-next-error)
   (define-key my-leader-map "cp" 'flycheck-previous-error))
 
-(use-package color-theme-sanityinc-tomorrow
+;; (use-package color-theme-sanityinc-tomorrow
+;;   :ensure t
+;;   :config (load-theme 'sanityinc-tomorrow-eighties t))
+
+(use-package dracula-theme
   :ensure t
-  :config (load-theme 'sanityinc-tomorrow-eighties t))
+  :config (load-theme 'dracula t))
 
 ;;;;;;;;;;;;;;;;
 ;;; File nav ;;;
@@ -129,17 +159,20 @@
 (use-package ivy
   :ensure t
   :diminish
-  :bind (("C-x b" . ivy-switch-buffer))
+  :bind (("C-x b" . ivy-switch-buffer)
+          ("C-c C-r" . ivy-resume))
   :init
   (ivy-mode 1)
   :config
   (setq ivy-use-virtual-buffers t
-    ivy-count-format "(%d/%d) "))
+    ivy-count-format "(%d/%d) "
+    ivy-re-builders-alist '((t . ivy--regex-plus))))
 
 (use-package counsel
   :ensure t
   :bind (("M-x" . counsel-M-x)
           ("M-y" . counsel-yank-pop)
+          ("C-t" . counsel-git)
           ("C-x f" . counsel-find-file))
   :init
   (counsel-mode 1))
@@ -147,6 +180,9 @@
 (use-package swiper
   :ensure t
   :bind (("C-s" . swiper)))
+
+(use-package flx
+  :ensure t)
 
 (use-package treemacs
   :ensure t
@@ -219,6 +255,21 @@
   :ensure t
   :commands lsp-treemacs-errors-list)
 
+(use-package dumb-jump
+  :ensure t
+  ;; :bind (("M-." . dumb-jump-go)
+  ;;        ("M-," . dumb-jump-back)
+  ;;        ("M-/" . dumb-jump-quick-look))
+  :init (dumb-jump-mode)
+  :config
+  (setq
+    dumb-jump-selector 'ivy))
+
+(use-package deadgrep
+  :ensure t
+  :after (evil-collection)
+  :bind (("C-c C-k" . deadgrep)))
+
 ;;;;;;;;;;;;;
 ;;; Magit ;;;
 ;;;;;;;;;;;;;
@@ -257,6 +308,27 @@
 (use-package haml-mode
   :ensure t)
 
+(use-package web-mode
+  :ensure t
+  :mode (("\\.erb\\'" . web-mode)
+          ("\\.html\\'" . web-mode)
+          ("\\.js\\'" . web-mode)
+          ("\\.jsx\\'" . web-mode)))
+
+(use-package sqlformat
+  :ensure t
+  :init
+  (setq sqlformat-command 'pgformatter))
+
+;; dotenv mode
+(use-package dotenv-mode
+  :ensure t)
+
+;;; dockerfile
+(use-package dockerfile-mode
+  :ensure t
+  :mode "Dockerfile\\'")
+
 ;;;;;;;;;;;;
 ;;; Misc ;;;
 ;;;;;;;;;;;;
@@ -284,6 +356,29 @@
   :config
   (editorconfig-mode 1))
 
+;; Roam
+(use-package org-roam
+  :ensure t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/org")
+  :bind (:map org-roam-mode-map
+          (("C-c n l" . org-roam)
+            ("C-c n f" . org-roam-find-file)
+            ("C-c n g" . org-roam-graph-show))
+          :map org-mode-map
+          (("C-c n i" . org-roam-insert))
+          (("C-c n I" . org-roam-insert-immediate))))
+
+(use-package markdown-toc
+  :ensure t)
+
+(use-package smartparens
+  :ensure t
+  :diminish
+  :config
+  (smartparens-global-mode))
 
 ;; Move emacs package tracking out of init.el
 (setq custom-file "~/.emacs.d/package-selected-packages.el")
