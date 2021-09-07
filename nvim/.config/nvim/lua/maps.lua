@@ -1,6 +1,5 @@
 local builtin = require('telescope.builtin')
 local map = vim.api.nvim_set_keymap
-
 -- Make space the leader
 map('n', '<Space>', '', {})
 vim.g.mapleader = ' '
@@ -14,16 +13,16 @@ map('n', '<leader>ev', ':vsplit $MYVIMRC<cr>', options)
 map('n', '<leader>ct', ':checktime<CR>', options)
 
 -- File switching
-map('n', '<leader>fs', "<cmd>Telescope live_grep<CR>", options)
-map('n', '<leader>ff', "<cmd>Telescope find_files<CR>", options)
-map('n', '<leader>fb', "<cmd>Telescope buffers<CR>", options)
-map('n', '<leader>fr', "<cmd>Telescope oldfiles<CR>", options)
+map('n', '<leader>fs', "<cmd>Telescope live_grep<CR>", options)  -- Grep the current project (respects .gitconfig)
+map('n', '<leader>ff', "<cmd>Telescope find_files<CR>", options) -- Jump to files in the current project
+map('n', '<leader>fb', "<cmd>Telescope buffers<CR>", options)    -- Jump to a different open buffer
+map('n', '<leader>fr', "<cmd>Telescope oldfiles<CR>", options)   -- Jump to a recent file (cross project)
 
 -- Vim suggest
 map('n', '<leader>fq', "<cmd>Telescope quickfix<CR>", options)
 map('n', '<leader>fp', "<cmd>Telescope spell_suggest<CR>", options)
 
--- LSP
+-- LSP navigation
 map('n', 'gr', "<cmd>Telescope lsp_references<CR>", options)
 map('n', 'gd', "<cmd>Telescope lsp_definitions<CR>", options) -- Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope
 map('n', 'gi', "<cmd>Telescope lsp_implementations<CR>", options) -- Goto the implementation of the word under the cursor if there's only one, otherwise show all options in Telescope
@@ -39,3 +38,34 @@ map('n', '<leader>gbl', '<cmd>Telescope git_bcommits<CR>', options) -- Lists buf
 map('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', options) -- Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>
 map('n', '<leader>gs', '<cmd>Telescope git_status<CR>', options) -- Lists current changes per file with diff preview and add action. (Multi-selection still WIP)
 map('n', '<leader>gt', '<cmd>Telescope git_stash<CR>', options) -- Lists stash items in current repository with ability to apply them on <cr>
+
+-- cmp completion engine
+local cmp = require'cmp'
+cmp.setup({
+  completion = {
+    completeopt = 'menu,menuone,preview,noinsert'
+  },
+  mapping = {
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' })
+  },
+  sources = {
+    { name = 'nvim_lsp' }
+  },
+})
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+-- Start up lsp servers and include the cmp capabilities to let them know what
+-- the editor supports
+require('lspconfig').tsserver.setup({
+  capabilities = capabilities
+})
+require('lspconfig').solargraph.setup({
+  capabilities = capabilities
+})

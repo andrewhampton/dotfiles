@@ -1,6 +1,5 @@
 local o = vim.o
 
-
 return require('packer').startup(function ()
   use 'airblade/vim-rooter'
   use 'chriskempson/base16-vim'
@@ -18,8 +17,16 @@ return require('packer').startup(function ()
 
   -- lsp
   use 'neovim/nvim-lspconfig'
-  require('lspconfig').tsserver.setup({})
-  require('lspconfig').solargraph.setup({})
+
+  -- lsp completion engine
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/vim-vsnip",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-nvim-lsp"
+    }
+  }
 
   -- telescope
   use {
