@@ -10,13 +10,6 @@ o.splitbelow = true
 o.splitright = true
 o.termguicolors = true
 o.undofile = true
-
 o.clipboard = 'unnamedplus'
 
--- Remove node_modules from vim-rooter
-o.rooter_patterns = {'.git', '_darcs', '.hg', '.bzr', '.svn'}
-
 vim.cmd('colorscheme base16-tomorrow-night-eighties')
-
-require('gitlinker').setup()
-
