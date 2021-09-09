@@ -15,3 +15,5 @@ o.clipboard = 'unnamedplus'
 
 vim.cmd('colorscheme base16-tomorrow-night-eighties')
 
+require('gitlinker').setup()
+

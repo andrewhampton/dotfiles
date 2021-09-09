@@ -10,6 +10,12 @@ return require('packer').startup(function ()
   use 'sgur/vim-editorconfig'
   use 'tpope/vim-endwise'
 
+  -- GitHub links
+  use {
+    'ruifm/gitlinker.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+  }
+
   -- Airline
   use 'vim-airline/vim-airline'
   use 'vim-airline/vim-airline-themes'
