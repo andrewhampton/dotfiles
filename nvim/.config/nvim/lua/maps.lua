@@ -12,6 +12,8 @@ map('n', '<leader>ev', ':vsplit ~/dotfiles/nvim/.config/nvim/init.lua<cr>', opti
 -- Reload file from disk
 map('n', '<leader>ct', ':checktime<CR>', options)
 
+map('i', '<c-space>', '<cmd>lua vim.lsp.omnifunc()<cr>', options)
+
 -- File switching
 map('n', '<leader>fs', "<cmd>Telescope live_grep<CR>", options)  -- Grep the current project (respects .gitconfig)
 map('n', '<leader>ff', "<cmd>lua require('telescope.builtin').find_files({hidden=true, cwd=require('util').gitRoot()})<CR>", options) -- Jump to files in the current project

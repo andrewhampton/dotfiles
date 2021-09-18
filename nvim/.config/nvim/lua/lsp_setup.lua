@@ -27,8 +27,15 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  -- buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
+  -- Auto-format on save
+  vim.cmd('augroup autoFormatOnSave')
+  vim.cmd('  autocmd!')
+  vim.cmd('  autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1000)')
+  vim.cmd('  autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1000)')
+  vim.cmd('  autocmd BufWritePre *.rb lua vim.lsp.buf.formatting_sync(nil, 5000)')
+  vim.cmd('augroup END')
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
