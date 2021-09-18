@@ -7,7 +7,7 @@ vim.g.mapleader = ' '
 options = { noremap = true }
 
 -- Quickly edit config
-map('n', '<leader>ev', ':vsplit $MYVIMRC<cr>', options)
+map('n', '<leader>ev', ':vsplit ~/dotfiles/nvim/.config/nvim/init.lua<cr>', options)
 
 -- Reload file from disk
 map('n', '<leader>ct', ':checktime<CR>', options)
