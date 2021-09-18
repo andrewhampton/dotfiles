@@ -20,14 +20,6 @@ return require('packer').startup(function ()
     end
   }
 
-  use {
-    'airblade/vim-rooter',
-    setup = function ()
-      -- Remove node_modules from vim rooter's pattern
-      vim.g.rooter_patterns = {'.git'}
-    end
-  }
-
   -- Airline
   use {
     'vim-airline/vim-airline-themes',

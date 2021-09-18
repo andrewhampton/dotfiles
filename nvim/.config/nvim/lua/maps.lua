@@ -14,7 +14,7 @@ map('n', '<leader>ct', ':checktime<CR>', options)
 
 -- File switching
 map('n', '<leader>fs', "<cmd>Telescope live_grep<CR>", options)  -- Grep the current project (respects .gitconfig)
-map('n', '<leader>ff', "<cmd>Telescope find_files hidden=true<CR>", options) -- Jump to files in the current project
+map('n', '<leader>ff', "<cmd>lua require('telescope.builtin').find_files({hidden=true, cwd=require('util').gitRoot()})<CR>", options) -- Jump to files in the current project
 map('n', '<leader>fb', "<cmd>Telescope buffers<CR>", options)    -- Jump to a different open buffer
 map('n', '<leader>fr', "<cmd>Telescope oldfiles<CR>", options)   -- Jump to a recent file (cross project)
 
