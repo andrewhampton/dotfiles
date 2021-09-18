@@ -1,5 +1,5 @@
-local builtin = require('telescope.builtin')
 local map = vim.api.nvim_set_keymap
+
 -- Make space the leader
 map('n', '<Space>', '', {})
 vim.g.mapleader = ' '
@@ -31,6 +31,7 @@ map('n', '<leader>lws', "<cmd>Telescope lsp_workspace_symbols<CR>", options) -- 
 map('n', '<leader>lca', "<cmd>Telescope lsp_code_actions<CR>", options) -- Lists any LSP actions for the word under the cursor, that can be triggered with <cr>
 map('n', '<leader>lbd', "<cmd>Telescope lsp_document_diagnostics<CR>", options) -- Lists LSP diagnostics for the current buffer
 map('n', '<leader>lwd', "<cmd>Telescope lsp_workspace_diagnostics<CR>", options) -- Lists LSP diagnostics for the current workspace if supported, otherwise searches in all open buffers
+map('n', '<leader>ltd', "<cmd>Telescope lsp_type_definitions<Cr>", options) -- Goto the definition of the type of the word under the cursor, if there's only one, otherwise show all options in Telescope|
 
 -- git
 map('n', '<leader>gl', '<cmd>Telescope git_commits<CR>', options) -- Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h
@@ -38,34 +39,5 @@ map('n', '<leader>gbl', '<cmd>Telescope git_bcommits<CR>', options) -- Lists buf
 map('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', options) -- Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>
 map('n', '<leader>gs', '<cmd>Telescope git_status<CR>', options) -- Lists current changes per file with diff preview and add action. (Multi-selection still WIP)
 map('n', '<leader>gt', '<cmd>Telescope git_stash<CR>', options) -- Lists stash items in current repository with ability to apply them on <cr>
+map('n', '<leader>gc', '<cmd>Neogit<CR>', options)
 
--- cmp completion engine
-local cmp = require'cmp'
-cmp.setup({
-  completion = {
-    completeopt = 'menu,menuone,preview,noinsert'
-  },
-  mapping = {
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' })
-  },
-  sources = {
-    { name = 'nvim_lsp' }
-  },
-})
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
--- Start up lsp servers and include the cmp capabilities to let them know what
--- the editor supports
-require('lspconfig').tsserver.setup({
-  capabilities = capabilities
-})
-require('lspconfig').solargraph.setup({
-  capabilities = capabilities
-})

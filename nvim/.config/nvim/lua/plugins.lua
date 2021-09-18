@@ -3,13 +3,11 @@ local o = vim.o
 return require('packer').startup(function ()
   use 'chriskempson/base16-vim'
   use 'kyazdani42/nvim-web-devicons'
-  use 'neovim/nvim-lspconfig'
   use 'sgur/vim-editorconfig'
   use 'tpope/vim-commentary'
   use 'tpope/vim-endwise'
   use 'tpope/vim-surround'
   use 'wbthomason/packer.nvim'
-  use 'vim-airline/vim-airline'
 
   -- Make <leader>gy yank a link to the current line in github
   use {
@@ -20,31 +18,48 @@ return require('packer').startup(function ()
     end
   }
 
-  -- Airline
   use {
-    'vim-airline/vim-airline-themes',
-    requires = 'vim-airline/vim-airline',
+    'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true},
     config = function ()
-      o.airline_theme = 'base16_tomorrow_night_eighties'
+      require('evil_lualine')
+    end
+  }
+
+  -- Git
+  use {
+    'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function ()
+      require('neogit').setup({})
+    end
+  }
+
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function ()
+      require('gitsigns').setup()
     end
   }
 
   -- lsp
-
-  -- lsp completion engine
   use {
-    "hrsh7th/nvim-cmp",
-    requires = {
-      "hrsh7th/vim-vsnip",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-nvim-lsp"
-    }
+    'neovim/nvim-lspconfig',
+    config = function ()
+      require('lsp_setup')
+    end
   }
 
   -- telescope
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { 'nvim-lua/plenary.nvim' }
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function ()
+      require('telescope').setup({ })
+    end
   }
 
   -- treesitter
