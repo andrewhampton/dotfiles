@@ -26,7 +26,6 @@ return require('packer').startup(function ()
     end
   }
 
-  -- Git
   use {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
@@ -45,7 +44,6 @@ return require('packer').startup(function ()
     end
   }
 
-  -- lsp
   use {
     'neovim/nvim-lspconfig',
     config = function ()
@@ -53,7 +51,6 @@ return require('packer').startup(function ()
     end
   }
 
-  -- telescope
   use {
     'nvim-telescope/telescope.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
@@ -62,7 +59,6 @@ return require('packer').startup(function ()
     end
   }
 
-  -- treesitter
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
