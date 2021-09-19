@@ -17,13 +17,17 @@ o.clipboard = 'unnamedplus'
 vim.cmd('colorscheme base16-tomorrow-night-eighties')
 
 -- Auto-rebalance windows on resize
-vim.cmd('augroup autoResize')
-vim.cmd('  autocmd!')
-vim.cmd('  autocmd VimResized * wincmd =')
-vim.cmd('augroup END')
+vim.cmd([[
+augroup autoResize
+  autocmd!
+  autocmd VimResized * wincmd =
+augroup END
+]])
 
 -- Special config for text files
-vim.cmd('augroup textBuffers')
-vim.cmd('  autocmd!')
-vim.cmd('  autocmd FileType markdown,text setlocal wrap spell list')
-vim.cmd('augroup end')
+vim.cmd([[
+augroup textBuffers
+  autocmd!
+  autocmd FileType markdown,text setlocal wrap spell list
+augroup end
+]])
