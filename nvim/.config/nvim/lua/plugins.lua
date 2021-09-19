@@ -8,6 +8,7 @@ return require('packer').startup(function ()
   use 'tpope/vim-commentary'
   use 'tpope/vim-endwise'
   use 'tpope/vim-surround'
+  use 'tversteeg/registers.nvim'
   use 'wbthomason/packer.nvim'
 
   -- Make <leader>gy yank a link to the current line in github
