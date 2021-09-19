@@ -53,5 +53,32 @@ return require('packer').startup(function ()
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
+
+  -- I want neogit and gitsigns, but they give me "EMFILE: too many open files"
+  -- errors when lsp things are happening.
+  --
+  -- Seems to be related to these closed issues:
+  -- https://github.com/lewis6991/gitsigns.nvim/issues/168
+  -- https://github.com/TimUntersberger/neogit/issues/160
+  --
+  -- And potentially this open issue:
+  -- https://github.com/nvim-lua/plenary.nvim/issues/222
+  --
+  -- use {
+  --   'TimUntersberger/neogit',
+  --   requires = 'nvim-lua/plenary.nvim',
+  --   config = function ()
+  --     require('neogit').setup({})
+  --   end
+  -- }
+  -- use {
+  --   'lewis6991/gitsigns.nvim',
+  --   requires = {
+  --     'nvim-lua/plenary.nvim'
+  --   },
+  --   config = function ()
+  --     require('gitsigns').setup()
+  --   end
+  -- }
 end)
 
