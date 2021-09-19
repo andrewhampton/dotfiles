@@ -3,6 +3,7 @@ local o = vim.o
 return require('packer').startup(function ()
   use 'chriskempson/base16-vim'
   use 'kyazdani42/nvim-web-devicons'
+  use 'nvim-lua/plenary.nvim'
   use 'sgur/vim-editorconfig'
   use 'tpope/vim-commentary'
   use 'tpope/vim-endwise'
