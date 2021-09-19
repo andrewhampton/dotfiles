@@ -4,6 +4,7 @@ local bo = vim.bo -- Buffer options
 
 o.autochdir = true
 o.hidden = true
+o.ignorecase = true
 o.number = true
 o.smartcase = true
 o.splitbelow = true
