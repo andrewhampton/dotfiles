@@ -1,22 +1,21 @@
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
--- https://gist.github.com/hoob3rt/b200435a765ca18f09f83580a606b878
+-- Modified from https://gist.github.com/hoob3rt/b200435a765ca18f09f83580a606b878
 local lualine = require 'lualine'
+local util = require 'util'
 
--- Color table for highlights
+-- Color table for highlights based on tomorrow night eighties
 local colors = {
-  bg = '#393939',
-  fg = '#bbc2cf',
-  yellow = '#ECBE7B',
-  cyan = '#008080',
-  darkblue = '#081633',
-  green = '#98be65',
-  orange = '#FF8800',
-  violet = '#a9a1e1',
-  magenta = '#c678dd',
-  blue = '#51afef',
-  red = '#ec5f67'
+  background = '#2d2d2d',
+  current_line = '#393939',
+  selection = '#515151',
+  foreground = '#cccccc',
+  comment = '#999999',
+  red = '#f2777a',
+  orange = '#f99157',
+  yellow = '#ffcc66',
+  green = '#99cc99',
+  aqua = '#66cccc',
+  blue = '#6699cc',
+  purple = '#cc99cc',
 }
 
 local conditions = {
@@ -39,8 +38,8 @@ local config = {
       -- We are going to use lualine_c an lualine_x as left and
       -- right section. Both are highlighted by c theme .  So we
       -- are just setting default looks o statusline
-      normal = {c = {fg = colors.fg, bg = colors.bg}},
-      inactive = {c = {fg = colors.fg, bg = colors.bg}}
+      normal = {c = {fg = colors.foreground, bg = colors.current_line}},
+      inactive = {c = {fg = colors.forground, bg = colors.current_line}}
     }
   },
   sections = {
@@ -75,57 +74,15 @@ local function ins_right(component)
 end
 
 ins_left {
-  function() return '▊' end,
-  color = {fg = colors.blue}, -- Sets highlighting of component
-  left_padding = 0 -- We don't need space before this
-}
-
-ins_left {
-  -- mode component
-  function()
-    -- auto change color according to neovims mode
-    local mode_color = {
-      n = colors.red,
-      i = colors.green,
-      v = colors.blue,
-      [''] = colors.blue,
-      V = colors.blue,
-      c = colors.magenta,
-      no = colors.red,
-      s = colors.orange,
-      S = colors.orange,
-      [''] = colors.orange,
-      ic = colors.yellow,
-      R = colors.violet,
-      Rv = colors.violet,
-      cv = colors.red,
-      ce = colors.red,
-      r = colors.cyan,
-      rm = colors.cyan,
-      ['r?'] = colors.cyan,
-      ['!'] = colors.red,
-      t = colors.red
-    }
-    vim.api.nvim_command(
-        'hi! LualineMode guifg=' .. mode_color[vim.fn.mode()] .. " guibg=" ..
-            colors.bg)
-    return ''
-  end,
-  color = "LualineMode",
-  left_padding = 0
-}
-
-ins_left {
-  'filename',
-  condition = conditions.buffer_not_empty,
-  color = {fg = colors.magenta, gui = 'bold'}
+  function () return util.currentFileRelativeToGitRoot() end,
+  color = {fg = colors.blue, gui = 'bold'},
 }
 
 ins_left {
   'branch',
   icon = '',
   condition = conditions.check_git_workspace,
-  color = {fg = colors.violet, gui = 'bold'}
+  color = {fg = colors.aqua, gui = 'bold'}
 }
 
 ins_left {
@@ -145,12 +102,8 @@ ins_left {
   symbols = {error = ' ', warn = ' ', info = ' '},
   color_error = colors.red,
   color_warn = colors.yellow,
-  color_info = colors.cyan
+  color_info = colors.aqua
 }
-
--- Insert mid section. You can make any number of sections in neovim :)
--- for lualine it's any number greater then 2
--- ins_left {function() return '%=' end}
 
 ins_right {
   -- Lsp server name .
@@ -168,7 +121,7 @@ ins_right {
     return msg
   end,
   icon = '',
-  color = {fg = '#ffffff', gui = 'bold'}
+  color = {fg = colors.yellow, gui = 'bold'}
 }
 
 -- Add components to right sections
@@ -176,19 +129,22 @@ ins_right {
   'o:encoding', -- option component same as &encoding in viml
   upper = true, -- I'm not sure why it's upper case either ;)
   condition = conditions.hide_in_width,
-  color = {fg = colors.green, gui = 'bold'}
+  color = {fg = colors.comment, gui = 'bold'}
 }
 
 ins_right {
   'fileformat',
   upper = true,
   icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = {fg = colors.green, gui = 'bold'}
+  color = {fg = colors.comment, gui = 'bold'}
 }
 
-ins_right {'location'}
+ins_right {
+  'location',
+  color = {fg = colors.aqua, gui = 'bold'}
+}
 
-ins_right {'progress', color = {fg = colors.fg, gui = 'bold'}}
+ins_right {'progress', color = {fg = colors.purple, gui = 'bold'}}
 
 
 ins_right {
@@ -209,14 +165,8 @@ ins_right {
     if string.len(file) == 0 then return '' end
     return format_file_size(file)
   end,
-  condition = conditions.buffer_not_empty
-}
-
-
-ins_right {
-  function() return '▊' end,
-  color = {fg = colors.blue},
-  right_padding = 0
+  condition = conditions.buffer_not_empty,
+  color = {fg = colors.comment, gui = 'bold'}
 }
 
 -- Now don't forget to initialize lualine
