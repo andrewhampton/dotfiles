@@ -42,3 +42,12 @@ map('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', options) -- Lists all 
 map('n', '<leader>gs', '<cmd>Telescope git_status<CR>', options) -- Lists current changes per file with diff preview and add action. (Multi-selection still WIP)
 map('n', '<leader>gt', '<cmd>Telescope git_stash<CR>', options) -- Lists stash items in current repository with ability to apply them on <cr>
 
+
+-- neorg
+-- Open today's notes
+function openNorgToday ()
+  filename = os.date("~/neorg/%Y-%m-%d.norg")
+  vim.cmd('edit ' .. filename)
+end
+
+map('n', '<leader>ot', '<cmd>lua openNorgToday()<cr>', options)

@@ -104,6 +104,14 @@ return require('packer').startup(function ()
     after = "nvim-treesitter"
   }
 
+  use {
+    'lewis6991/spellsitter.nvim',
+    after = 'nvim-treesitter',
+    config = function ()
+      require('spellsitter').setup()
+    end
+  }
+
   -- I want neogit and gitsigns, but they give me "EMFILE: too many open files"
   -- errors when lsp things are happening.
   --
