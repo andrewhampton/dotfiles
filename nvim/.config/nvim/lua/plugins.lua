@@ -51,7 +51,57 @@ return require('packer').startup(function ()
 
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
+    run = ':TSUpdate',
+    config = function ()
+      local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
+      parser_configs.norg = {
+        install_info = {
+          url = "https://github.com/nvim-neorg/tree-sitter-norg",
+          files = { "src/parser.c", "src/scanner.cc" },
+          branch = "main"
+        },
+      }
+
+      require'nvim-treesitter.configs'.setup {
+        ensure_installed = "maintained",
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        indent = {
+          enable = true
+        }
+      }
+    end
+  }
+
+  use {
+    "nvim-neorg/neorg",
+      config = function()
+        require('neorg').setup {
+          -- Tell Neorg what modules to load
+          load = {
+            ["core.defaults"] = {}, -- Load all the default modules
+            ["core.keybinds"] = {
+              config = {
+                default_keybinds = true,
+                neorg_leader = "<Leader>o",
+              }
+            },
+            ["core.norg.concealer"] = {}, -- Allows for use of icons
+            ["core.norg.dirman"] = { -- Manage your directories with Neorg
+              config = {
+                workspaces = {
+                  my_workspace = "~/neorg"
+                }
+              }
+            }
+          },
+        }
+      end,
+    requires = "nvim-lua/plenary.nvim",
+    after = "nvim-treesitter"
   }
 
   -- I want neogit and gitsigns, but they give me "EMFILE: too many open files"
