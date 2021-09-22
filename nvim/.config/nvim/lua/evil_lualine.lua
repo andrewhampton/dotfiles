@@ -96,7 +96,7 @@ ins_left {
 }
 
 
-ins_left {
+ins_right {
   'diagnostics',
   sources = {'nvim_lsp'},
   symbols = {error = ' ', warn = ' ', info = ' '},
