@@ -8,10 +8,9 @@ return require('packer').startup(function ()
   use 'tpope/vim-commentary'
   use 'tpope/vim-endwise'
   use 'tpope/vim-surround'
-  use 'tversteeg/registers.nvim'
   use 'wbthomason/packer.nvim'
 
-  -- Make <leader>gy yank a link to the current line in github
+  -- Make <leader>gy yank a link to the current line in GitHub
   use {
     'ruifm/gitlinker.nvim',
     requires = 'nvim-lua/plenary.nvim',
@@ -83,12 +82,6 @@ return require('packer').startup(function ()
           -- Tell Neorg what modules to load
           load = {
             ["core.defaults"] = {}, -- Load all the default modules
-            ["core.keybinds"] = {
-              config = {
-                default_keybinds = true,
-                neorg_leader = "<Leader>o",
-              }
-            },
             ["core.norg.concealer"] = {}, -- Allows for use of icons
             ["core.norg.dirman"] = { -- Manage your directories with Neorg
               config = {
@@ -109,6 +102,17 @@ return require('packer').startup(function ()
     after = 'nvim-treesitter',
     config = function ()
       require('spellsitter').setup()
+    end
+  }
+
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup {
+        plugins = {
+          spelling = { enabled = true }
+        }
+      }
     end
   }
 
