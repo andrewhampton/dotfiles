@@ -13,6 +13,7 @@ o.termguicolors = true
 o.undofile = true
 o.wrap = false
 o.clipboard = 'unnamedplus'
+o.signcolumn = 'yes'
 
 vim.cmd('colorscheme base16-tomorrow-night-eighties')
 
