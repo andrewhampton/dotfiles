@@ -42,4 +42,10 @@ function util.currentFileRelativeToGitRoot()
   return p:new(currentBuffer):make_relative(gitRoot:absolute())
 end
 
+function util.editNorgToday ()
+  filename = os.date("~/neorg/%Y-%m-%d.norg")
+  vim.cmd('edit ' .. filename)
+end
+
+
 return util
