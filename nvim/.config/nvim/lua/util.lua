@@ -18,7 +18,7 @@ function util.gitRootPath ()
     path = path:parent()
     failsafe = failsafe - 1
     if util.hasGit(path) then
-      return path:absolute()
+      return path
     end
   until (path:absolute() == "/" and failsafe > 0) or util.hasGit(path)
 end
@@ -39,7 +39,7 @@ function util.currentFileRelativeToGitRoot()
     return currentBuffer
   end
 
-  return p:new(currentBuffer):make_relative(gitRoot)
+  return p:new(currentBuffer):make_relative(gitRoot:absolute())
 end
 
 return util
