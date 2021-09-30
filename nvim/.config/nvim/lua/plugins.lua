@@ -15,7 +15,9 @@ return require('packer').startup(function ()
     'ruifm/gitlinker.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function ()
-      require('gitlinker').setup()
+      require('gitlinker').setup({
+        mappings = nil
+      })
     end
   }
 

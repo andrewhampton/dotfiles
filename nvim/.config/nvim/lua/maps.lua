@@ -7,14 +7,16 @@ vim.g.mapleader = ' '
 
 options = { noremap = true }
 
-map('i', '<c-space>', '<cmd>lua vim.lsp.omnifunc()<cr>', options)
-
 -- LSP navigation
 map('n', 'gr', "<cmd>Telescope lsp_references<CR>", options)
 map('n', 'gd', "<cmd>Telescope lsp_definitions<CR>", options) -- Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope
 map('n', 'gi', "<cmd>Telescope lsp_implementations<CR>", options) -- Goto the implementation of the word under the cursor if there's only one, otherwise show all options in Telescope
 
--- File switching
+wk.register({
+  ["c-<space>"] = { vim.lsp.omnifunc },
+}, { mode = "i" })
+
+-- Normal mode maps
 wk.register({
   f = {
     name = "find",
@@ -23,7 +25,7 @@ wk.register({
     b = { "<cmd>Telescope buffers<CR>", "buffers" },    -- Jump to a different open buffer
     r = { "<cmd>Telescope oldfiles<CR>", "recent" },   -- Jump to a recent file (cross project)
     q = { "<cmd>Telescope quickfix<CR>", "quickfix" },
-    p = { "<cmd>Telescope spell_suggest<CR>", "spelling" },
+    t = { function () require('nvim-tree').toggle() end, 'tree' },
   },
   g = {
     name = "git",
@@ -33,7 +35,7 @@ wk.register({
     s = { '<cmd>Telescope git_status<CR>', "status" }, -- Lists current changes per file with diff preview and add action. (Multi-selection still WIP)
     t = { '<cmd>Telescope git_stash<CR>', "stash" }, -- Lists stash items in current repository with ability to apply them on <cr>
     b = { '<cmd>GitBlameToggle<CR>', 'blame' },
-    y = { 'github link' },
+    y = { function () copyAndOpenGitHubLink('n') end, 'github link' },
   },
   l = {
     name = "lsp",
@@ -58,3 +60,26 @@ wk.register({
   }
 }, { prefix = "<leader>"})
 
+-- Visual mode maps
+wk.register({
+  g = {
+    y = { function () copyAndOpenGitHubLink('v') end, 'github link' },
+  },
+}, {
+  prefix = "<leader>",
+  mode = "v",
+})
+
+-- C-* maps
+wk.register({
+  ["<c-l>"] = { ':noh<cr>', 'clear highlights' },
+}, {silent = false})
+
+function copyAndOpenGitHubLink (mode)
+  local gl = require("gitlinker")
+  gl.get_buf_range_url(mode, {action_callback = function (url)
+      require("gitlinker.actions").open_in_browser(url)
+      require("gitlinker.actions").copy_to_clipboard(url)
+    end
+  })
+end
