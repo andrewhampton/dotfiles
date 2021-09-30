@@ -118,6 +118,23 @@ return require('packer').startup(function ()
     end
   }
 
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function ()
+      -- Turn off all the git features since they cause hangs
+      vim.api.nvim_set_var('nvim_tree_ignore', { '.git' })
+      vim.api.nvim_set_var('nvim_tree_git_hl', 0)
+      vim.api.nvim_set_var('nvim_tree_gitignore', 0)
+      vim.api.nvim_set_var('nvim_tree_show_icons', {
+        git = 0,
+        folders = 1,
+        files = 1,
+        folder_arrows = 1
+      })
+    end
+  }
+
   -- I want neogit and gitsigns, but they give me "EMFILE: too many open files"
   -- errors when lsp things are happening.
   --
