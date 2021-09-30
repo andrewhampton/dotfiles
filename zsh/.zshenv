@@ -15,7 +15,7 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$HOME/.pollev/bin"
 
 # Pip bins
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Docker for mac
 export DOCKER_HOST="unix:///var/run/docker.sock"
@@ -37,12 +37,13 @@ export PATH="$HOME/.yarn/bin:$PATH"
 if [[ -f /usr/local/share/chruby/chruby.sh ]] then
     source /usr/local/share/chruby/chruby.sh
     source /usr/local/share/chruby/auto.sh
-    chruby ruby-2.6.3
+    chruby ruby-2.6.6
 fi
 
 # fzf
-export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --line-buffered --smart-case'
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --line-buffered --smart-case --color=always'
 export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
 
 # set rg config file
 export RIPGREP_CONFIG_PATH=~/.rgconfig
+

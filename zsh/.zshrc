@@ -47,7 +47,7 @@ ZSH_THEME=""
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow go)
+plugins=(git git-flow golang)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -61,20 +61,20 @@ PURE_GIT_PULL=1
 autoload -U promptinit; promptinit
 
 # aliases
-alias fs="foreman start --env ~/.env| grep web.1"
+alias fs="foreman start| grep web.1"
 alias om="overmind"
 
 alias nsl="npm run start:local"
 
-alias br="bin/compose/rails"
-alias brc="bin/compose/rails console"
-alias ber="bin/compose/rspec"
-alias rs="bin/compose/rspec"
-alias nfrs="bin/compose/rspec --next-failure"
-alias ofrs="bin/compose/rspec --only-failure"
-alias ffrs="bin/compose/rspec --fail-fast"
+alias br="bin/rails"
+alias brc="bin/rails console"
+alias ber="bin/rspec"
+alias rs="bin/rspec"
+alias nfrs="bin/rspec --next-failure"
+alias ofrs="bin/rspec --only-failure"
+alias ffrs="bin/rspec --fail-fast"
 
-alias dc="docker-compose"
+alias dc="docker compose"
 
 alias ag="ag --hidden --path-to-ignore ~/.agignore"
 
@@ -107,6 +107,9 @@ autoload -Uz compinit && compinit -i
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Source gh completions if they exist
+[ -f /usr/local/share/zsh/site-functions/_gh ] && source /usr/local/share/zsh/site-functions/_gh
+
 # Source ~/.zshenv if it exists
 if [ -f ~/.zshenv ]; then
   . ~/.zshenv
@@ -114,3 +117,12 @@ fi
 
 # git helpers
 alias coauth='printf "Co-authored-by: %s" "$(git log --pretty=format:"%an <%ae>" -1000 | sort | uniq | fzf)" | pbcopy'
+alias reviewer='gh api --paginate repos/:owner/:repo/collaborators | jq ".[].login" | tr -d \"| fzf'
+alias branch='git branch --show-current |tr -d \"'
+
+
+#### FIG ENV VARIABLES ####
+[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
+#### END FIG ENV VARIABLES ####
+
+
