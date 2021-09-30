@@ -17,6 +17,8 @@ o.signcolumn = 'yes'
 
 vim.cmd('colorscheme base16-tomorrow-night-eighties')
 
+vim.cmd('hi SpellBad gui=undercurl')
+
 -- Auto-rebalance windows on resize
 vim.cmd([[
 augroup autoResize
