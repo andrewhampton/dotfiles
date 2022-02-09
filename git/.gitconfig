@@ -6,6 +6,7 @@
 [core]
 	excludesfile = /Users/andrew/.gitignore_global
 	ignoreCase = false
+	editor = nvim
 
 [push]
 	default = simple
