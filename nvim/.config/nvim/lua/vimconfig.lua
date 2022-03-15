@@ -15,7 +15,7 @@ o.wrap = false
 o.clipboard = 'unnamedplus'
 o.signcolumn = 'yes'
 
-vim.cmd('colorscheme base16-tomorrow-night-eighties')
+-- vim.cmd('colorscheme base16-tomorrow-night-eighties')
 
 vim.cmd('hi SpellBad gui=undercurl')
 
@@ -33,4 +33,9 @@ augroup textBuffers
   autocmd!
   autocmd FileType markdown,text setlocal wrap spell list
 augroup end
+]])
+
+-- Add the Jump command for git jump
+vim.cmd([[
+command! -bar -nargs=* Jump cexpr system('git jump ' . expand(<q-args>))
 ]])

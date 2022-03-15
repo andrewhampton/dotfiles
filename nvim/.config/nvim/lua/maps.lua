@@ -13,7 +13,7 @@ map('n', 'gd', "<cmd>Telescope lsp_definitions<CR>", options) -- Goto the defini
 map('n', 'gi', "<cmd>Telescope lsp_implementations<CR>", options) -- Goto the implementation of the word under the cursor if there's only one, otherwise show all options in Telescope
 
 wk.register({
-  ["c-<space>"] = { vim.lsp.omnifunc },
+  ["<s-space>"] = { vim.lsp.omnifunc },
 }, { mode = "i" })
 
 -- Normal mode maps
@@ -50,8 +50,8 @@ wk.register({
     }
   },
   o = {
-    name = 'neorg',
-    t = { function () require("util").editNorgToday() end, 'open today' },
+    name = 'notes',
+    t = { function () vim.cmd(os.date(':vsplit ~/notes/%Y-%m-%d.md')) end, 'open today' },
   },
   u = {
     name = 'util',

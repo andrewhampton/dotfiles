@@ -3,19 +3,34 @@ local lualine = require 'lualine'
 local util = require 'util'
 
 -- Color table for highlights based on tomorrow night eighties
+-- local colors = {
+--   background = '#2d2d2d',
+--   current_line = '#393939',
+--   selection = '#515151',
+--   foreground = '#cccccc',
+--   comment = '#999999',
+--   red = '#f2777a',
+--   orange = '#f99157',
+--   yellow = '#ffcc66',
+--   green = '#99cc99',
+--   aqua = '#66cccc',
+--   blue = '#6699cc',
+--   purple = '#cc99cc',
+-- }
+-- Color table for highlights based on Nord
 local colors = {
-  background = '#2d2d2d',
-  current_line = '#393939',
-  selection = '#515151',
-  foreground = '#cccccc',
-  comment = '#999999',
-  red = '#f2777a',
-  orange = '#f99157',
-  yellow = '#ffcc66',
-  green = '#99cc99',
-  aqua = '#66cccc',
-  blue = '#6699cc',
-  purple = '#cc99cc',
+  background = '#2E3440',
+  current_line = '#3b4252',
+  selection = '#d8dee9',
+  foreground = '#d8dee9',
+  comment = '#5e81ac',
+  red = '#BF616A',
+  orange = '#d08770',
+  yellow = '#ebcb8b',
+  green = '#a3be8c',
+  aqua = '#88c0d0',
+  blue = '#5e81ac',
+  purple = '#b48ead',
 }
 
 local conditions = {
@@ -77,6 +92,11 @@ ins_left {
   function () return util.currentFileRelativeToGitRoot() end,
   color = {fg = colors.blue, gui = 'bold'},
 }
+
+table.insert(config.inactive_sections.lualine_c, {
+  function () return util.currentFileRelativeToGitRoot() end,
+  color = {fg = colors.blue, gui = 'bold'},
+})
 
 ins_left {
   'branch',

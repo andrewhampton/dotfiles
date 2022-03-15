@@ -10,7 +10,7 @@ local on_attach = function(client, bufnr)
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
-  local opts = { noremap=true, silent=true }
+  local opts = {noremap = true, silent = true}
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -27,27 +27,44 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  -- buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
   -- Auto-format on save
-  vim.cmd('augroup autoFormatOnSave')
-  vim.cmd('  autocmd!')
-  vim.cmd('  autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1000)')
-  vim.cmd('  autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 1000)')
-  vim.cmd('  autocmd BufWritePre *.rb lua vim.lsp.buf.formatting_sync(nil, 5000)')
-  vim.cmd('augroup END')
+  -- vim.cmd('augroup autoFormatOnSave')
+  -- vim.cmd('  autocmd!')
+  -- vim.cmd('  autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1000)')
+  -- vim.cmd('  autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1000)')
+  -- vim.cmd('  autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 1000)')
+  -- vim.cmd('  autocmd BufWritePre *.rb lua vim.lsp.buf.formatting_sync(nil, 5000)')
+  -- vim.cmd('augroup END')
 end
 
-nvim_lsp.solargraph.setup {
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 1000,
-  }
-}
+-- nvim_lsp.solargraph.setup {
+--   on_attach = on_attach,
+--   flags = {
+--     debounce_text_changes = 1000,
+--   }
+-- }
 
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
   flags = {
-    debounce_text_changes = 150,
+    debounce_text_changes = 150
+  },
+  init_options = {
+    documentFormatting = false
+  }
+}
+
+nvim_lsp.efm.setup {
+  filetypes = {'lua', 'typescript', 'javascript'},
+  on_attach = on_attach,
+  init_options = {documentFormatting = true},
+  settings = {
+    rootMarkers = {".git/"},
+    languages = {
+      lua = {{formatCommand = "lua-format -i", formatStdin = true}},
+      -- javascript = {{formatCommand = "eslint .eslintrc.js --stdin --stdin-filename ${INPUT}", formatStdin = true}}
+    }
   }
 }
