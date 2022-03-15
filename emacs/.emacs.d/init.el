@@ -82,7 +82,8 @@
   :config
   (setq
     company-minimum-prefix-length 1
-    company-idle-delay 0.0))
+    company-idle-delay 0.0)
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package lsp-mode
   :ensure t
@@ -177,93 +178,45 @@
   :init
   (counsel-mode 1))
 
-(use-package swiper
+(use-package selectrum
   :ensure t
-  :bind (("C-s" . swiper)))
-
-(use-package flx
-  :ensure t)
-
-(use-package treemacs
-  :ensure t
-  :defer t
+  :after (prescient)
   :config
-  (progn
-    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-          treemacs-deferred-git-apply-delay      0.5
-          treemacs-directory-name-transformer    #'identity
-          treemacs-display-in-side-window        t
-          treemacs-eldoc-display                 nil
-          treemacs-file-event-delay              5000
-          treemacs-file-extension-regex          treemacs-last-period-regex-value
-          treemacs-file-follow-delay             0.2
-          treemacs-file-name-transformer         #'identity
-          treemacs-follow-after-init             t
-          treemacs-git-command-pipe              ""
-          treemacs-goto-tag-strategy             'refetch-index
-          treemacs-indentation                   2
-          treemacs-indentation-string            " "
-          treemacs-is-never-other-window         nil
-          treemacs-max-git-entries               5000
-          treemacs-missing-project-action        'ask
-          treemacs-move-forward-on-expand        nil
-          treemacs-no-png-images                 nil
-          treemacs-no-delete-other-windows       t
-          treemacs-project-follow-cleanup        t
-          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-          treemacs-position                      'left
-          treemacs-recenter-distance             0.1
-          treemacs-recenter-after-file-follow    nil
-          treemacs-recenter-after-tag-follow     nil
-          treemacs-recenter-after-project-jump   'always
-          treemacs-recenter-after-project-expand 'on-distance
-          treemacs-show-cursor                   nil
-          treemacs-show-hidden-files             t
-          treemacs-silent-filewatch              nil
-          treemacs-silent-refresh                nil
-          treemacs-sorting                       'alphabetic-asc
-          treemacs-space-between-root-nodes      t
-          treemacs-tag-follow-cleanup            t
-          treemacs-tag-follow-delay              1.5
-          treemacs-user-mode-line-format         nil
-          treemacs-user-header-line-format       nil
-          treemacs-width                         35)
+  (selectrum-mode +1))
 
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    ;;(treemacs-resize-icons 44)
-
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode t)
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null treemacs-python-executable)))
-      (`(t . t)
-       (treemacs-git-mode 'deferred))
-      (`(t . _)
-       (treemacs-git-mode 'simple)))))
-
-(use-package treemacs-evil
-  :after treemacs evil
-  :ensure t)
-
-(use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
-
-(use-package lsp-treemacs
+;; Sorting library
+(use-package prescient
   :ensure t
-  :commands lsp-treemacs-errors-list)
+  :config
+  (prescient-persist-mode +1))
+
+(use-package selectrum-prescient
+  :ensure t
+  :config
+  (selectrum-prescient-mode +1))
+
+(use-package company-prescient
+  :ensure t
+  :hook (company-mode . company-prescient-mode))
+
+(use-package ivy-prescient
+  :ensure t
+  :config
+  (ivy-prescient-mode +1))
+
+(use-package ctrlf
+  :ensure t
+  :config
+  (ctrlf-mode +1))
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1))
 
 (use-package dumb-jump
   :ensure t
-  ;; :bind (("M-." . dumb-jump-go)
-  ;;        ("M-," . dumb-jump-back)
-  ;;        ("M-/" . dumb-jump-quick-look))
-  :init (dumb-jump-mode)
-  :config
-  (setq
-    dumb-jump-selector 'ivy))
+  :init (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (use-package deadgrep
   :ensure t
@@ -311,9 +264,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
-          ("\\.html\\'" . web-mode)
-          ("\\.js\\'" . web-mode)
-          ("\\.jsx\\'" . web-mode)))
+          ("\\.html\\'" . web-mode)))
 
 (use-package sqlformat
   :ensure t
@@ -373,12 +324,6 @@
 
 (use-package markdown-toc
   :ensure t)
-
-(use-package smartparens
-  :ensure t
-  :diminish
-  :config
-  (smartparens-global-mode))
 
 ;; Move emacs package tracking out of init.el
 (setq custom-file "~/.emacs.d/package-selected-packages.el")
