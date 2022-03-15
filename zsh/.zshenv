@@ -1,5 +1,5 @@
 # Add custom bin locations
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrew/bin:/home/ah/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrew/bin:/home/ah/bin:/usr/local/sbin"
 
 # Source ~/.env if it exists
 if [ -f ~/.env ]; then
@@ -46,4 +46,3 @@ export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
 
 # set rg config file
 export RIPGREP_CONFIG_PATH=~/.rgconfig
-
