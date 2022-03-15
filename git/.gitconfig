@@ -23,7 +23,7 @@
   lru = for-each-ref --sort=committerdate --count=10 refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 
 [merge]
-	conflictStyle = diff3
+	conflictStyle = zdiff3
 	ff = true
 
 [filter "lfs"]
@@ -42,3 +42,5 @@
 	user = andrewhampton
 [commit]
 	gpgsign = true
+[init]
+	defaultBranch = main
