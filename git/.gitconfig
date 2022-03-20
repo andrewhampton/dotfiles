@@ -1,7 +1,7 @@
 [user]
 	name = Andrew Hampton
 	email = andrewwh@gmail.com
-	signingkey = A4ED54B1C7E10DEF
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMCyg9sbEicefb7L9QaFVWtwSmKCfWOlxQTSYFph4hti
 
 [core]
 	excludesfile = /Users/andrew/.gitignore_global
@@ -42,5 +42,7 @@
 	user = andrewhampton
 [commit]
 	gpgsign = true
+[gpg]
+	format = ssh
 [init]
 	defaultBranch = main
