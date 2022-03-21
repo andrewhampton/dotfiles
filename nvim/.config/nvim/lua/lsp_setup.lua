@@ -56,15 +56,3 @@ nvim_lsp.tsserver.setup {
   }
 }
 
-nvim_lsp.efm.setup {
-  filetypes = {'lua', 'typescript', 'javascript'},
-  on_attach = on_attach,
-  init_options = {documentFormatting = true},
-  settings = {
-    rootMarkers = {".git/"},
-    languages = {
-      lua = {{formatCommand = "lua-format -i", formatStdin = true}},
-      -- javascript = {{formatCommand = "eslint .eslintrc.js --stdin --stdin-filename ${INPUT}", formatStdin = true}}
-    }
-  }
-}
