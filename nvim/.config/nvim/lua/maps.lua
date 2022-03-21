@@ -36,6 +36,16 @@ wk.register({
     t = { '<cmd>Telescope git_stash<CR>', "stash" }, -- Lists stash items in current repository with ability to apply them on <cr>
     b = { '<cmd>GitBlameToggle<CR>', 'blame' },
     y = { function () copyAndOpenGitHubLink('n') end, 'github link' },
+    h = {
+      name = "hunk",
+      j = { '<cmd>Gitsigns next_hunk<CR>', 'next hunk' },
+      k = { '<cmd>Gitsigns prev_hunk<CR>', 'prev hunk' },
+      s = { '<cmd>Gitsigns stage_hunk<CR>', 'stage hunk' },
+      u = { '<cmd>Gitsigns undo_stage_hunk<CR>', 'unstage hunk' },
+      r = { '<cmd>Gitsigns reset_hunk<CR>', 'reset hunk' },
+      b = { '<cmd>Gitsigns blame_line<CR>', 'blame line' },
+      t = { '<cmd>Gitsigns toggle_current_line_blame<CR>', 'toggle current line blame' },
+    }
   },
   l = {
     name = "lsp",
