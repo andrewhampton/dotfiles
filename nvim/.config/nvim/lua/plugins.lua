@@ -20,7 +20,7 @@ return require('packer').startup(function()
   -- Make <leader>gy yank a link to the current line in GitHub
   use {'ruifm/gitlinker.nvim', requires = 'nvim-lua/plenary.nvim', config = function() require('gitlinker').setup({mappings = nil}) end}
 
---   use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}, config = function() require('evil_lualine') end}
+  use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}, config = function() require('evil_lualine') end}
 
   use {'neovim/nvim-lspconfig', config = function() require('lsp_setup') end}
 
@@ -39,6 +39,6 @@ return require('packer').startup(function()
 
   use {"folke/which-key.nvim", config = function() require("which-key").setup() end}
 
-  -- use {'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function() require('gitsigns').setup() end}
+  use {'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function() require('gitsigns').setup() end}
 end)
 
