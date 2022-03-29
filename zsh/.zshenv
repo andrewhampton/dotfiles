@@ -1,6 +1,9 @@
 # Add custom bin locations
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrew/bin:/home/ah/bin:/usr/local/sbin"
 
+# Add kitty to the path
+export PATH="$PATH:/Applications/kitty.app/Contents/MacOS"
+
 # Source ~/.env if it exists
 if [ -f ~/.env ]; then
   . ~/.env
