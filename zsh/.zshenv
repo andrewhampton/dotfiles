@@ -50,5 +50,5 @@ export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
 # set rg config file
 export RIPGREP_CONFIG_PATH=~/.rgconfig
 
-# Use 1password for ssh key management 
+# Use 1password for ssh key management
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
