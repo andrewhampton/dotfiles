@@ -42,3 +42,5 @@ api.nvim_create_autocmd("FileType", {
 vim.cmd([[
 command! -bar -nargs=* Jump cexpr system('git jump ' . expand(<q-args>))
 ]])
+
+o.laststatus = 3
