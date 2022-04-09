@@ -20,18 +20,22 @@ o.signcolumn = 'yes'
 
 vim.cmd('hi SpellBad gui=undercurl')
 
-local resizeGroup = api.nvim_create_augroup("autoResize", { clear = true })
+api.nvim_create_augroup("autoResize", { clear = true })
 api.nvim_create_autocmd("VimResized", {
-  command = "wincmd =",
-  group = resizeGroup
+  group = "autoResize",
+  command = "wincmd ="
 })
 
 -- Special config for text files
-local textBuffersGroup = api.nvim_create_augroup("textBuffers", { clear = true })
+api.nvim_create_augroup("textBuffers", { clear = true })
 api.nvim_create_autocmd("FileType", {
-  command = "setlocal wrap spell list",
-  pattern = "markdown,text",
-  group = textBuffersGroup
+  group = "textBuffers",
+  pattern = { "markdown", "text"},
+  callback = function ()
+    o.wrap = true
+    o.spell = true
+    o.list = true
+  end
 })
 
 -- Add the Jump command for git jump
