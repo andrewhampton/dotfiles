@@ -1,7 +1,7 @@
 [user]
 	name = Andrew Hampton
 	email = andrewwh@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMCyg9sbEicefb7L9QaFVWtwSmKCfWOlxQTSYFph4hti
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDOKHYSAbpIMYNSDZhmFr6QPsKTsG3njSB2hp/otWHob
 
 [core]
 	excludesfile = /Users/andrew/.gitignore_global
