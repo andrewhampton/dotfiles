@@ -56,9 +56,9 @@ source $ZSH/oh-my-zsh.sh
 # Pure prompt
 # https://github.com/sindresorhus/pure
 
-PURE_GIT_DELAY_DIRTY_CHECK=60
-PURE_GIT_PULL=1
-autoload -U promptinit; promptinit
+# PURE_GIT_DELAY_DIRTY_CHECK=60
+# PURE_GIT_PULL=1
+# autoload -U promptinit; promptinit
 
 # aliases
 alias fs="foreman start| grep web.1"
@@ -120,9 +120,15 @@ alias coauth='printf "Co-authored-by: %s" "$(git log --pretty=format:"%an <%ae>"
 alias reviewer='gh api --paginate repos/:owner/:repo/collaborators | jq ".[].login" | tr -d \"| fzf'
 alias branch='git branch --show-current |tr -d \"'
 
-
-#### FIG ENV VARIABLES ####
-[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
-#### END FIG ENV VARIABLES ####
-
-
+# Check if main exists and use instead of master
+function git_main_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  local ref
+  for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk,dev}; do
+    if command git show-ref -q --verify $ref; then
+      echo ${ref:t}
+      return
+    fi
+  done
+  echo master
+}
