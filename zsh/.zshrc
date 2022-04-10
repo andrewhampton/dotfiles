@@ -70,6 +70,7 @@ autoload -Uz compinit && compinit -i
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
 
 # git helpers
+alias ghpr='gh pr view -w'
 alias coauth='printf "Co-authored-by: %s" "$(git log --pretty=format:"%an <%ae>" -1000 | sort | uniq | fzf)" | pbcopy'
 alias reviewer='gh api --paginate repos/:owner/:repo/collaborators | jq ".[].login" | tr -d \"| fzf'
 alias branch='git branch --show-current |tr -d \"'
