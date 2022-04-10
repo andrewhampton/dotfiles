@@ -1,50 +1,32 @@
 local nvim_lsp = require('lspconfig')
+local telescope = require('telescope.builtin')
+local wk = require('which-key')
+local cmp = require('cmp_nvim_lsp')
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+local on_attach = function(client)
+  wk.register({
+    K = { vim.lsp.buf.hover, 'Hover details' },
+    g = {
+      name = 'goto',
+      d = { telescope.lsp_definitions, 'definition' },
+      r = { telescope.lsp_references, 'references' },
+      i = { telescope.lsp_implementations, 'implementations' },
+      T = { telescope.lsp_type_definitions, 'type definition' },
+    },
+    ["<leader>l"] = {
+      name = 'lsp',
+      r = { vim.lsp.buf.rename, 'rename' },
+      c = { vim.lsp.buf.code_action, 'code action' },
+    }
+  }, {
+    buffer = 0 -- only the current buffer so we don't get lsp mappings in non-lsp buffers
+  })
 
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = {noremap = true, silent = true}
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<F3>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-  -- Auto-format on save
-  -- vim.cmd('augroup autoFormatOnSave')
-  -- vim.cmd('  autocmd!')
-  -- vim.cmd('  autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1000)')
-  -- vim.cmd('  autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 1000)')
-  -- vim.cmd('  autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 1000)')
-  -- vim.cmd('  autocmd BufWritePre *.rb lua vim.lsp.buf.formatting_sync(nil, 5000)')
-  -- vim.cmd('augroup END')
+  vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 end
 
--- nvim_lsp.solargraph.setup {
---   on_attach = on_attach,
---   flags = {
---     debounce_text_changes = 1000,
---   }
--- }
+local capabilities = cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
@@ -53,6 +35,7 @@ nvim_lsp.tsserver.setup {
   },
   init_options = {
     documentFormatting = false
-  }
+  },
+  capabilities = capabilities
 }
 

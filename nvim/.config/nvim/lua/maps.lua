@@ -7,17 +7,14 @@ vim.g.mapleader = ' '
 
 options = { noremap = true }
 
--- LSP navigation
-map('n', 'gr', "<cmd>Telescope lsp_references<CR>", options)
-map('n', 'gd', "<cmd>Telescope lsp_definitions<CR>", options) -- Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope
-map('n', 'gi', "<cmd>Telescope lsp_implementations<CR>", options) -- Goto the implementation of the word under the cursor if there's only one, otherwise show all options in Telescope
-
-wk.register({
-  ["<s-space>"] = { vim.lsp.omnifunc },
-}, { mode = "i" })
-
 -- Normal mode maps
 wk.register({
+  d = {
+    name = "diagnostics",
+    n = { vim.diagnostic.goto_next, 'next diagnostic' },
+    p = { vim.diagnostic.goto_prev, 'previous diagnostic' },
+    a = { "<cmd>Telescope diagnostics<CR>", "all diagnostics" },
+  },
   f = {
     name = "find",
     s = { function () require('telescope.builtin').live_grep({hidden=true, cwd=require('util').gitRoot()}) end, "rg" },  -- Grep the current project (respects .gitconfig)
@@ -45,18 +42,6 @@ wk.register({
       r = { '<cmd>Gitsigns reset_hunk<CR>', 'reset hunk' },
       b = { '<cmd>Gitsigns blame_line<CR>', 'blame line' },
       t = { '<cmd>Gitsigns toggle_current_line_blame<CR>', 'toggle current line blame' },
-    }
-  },
-  l = {
-    name = "lsp",
-    s = { "<cmd>Telescope lsp_document_symbols<CR>", "symbols" }, -- Lists LSP document symbols in the current buffer
-    a = { "<cmd>Telescope lsp_code_actions<CR>", "actions" }, -- Lists any LSP actions for the word under the cursor, that can be triggered with <cr>
-    d = { "<cmd>Telescope lsp_document_diagnostics<CR>", "diagnostics" }, -- Lists LSP diagnostics for the current buffer
-    t = { "<cmd>Telescope lsp_type_definitions<Cr>", "types" }, -- Goto the definition of the type of the word under the cursor, if there's only one, otherwise show all options in Telescope|
-    w = {
-      name = "workspace",
-      s = { "<cmd>Telescope lsp_workspace_symbols<CR>", "symbols" }, -- Lists LSP document symbols in the current workspace
-      d = { "<cmd>Telescope lsp_workspace_diagnostics<CR>", "diagnostics" }, -- Lists LSP diagnostics for the current workspace if supported, otherwise searches in all open buffers
     }
   },
   o = {

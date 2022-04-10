@@ -10,6 +10,14 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
   use 'github/copilot.vim'
 
+  -- Nvim cmp
+  use 'L3MON4D3/LuaSnip'
+  use {'hrsh7th/nvim-cmp', config = function () require('nvim-cmp') end}
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'saadparwaiz1/cmp_luasnip'
+
   use {
     'arcticicestudio/nord-vim',
     config = function ()
