@@ -1,6 +1,8 @@
 # Add custom bin locations
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrew/bin:/home/ah/bin:/usr/local/sbin"
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Add kitty to the path
 export PATH="$PATH:/Applications/kitty.app/Contents/MacOS"
 
@@ -46,6 +48,9 @@ fi
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --line-buffered --smart-case --color=always'
 export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
+
+# Prefer brew's openssl
+export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 
 # set rg config file
 export RIPGREP_CONFIG_PATH=~/.rgconfig
