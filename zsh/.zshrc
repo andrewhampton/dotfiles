@@ -64,8 +64,6 @@ source $ZSH/oh-my-zsh.sh
 alias fs="foreman start| grep web.1"
 alias om="overmind"
 
-alias nsl="npm run start:local"
-
 alias br="bin/rails"
 alias brc="bin/rails console"
 alias ber="bin/rspec"
