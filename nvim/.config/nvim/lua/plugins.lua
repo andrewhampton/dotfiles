@@ -4,7 +4,7 @@ return require('packer').startup(function()
   use 'chriskempson/base16-vim'
   use 'kyazdani42/nvim-web-devicons'
   use 'nvim-lua/plenary.nvim'
-  use 'sgur/vim-editorconfig'
+  use 'gpanders/editorconfig.nvim'
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
   use 'wbthomason/packer.nvim'
