@@ -38,6 +38,16 @@ api.nvim_create_autocmd("FileType", {
   end
 })
 
+api.nvim_create_augroup("prettier", { clear = true })
+api.nvim_create_autocmd("BufWritePre", {
+  group = "prettier",
+  pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.sass", "*.scss" },
+  callback = function ()
+    vim.g.neoformat_try_node_exe = 1
+    vim.cmd('Neoformat')
+  end
+})
+
 -- Add the Jump command for git jump
 vim.cmd([[
 command! -bar -nargs=* Jump cexpr system('git jump ' . expand(<q-args>))

@@ -43,6 +43,13 @@ return require('packer').startup(function()
     end
   }
 
+  use {
+    'sbdchd/neoformat',
+    config = function ()
+      vim.g.neoformat_try_node_exe = 1
+    end
+  }
+
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 
   use {"folke/which-key.nvim", config = function() require("which-key").setup() end}
