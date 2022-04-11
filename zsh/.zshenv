@@ -45,6 +45,9 @@ if [[ -f /usr/local/share/chruby/chruby.sh ]] then
     chruby ruby-2.7.4
 fi
 
+# rbenv
+export PATH="/Users/ah/.rbenv/shims:$PATH"
+
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --line-buffered --smart-case --color=always'
 export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
