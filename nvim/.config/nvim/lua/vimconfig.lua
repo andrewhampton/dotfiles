@@ -43,7 +43,6 @@ api.nvim_create_autocmd("BufWritePre", {
   group = "prettier",
   pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.sass", "*.scss" },
   callback = function ()
-    vim.g.neoformat_try_node_exe = 1
     vim.cmd('Neoformat')
   end
 })
