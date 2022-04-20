@@ -39,3 +39,13 @@ nvim_lsp.tsserver.setup {
   capabilities = capabilities
 }
 
+nvim_lsp.solargraph.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150
+  },
+  init_options = {
+    formatting = false
+  },
+  capabilities = capabilities
+}
