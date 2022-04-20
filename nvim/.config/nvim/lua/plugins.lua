@@ -59,7 +59,37 @@ return require('packer').startup(function()
     end
   }
 
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function ()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = {
+          "bash",
+          "cmake",
+          "css",
+          "dockerfile",
+          "graphql",
+          "html",
+          "http",
+          "javascript",
+          "jsdoc",
+          "json",
+          "latex",
+          "lua",
+          "make",
+          "regex",
+          "ruby",
+          "scss",
+          "toml",
+          "tsx",
+          "typescript",
+          "vim",
+          "yaml",
+        }
+      }
+    end
+  }
 
   use {"folke/which-key.nvim", config = function() require("which-key").setup() end}
 
