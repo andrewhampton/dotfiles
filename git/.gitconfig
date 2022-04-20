@@ -34,7 +34,7 @@
 
 [diff]
 	algorithm = patience
-        colorMoved = plain
+  colorMoved = plain
 
 [pull]
 	rebase = true
