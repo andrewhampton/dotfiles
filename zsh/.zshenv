@@ -57,3 +57,6 @@ export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 
 # set rg config file
 export RIPGREP_CONFIG_PATH=~/.rgconfig
+
+export EDITOR=nvim
+
