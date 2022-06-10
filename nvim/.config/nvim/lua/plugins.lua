@@ -61,6 +61,12 @@ return require('packer').startup(function()
     run = ':TSUpdate',
     config = function ()
       require('nvim-treesitter.configs').setup {
+        highlight = {
+          enable = true
+        },
+        indent = {
+          enabled = true
+        },
         ensure_installed = {
           "bash",
           "cmake",
