@@ -8,15 +8,12 @@ return require('packer').startup(function()
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
   use 'wbthomason/packer.nvim'
-  use 'github/copilot.vim'
-
-  -- Nvim cmp
-  use 'L3MON4D3/LuaSnip'
-  use {'hrsh7th/nvim-cmp', config = function () require('nvim-cmp') end}
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-nvim-lua'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'saadparwaiz1/cmp_luasnip'
+  use {
+    'github/copilot.vim',
+    config = function ()
+      vim.g.copilot_node_command = "$NVM_DIR/versions/node/v16.15.0/bin/node"
+    end
+  }
 
   use {
     'arcticicestudio/nord-vim',

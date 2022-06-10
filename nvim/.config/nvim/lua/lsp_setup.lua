@@ -1,7 +1,6 @@
 local nvim_lsp = require('lspconfig')
 local telescope = require('telescope.builtin')
 local wk = require('which-key')
-local cmp = require('cmp_nvim_lsp')
 
 local on_attach = function(client)
   wk.register({
@@ -26,8 +25,6 @@ local on_attach = function(client)
   vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 end
 
-local capabilities = cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
   flags = {
@@ -35,8 +32,7 @@ nvim_lsp.tsserver.setup {
   },
   init_options = {
     documentFormatting = false
-  },
-  capabilities = capabilities
+  }
 }
 
 nvim_lsp.solargraph.setup {
@@ -46,6 +42,5 @@ nvim_lsp.solargraph.setup {
   },
   init_options = {
     formatting = false
-  },
-  capabilities = capabilities
+  }
 }
