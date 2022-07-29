@@ -7,7 +7,13 @@ vim.g.mapleader = ' '
 
 options = { noremap = true }
 
--- Normal mode maps
+-- Normal mode maps without leader
+wk.register({
+  u = { "<cmd>:earlier<CR>", 'Make undo use undo trees' },
+  ["<c-r>"] = { "<cmd>:later<CR>", 'Make redo use undo trees' }
+})
+
+-- Normal mode maps with leader
 wk.register({
   d = {
     name = "diagnostics",

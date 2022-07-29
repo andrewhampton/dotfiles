@@ -8,6 +8,7 @@ return require('packer').startup(function()
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
   use 'wbthomason/packer.nvim'
+
   use {
     'github/copilot.vim',
     config = function ()
