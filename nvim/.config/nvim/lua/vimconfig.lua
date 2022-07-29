@@ -30,11 +30,24 @@ api.nvim_create_autocmd("VimResized", {
 api.nvim_create_augroup("textBuffers", { clear = true })
 api.nvim_create_autocmd("FileType", {
   group = "textBuffers",
-  pattern = { "gitcommit" },
+  pattern = { "gitcommit", "*" },
   callback = function ()
-    wo.wrap = true
-    wo.spell = true
-    wo.list = true
+    local textFiles = { 'gitcommit', 'markdown' }
+
+    local data = {
+      buf = vim.fn.expand("<abuf>"),
+      file = vim.fn.expand("<afile>"),
+      match = vim.fn.expand("<amatch>"),
+    }
+
+    if vim.tbl_contains(textFiles, data.match) then
+      wo.spell = true
+      wo.list = true
+    else
+      wo.wrap = false
+      wo.spell = false
+      wo.list = false
+    end
   end
 })
 
