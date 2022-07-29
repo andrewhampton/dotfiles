@@ -98,5 +98,14 @@ return require('packer').startup(function()
   use {"folke/which-key.nvim", config = function() require("which-key").setup() end}
 
   use {'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function() require('gitsigns').setup() end}
+
+  use {
+    'karb94/neoscroll.nvim',
+    config = function()
+      require('neoscroll').setup({
+        easing_function = 'quadratic'
+      })
+    end
+  }
 end)
 
