@@ -74,6 +74,10 @@ alias ghpr='gh pr view -w'
 alias coauth='printf "Co-authored-by: %s" "$(git log --pretty=format:"%an <%ae>" -1000 | sort | uniq | fzf)" | pbcopy'
 alias reviewer='gh api --paginate repos/:owner/:repo/collaborators | jq ".[].login" | tr -d \"| fzf'
 alias branch='git branch --show-current |tr -d \"'
+alias gmru="git for-each-ref --sort=-committerdate --count=50 refs/heads/ --format='%(HEAD) %(refname:short) | %(committerdate:relative) | %(contents:subject)'| fzf | sed -e 's/^[^[[:alnum:]]]*[[:space:]]*//' | cut -d' ' -f1| xargs -I _ git checkout _"
+alias gfx='git commit --fixup $(git log $(git merge-base dev HEAD)..HEAD --oneline| fzf| cut -d" " -f1)'
+alias grbi="git rebase -i --autosquash"
+alias grbm="git rebase --autosquash git_main_branch"
 
 # Check if main exists and use instead of master
 function git_main_branch() {
