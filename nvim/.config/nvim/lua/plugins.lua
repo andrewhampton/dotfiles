@@ -8,6 +8,7 @@ return require('packer').startup(function()
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
   use 'wbthomason/packer.nvim'
+  use 'nvim-telescope/telescope-fzy-native.nvim'
 
   use {
     'github/copilot.vim',
@@ -30,8 +31,6 @@ return require('packer').startup(function()
 
   use {'neovim/nvim-lspconfig', config = function() require('lsp_setup') end}
 
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
-
   use {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
@@ -43,10 +42,39 @@ return require('packer').startup(function()
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = {'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim'},
+    requires = {'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim'},
     config = function()
-      require('telescope').setup({})
-      require('telescope').load_extension('fzf')
+      local telescope = require('telescope')
+      telescope.setup({
+        defaults = {
+          path_display = { shorten = { len = 3, exclude = { 4, -2, -1 } } },
+          layout_strategy = 'vertical',
+          layout_config = {
+            vertical = {
+              width = function(_, max_cols, _)
+                local border = math.floor(max_cols / 100 * 10)
+                return max_cols - border
+              end,
+              height = function(_, _, max_rows)
+                local border = math.floor(max_rows / 100 * 10)
+                return max_rows - border
+              end,
+              preview_height = function(_, _, max_rows)
+                local border = math.floor(max_rows / 100 * 10)
+                return max_rows - 10 - border
+              end,
+            },
+          },
+        },
+        extensions = {
+          fzy_native = {
+            override_generic_sorter = true,
+            override_file_sorter = true,
+          },
+        },
+      })
+      -- telescope.load_extension('fzf')
+      telescope.load_extension('fzy_native')
     end
   }
 
