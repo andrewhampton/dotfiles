@@ -15,6 +15,7 @@ o.undofile = true
 o.wrap = false
 o.clipboard = 'unnamedplus'
 o.signcolumn = 'yes'
+o.mouse = false
 
 -- vim.cmd('colorscheme base16-tomorrow-night-eighties')
 
