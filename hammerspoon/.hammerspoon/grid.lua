@@ -1,14 +1,15 @@
 local grid = {}
 local window = hs.window
 
-function grid.snap(win, x, y, w, h)
+function grid.snap(win, x, y, w, h, dur)
   local newframe = {
     x = x,
     y = y,
     w = w,
     h = h,
   }
-  win:setFrame(newframe, 0)
+  dur = dur or 0
+  win:setFrame(newframe, dur)
 end
 
 -- |XX|
@@ -97,7 +98,8 @@ function grid.pushwindow_nextscreen()
     new_screen.x + (new_screen.w * x_perc),
     new_screen.y + (new_screen.h * y_perc),
     new_screen.w * w_perc,
-    new_screen.h * h_perc
+    new_screen.h * h_perc,
+    0.08 -- Set a slight delay to ensure the window is on the new screen before the resize happens
   )
 end
 
