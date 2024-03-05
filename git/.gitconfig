@@ -1,16 +1,16 @@
 [user]
-	name = Andrew Hampton
-	email = andrewwh@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDOKHYSAbpIMYNSDZhmFr6QPsKTsG3njSB2hp/otWHob
+  name = Andrew Hampton
+  email = andrewwh@gmail.com
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDOKHYSAbpIMYNSDZhmFr6QPsKTsG3njSB2hp/otWHob
 
 [core]
-	excludesfile = /Users/andrew/.gitignore_global
-	ignoreCase = false
-	editor = nvim
+  excludesfile = /Users/andrew/.gitignore_global
+  ignoreCase = false
+  editor = nvim
 
 [push]
-	default = current
-	autoSetupRemote = true
+  default = current
+  autoSetupRemote = true
 
 [alias]
   lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
@@ -24,29 +24,34 @@
   mru = for-each-ref --sort=-committerdate --count=10 refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 
 [merge]
-	conflictStyle = zdiff3
-	ff = true
+  conflictStyle = zdiff3
+  ff = true
 
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
 
 [diff]
-	algorithm = patience
+  algorithm = patience
   colorMoved = plain
-	; external = difft
 
 [pull]
-	rebase = true
+  rebase = true
+
 [github]
-	user = andrewhampton
+  user = andrewhampton
+
 [commit]
-	gpgsign = true
+  gpgsign = true
+
 [gpg]
-	format = ssh
+  format = ssh
+  program = gpg1
+
 [init]
-	defaultBranch = main
+  defaultBranch = main
+
 [rebase]
-	updateRefs = true
+  updateRefs = true
