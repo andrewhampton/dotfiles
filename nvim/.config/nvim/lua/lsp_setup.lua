@@ -11,7 +11,7 @@ local on_attach = function(client)
       name = 'goto',
       d = { telescope.lsp_definitions, 'definition' },
       r = { telescope.lsp_references, 'references' },
-      i = { telescope.lsp_implementations, 'implementations' },
+      I = { telescope.lsp_implementations, 'implementations' },
       T = { telescope.lsp_type_definitions, 'type definition' },
     },
     ["<leader>l"] = {
@@ -25,7 +25,6 @@ local on_attach = function(client)
 
   vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
-
 end
 
 lspconfig.tsserver.setup {
@@ -75,6 +74,11 @@ if not configs.ruby_lsp then
           "signatureHelp",
           "rename",
           "publishDiagnostics",
+          "documentSymbols",
+          "documentHighlights",
+          "foldingRanges",
+          "selectionRanges",
+          "codeActions",
         },
         formatter = 'auto',
 			},
@@ -95,7 +99,6 @@ if not configs.ruby_lsp then
 end
 
 lspconfig.ruby_lsp.setup({ on_attach = on_attach })
-
 
 vim.g.markdown_fenced_languages = {
   "ts=typescript"

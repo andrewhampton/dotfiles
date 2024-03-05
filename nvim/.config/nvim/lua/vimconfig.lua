@@ -46,7 +46,7 @@ api.nvim_create_autocmd("FileType", {
 
     if vim.tbl_contains(textFiles, data.match) then
       wo.spell = true
-      wo.list = true
+      -- wo.list = true
     else
       wo.wrap = false
       wo.spell = false
