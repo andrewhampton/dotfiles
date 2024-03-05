@@ -1,5 +1,5 @@
 # Add custom bin locations
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrew/bin:/home/ah/bin:/usr/local/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ah/bin:/home/ah/bin:/usr/local/sbin"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -16,9 +16,6 @@ export PATH="$PATH:/usr/local/go/bin"
 export GOPATH=$(go env GOPATH)
 export PATH="$PATH:$GOPATH/bin"
 
-# Pollev
-export PATH="$PATH:$HOME/.pollev/bin"
-
 # Pip bins
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -26,19 +23,14 @@ export PATH="$HOME/.local/bin:$PATH"
 export DOCKER_HOST="unix:///var/run/docker.sock"
 export DOCKER_BUILDKIT=1
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-
 # gpg config
 export GPG_TTY=$(tty)
 
 # nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# yarn bins
-export PATH="$HOME/.yarn/bin:$PATH"
-
-# Ruby
+# chruby
 if [[ -f /usr/local/share/chruby/chruby.sh ]] then
     source /usr/local/share/chruby/chruby.sh
     source /usr/local/share/chruby/auto.sh
@@ -48,15 +40,29 @@ fi
 # rbenv
 export PATH="/Users/ah/.rbenv/shims:$PATH"
 
+# cargo
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files --follow --hidden --line-buffered --smart-case --color=always'
-export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
+#export FZF_DEFAULT_OPTS='--reverse --prompt="❯ "'
 
 # Prefer brew's openssl
 export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+
+# Rust bins
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # set rg config file
 export RIPGREP_CONFIG_PATH=~/.rgconfig
 
 export EDITOR=nvim
 
+eval "$(pyenv init -)"
+. "$HOME/.cargo/env"
+
+eval "$(github-copilot-cli alias -- "$0")"
+
+unset PREFIX
+
+export CDPATH=$HOME:$HOME/code
