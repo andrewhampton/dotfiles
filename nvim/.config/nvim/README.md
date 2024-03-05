@@ -22,11 +22,6 @@ At this point, you'll have these config files symlinked in `~./config/nvim`. In
 the example code I'm using brew to install stow, but it's a gnu until and may
 be already available on your linux distro.
 
-Next, we'll have to bootstrap the package manager, Packer. This will take a few
-cranks, so just repeat this step a few times until everything is installed:
-
-```shell
-nvim
-:PackerSync
-:qa
-```
+Next, you're ready to start up nvim and let lazy.nvim install the plugins. It
+will bootstrap automatically. I recommend restarting nvim after this initial
+bootstrap.

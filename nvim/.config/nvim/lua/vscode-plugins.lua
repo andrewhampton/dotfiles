@@ -1,5 +1,5 @@
-return require('packer').startup(function ()
-  use 'tpope/vim-commentary'
-  use 'tpope/vim-surround'
-end)
+require("lazy").setup({
+  'tpope/vim-commentary',
+  'tpope/vim-surround'
+})
 

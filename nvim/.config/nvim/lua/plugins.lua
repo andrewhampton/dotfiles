@@ -1,48 +1,98 @@
 local o = vim.o
 
-return require('packer').startup(function()
-  use 'chriskempson/base16-vim'
-  use 'kyazdani42/nvim-web-devicons'
-  use 'nvim-lua/plenary.nvim'
-  use 'gpanders/editorconfig.nvim'
-  use 'tpope/vim-commentary'
-  use 'tpope/vim-surround'
-  use 'wbthomason/packer.nvim'
-  use 'nvim-telescope/telescope-fzy-native.nvim'
+require("lazy").setup({
+  'chriskempson/base16-vim',
+  'kyazdani42/nvim-web-devicons',
+  'nvim-lua/plenary.nvim',
+  -- 'gpanders/editorconfig.nvim',
+  -- 'tpope/vim-commentary',
+  'tpope/vim-surround',
+  'nvim-telescope/telescope-fzy-native.nvim',
+  'nvim-telescope/telescope-fzf-native.nvim',
+  'nvim-telescope/telescope-ui-select.nvim',
+  -- 'williamboman/mason.nvim,
+  --
 
-  use {
+  {
     'github/copilot.vim',
     config = function ()
-      vim.g.copilot_node_command = "$NVM_DIR/versions/node/v16.15.0/bin/node"
+      vim.g.copilot_node_command = "/opt/homebrew/bin/node"
     end
-  }
+  },
 
-  use {
+  {
     'arcticicestudio/nord-vim',
     config = function ()
       vim.cmd('colorscheme nord')
     end
-  }
+  },
+
+  {
+    'j-hui/fidget.nvim',
+    config = function () require('fidget').setup() end,
+    branch = 'legacy' -- Stay on the legacy branch until the new version is rewritten
+  },
 
   -- Make <leader>gy yank a link to the current line in GitHub
-  use {'ruifm/gitlinker.nvim', requires = 'nvim-lua/plenary.nvim', config = function() require('gitlinker').setup({mappings = nil}) end}
+  {'ruifm/gitlinker.nvim', dependencies = 'nvim-lua/plenary.nvim', config = function() require('gitlinker').setup({mappings = nil}) end},
 
-  use {'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}, config = function() require('evil_lualine') end}
+  {'hoob3rt/lualine.nvim', dependencies = {'kyazdani42/nvim-web-devicons', lazy = true}, config = function() require('evil_lualine') end},
 
-  use {'neovim/nvim-lspconfig', config = function() require('lsp_setup') end}
+  {'neovim/nvim-lspconfig', dependencies = 'j-hui/fidget.nvim', config = function() require('lsp_setup') end},
 
-  use {
+  -- {
+  --   "jackMort/ChatGPT.nvim",
+  --     event = "VeryLazy",
+  --     config = function()
+  --       require("chatgpt").setup({
+  --         edit_with_instructions = {
+  --           diff = true,
+  --         },
+  --         openai_params = {
+  --           model = "gpt-4-turbo-preview",
+  --           temperature = 0.2,
+  --           top_p = 0.1,
+  --           max_tokens = 1000,
+  --         },
+  --         openai_edit_params = {
+  --           model = "gpt-4-turbo-preview",
+  --           temperature = 0.2,
+  --           top_p = 0.1,
+  --         },
+  --       })
+  --     end,
+  --     dependencies = {
+  --       "MunifTanjim/nui.nvim",
+  --       "nvim-lua/plenary.nvim",
+  --       "nvim-telescope/telescope.nvim"
+  --     }
+  -- },
+
+  {
     'TimUntersberger/neogit',
-    requires = 'nvim-lua/plenary.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
     config = function ()
       local neogit = require('neogit')
       neogit.setup {}
     end
-  }
+  },
 
-  use {
+  {
     'nvim-telescope/telescope.nvim',
-    requires = {'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim'},
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+      { 'nvim-telescope/telescope-ui-select.nvim' },
+      'nvim-telescope/telescope-fzf-native.nvim',
+      'nvim-telescope/telescope-fzy-native.nvim',
+      'neovim/nvim-lspconfig'
+    },
     config = function()
       local telescope = require('telescope')
       telescope.setup({
@@ -74,20 +124,48 @@ return require('packer').startup(function()
         },
       })
       -- telescope.load_extension('fzf')
-      telescope.load_extension('fzy_native')
+      -- telescope.load_extension('fzy_native')
+      pcall(require('telescope').load_extension, 'fzf')
+      pcall(require('telescope').load_extension, 'ui-select')
     end
-  }
+  },
 
-  use {
+  {
     'sbdchd/neoformat',
     config = function ()
       vim.g.neoformat_try_node_exe = 1
     end
-  }
+  },
 
-  use {
+  {
+    'nvim-treesitter/playground',
+    config = function ()
+      require "nvim-treesitter.configs".setup {
+        playground = {
+          enable = true,
+          disable = {},
+          updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+          persist_queries = false, -- Whether the query persists across vim sessions
+          keybindings = {
+            toggle_query_editor = 'o',
+            toggle_hl_groups = 'i',
+            toggle_injected_languages = 't',
+            toggle_anonymous_nodes = 'a',
+            toggle_language_display = 'I',
+            focus_language = 'f',
+            unfocus_language = 'F',
+            update = 'R',
+            goto_node = '<cr>',
+            show_help = '?',
+          },
+        }
+      }
+    end
+  },
+
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
+    build = ':TSUpdate',
     config = function ()
       require('nvim-treesitter.configs').setup {
         highlight = {
@@ -121,19 +199,26 @@ return require('packer').startup(function()
         }
       }
     end
-  }
+  },
 
-  use {"folke/which-key.nvim", config = function() require("which-key").setup() end}
+  {"folke/which-key.nvim", config = function() require("which-key").setup() end},
 
-  use {'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function() require('gitsigns').setup() end}
+  {'lewis6991/gitsigns.nvim', dependencies = {'nvim-lua/plenary.nvim'}, config = function() require('gitsigns').setup() end},
 
-  use {
+  {
     'karb94/neoscroll.nvim',
     config = function()
       require('neoscroll').setup({
         easing_function = 'quadratic'
       })
     end
-  }
-end)
+  },
+
+  {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
+  },
+})
 
