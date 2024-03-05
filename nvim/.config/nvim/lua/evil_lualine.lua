@@ -166,6 +166,36 @@ ins_right {
 
 ins_right {'progress', color = {fg = colors.purple, gui = 'bold'}}
 
+-- local api = vim.api
+-- local ts_utils = require("nvim-treesitter.ts_utils")
+--
+-- -- Add treesitter info at cursor location to statusline
+-- ins_right {
+--   function ()
+--     local cursor = api.nvim_win_get_cursor(0)
+--     local cursor_node = ts_utils.get_node_at_cursor()
+--     return (cursor_node:type()) .. ' ' .. cursor[1]-1 .. ':' .. cursor[2]-1
+--   end,
+--   color = {fg = colors.purple, gui = 'bold'}
+-- }
+--
+-- -- Add treesitter info at character before cursor location to statusline
+-- ins_right {
+--   function ()
+--     local cursor = api.nvim_win_get_cursor(0)
+--     local row, col = cursor[1] - 1, cursor[2] - 2
+--     local prev_cursor_node = vim.treesitter.get_node({bufnr = 0, pos = {row, col}})
+--     return (prev_cursor_node and prev_cursor_node:type() or 'ukn') .. ' ' .. row .. ':' .. col
+--   end,
+--   color = {fg = colors.red, gui = 'bold'}
+-- }
+--
+-- -- Add current `textwidth` config to status line
+-- ins_right {
+--   function ()
+--     return vim.api.nvim_buf_get_option(0, 'textwidth')
+--   end
+-- }
 
 ins_right {
   -- filesize component
