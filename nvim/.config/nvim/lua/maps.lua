@@ -10,11 +10,29 @@ options = { noremap = true }
 -- Normal mode maps without leader
 wk.register({
   u = { "<cmd>:earlier<CR>", 'Make undo use undo trees' },
-  ["<c-r>"] = { "<cmd>:later<CR>", 'Make redo use undo trees' }
+  ["<c-r>"] = { "<cmd>:later<CR>", 'Make redo use undo trees' },
+  g = {
+    q = {
+      name = '+quickfix',
+      q = { "<cmd>:copen<CR>", 'Open quickfix' },
+      c = { "<cmd>:cclose<CR>", 'Close quickfix' },
+      n = { "<cmd>:cnext<CR>", 'Next quickfix' },
+      p = { "<cmd>:cprev<CR>", 'Previous quickfix' },
+      o = {
+        name = 'other quickfix lists',
+        n = { "<cmd>:cnewer<CR>", 'Next quickfix list' },
+        o = { "<cmd>:colder<CR>", 'Previous quickfix list' },
+      },
+    },
+ },
 })
 
 -- Normal mode maps with leader
 wk.register({
+  c = {
+    name = "AI",
+    p = { "<cmd>Copilot panel<CR>", "copilot panel" },
+  },
   d = {
     name = "diagnostics",
     n = { vim.diagnostic.goto_next, 'next diagnostic' },
@@ -37,7 +55,6 @@ wk.register({
     r = { '<cmd>Telescope git_branches<CR>', "branches" }, -- Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>
     s = { '<cmd>Telescope git_status<CR>', "status" }, -- Lists current changes per file with diff preview and add action. (Multi-selection still WIP)
     t = { '<cmd>Telescope git_stash<CR>', "stash" }, -- Lists stash items in current repository with ability to apply them on <cr>
-    b = { '<cmd>GitBlameToggle<CR>', 'blame' },
     y = { function () copyAndOpenGitHubLink('n') end, 'github link' },
     h = {
       name = "hunk",
@@ -58,7 +75,7 @@ wk.register({
     name = 'util',
     r = { ':checktime<CR>', 'reload file' },
     c = { ':vsplit ~/dotfiles/nvim/.config/nvim/init.lua<cr>', 'edit vim config' },
-  }
+  },
 }, { prefix = "<leader>"})
 
 -- Visual mode maps
@@ -75,6 +92,12 @@ wk.register({
 wk.register({
   ["<c-l>"] = { ':noh<cr>', 'clear highlights' },
 }, {silent = false})
+
+wk.register({
+  ["<c-c>"] = { "<cmd>Copilot panel<CR>", "copilot panel" },
+}, {
+  mode = "i",
+})
 
 function copyAndOpenGitHubLink (mode)
   local gl = require("gitlinker")
