@@ -11,5 +11,11 @@ else -- Vim on the CLI config
 
   -- Vim settings customizations
   require('vimconfig')
+
+  -- Short comment config
+  require('short-comments')
+
+  -- Git commit textwidth config
+  require('commit-message-formatting')
 end
 
