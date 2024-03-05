@@ -15,7 +15,10 @@ o.undofile = true
 o.wrap = false
 o.clipboard = 'unnamedplus'
 o.signcolumn = 'yes'
-o.mouse = false
+o.mouse = 'c'
+o.swapfile = false
+
+vim.g.editorconfig = true
 
 -- vim.cmd('colorscheme base16-tomorrow-night-eighties')
 
@@ -61,7 +64,27 @@ api.nvim_create_autocmd("BufWritePre", {
   end
 })
 
+api.nvim_create_augroup("ruby-lsp-formatting", { clear = true })
+api.nvim_create_autocmd("BufWritePre", {
+  group = "ruby-lsp-formatting",
+  pattern = { "*.rb" },
+  callback = function ()
+    vim.cmd('FormatRuby')
+  end
+})
+
 -- Add the Jump command for git jump
 vim.cmd([[
 command! -bar -nargs=* Jump cexpr system('git jump ' . expand(<q-args>))
 ]])
+
+-- [[ Highlight on yank ]]
+-- See `:help vim.highlight.on_yank()`
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
