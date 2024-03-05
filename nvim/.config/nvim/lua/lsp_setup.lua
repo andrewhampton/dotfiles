@@ -18,6 +18,7 @@ local on_attach = function(client)
       name = 'lsp',
       r = { vim.lsp.buf.rename, 'rename' },
       c = { vim.lsp.buf.code_action, 'code action' },
+      d = { telescope.lsp_document_symbols, 'document symbols' },
     }
   }, {
     buffer = 0 -- only the current buffer so we don't get lsp mappings in non-lsp buffers
@@ -66,19 +67,17 @@ if not configs.ruby_lsp then
 			root_dir = util.root_pattern("Gemfile", ".git"),
 			init_options = {
 				enabledFeatures = {
-          "formatting",
+          "codeAction",
+          "completion",
           "definition",
-          "textdefinitions",
-          "typeDefinition",
-          "hover",
-          "signatureHelp",
-          "rename",
-          "publishDiagnostics",
-          "documentSymbols",
+          "diagnostic",
           "documentHighlights",
-          "foldingRanges",
-          "selectionRanges",
-          "codeActions",
+          "documentSymbols",
+          "formatting",
+          "hover",
+          "inlayHints",
+          "signatureHelp",
+          "workspaceSymbols",
         },
         formatter = 'auto',
 			},
