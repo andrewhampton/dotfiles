@@ -107,6 +107,7 @@ autoload -Uz compinit && compinit -i
 # git helpers
 alias ghpr='gh pr view -w'
 alias reviewer='gh api --paginate repos/:owner/:repo/collaborators | jq ".[].login" | tr -d \"| fzf'
+alias label='gh api --paginate repos/:owner/:repo/labels | jq ".[].name" | tr -d \"| fzf'
 alias branch='git branch --show-current |tr -d \"'
 alias gmru="git for-each-ref --sort=-committerdate --count=50 refs/heads/ --format='%(HEAD) %(refname:short) | %(committerdate:relative) | %(contents:subject)'| fzf | sed -e 's/^[^[[:alnum:]]]*[[:space:]]*//' | cut -d' ' -f1| xargs -I _ git checkout _"
 alias gfx='git commit --fixup $(git log $(git merge-base dev HEAD)..HEAD --oneline| fzf| cut -d" " -f1)'
