@@ -99,6 +99,12 @@ wk.register({
   g = {
     y = { function () copyAndOpenGitHubLink('v') end, 'github link' },
   },
+  h = {
+    'hunk',
+    s = { function() package.loaded['gitsigns'].stage_hunk({vim.fn.line("'<"), vim.fn.line("'>")}) end, 'stage hunk' },
+    r = { function() package.loaded['gitsigns'].reset_hunk({vim.fn.line("'<"), vim.fn.line("'>")}) end, 'reset hunk' },
+    u = { function() package.loaded['gitsigns'].undo_stage_hunk({vim.fn.line("'<"), vim.fn.line("'>")}) end, 'unstage hunk' },
+  }
 }, {
   prefix = "<leader>",
   mode = "v",
