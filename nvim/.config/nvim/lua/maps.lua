@@ -24,7 +24,15 @@ wk.register({
         o = { "<cmd>:colder<CR>", 'Previous quickfix list' },
       },
     },
- },
+  },
+  ["]"] = {
+    name = 'next',
+    h = { package.loaded['gitsigns'].next_hunk, 'next hunk' },
+  },
+  ["["] = {
+    name = 'prev',
+    h = { package.loaded['gitsigns'].prev_hunk, 'prev hunk' },
+  },
 })
 
 -- Normal mode maps with leader
@@ -76,6 +84,14 @@ wk.register({
     r = { ':checktime<CR>', 'reload file' },
     c = { ':vsplit ~/dotfiles/nvim/.config/nvim/init.lua<cr>', 'edit vim config' },
   },
+  h = {
+    name = 'hunk',
+    s = { package.loaded['gitsigns'].stage_hunk, 'stage hunk' },
+    r = { package.loaded['gitsigns'].reset_hunk, 'reset hunk' },
+    u = { package.loaded['gitsigns'].undo_stage_hunk, 'unstage hunk' },
+    b = { function() package.loaded['gitsigns'].blame_line{full=true} end, 'blame line' },
+    d = { package.loaded['gitsigns'].diffthis, 'diff this' },
+  }
 }, { prefix = "<leader>"})
 
 -- Visual mode maps
