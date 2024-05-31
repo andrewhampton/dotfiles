@@ -64,14 +64,14 @@ api.nvim_create_autocmd("BufWritePre", {
   end
 })
 
-api.nvim_create_augroup("ruby-lsp-formatting", { clear = true })
-api.nvim_create_autocmd("BufWritePre", {
-  group = "ruby-lsp-formatting",
-  pattern = { "*.rb" },
-  callback = function ()
-    vim.cmd('FormatRuby')
-  end
-})
+-- api.nvim_create_augroup("ruby-lsp-formatting", { clear = true })
+-- api.nvim_create_autocmd("BufWritePre", {
+--   group = "ruby-lsp-formatting",
+--   pattern = { "*.rb" },
+--   callback = function ()
+--     vim.cmd('FormatRuby')
+--   end
+-- })
 
 -- Add the Jump command for git jump
 vim.cmd([[

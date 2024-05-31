@@ -71,6 +71,7 @@ require("lazy").setup({
   {
     'TimUntersberger/neogit',
     dependencies = 'nvim-lua/plenary.nvim',
+    branch = 'nightly', -- Stay on nightly until support for nvim 0.11 is merged
     config = function ()
       local neogit = require('neogit')
       neogit.setup {}
