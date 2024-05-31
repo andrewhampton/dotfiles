@@ -91,8 +91,6 @@ function git_main_branch() {
   echo master
 }
 
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # zsh completions
 autoload -Uz compinit && compinit -i
 
