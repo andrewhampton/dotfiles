@@ -1,0 +1,94 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "telemetry": {
+    "metrics": false,
+    "diagnostics": false
+  },
+  "inlay_hints": {
+    "enabled": true
+  },
+  "base_keymap": "VSCode",
+  "vim_mode": true,
+  "cursor_blink": false,
+  "terminal": {
+    "blinking": "off"
+  },
+  "buffer_font_size": 14,
+  "buffer_font_family": "Monaspace Neon Var",
+  "buffer_font_features": {
+    "calt": true,
+    "liga": true,
+    "dlig": true,
+    "ss01": true,
+    "ss02": true,
+    "ss04": true,
+    "ss03": true,
+    "ss05": true,
+    "ss06": true,
+    "ss07": true
+  },
+  // "ui_font_family": "Monaspace Neon",
+  "ui_font_size": 15,
+  "format_on_save": "on",
+  "formatter": "language_server",
+  "tab_size": 2,
+  "tabs": {
+    "git_status": true
+  },
+  "languages": {
+    "Ruby": {
+      "formatter": {
+        "external": {
+          "command": "rubocop",
+          "arguments": [
+            "--autocorrect",
+            "--stderr",
+            "--stdin",
+            "{buffer_path}"
+          ]
+        }
+      }
+    },
+    "Plain Text": {
+      "soft_wrap": "none"
+    },
+    "Git Commit": {
+      "preferred_line_length": 72,
+      "soft_wrap": "preferred_line_length"
+    }
+  },
+  "detect_venv": "off",
+  "copilot": {
+    "disabled_globs": [
+      ".env",
+      "application.yml"
+    ]
+  },
+  "lsp": {
+    "ruby-lsp": {
+      "initialization_options": {
+        "enabledFeatures": {
+          "diagnostics": false,
+          "codeAction": true,
+          "completion": true,
+          "definition": true,
+          "diagnostic": true,
+          "documentHighlights": true,
+          "documentSymbols": true,
+          "formatting": true,
+          "hover": true,
+          "inlayHints": true,
+          "signatureHelp": true,
+          "workspaceSymbols": true
+        }
+      }
+    }
+  }
+}
