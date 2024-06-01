@@ -22,6 +22,7 @@
   },
   "buffer_font_size": 14,
   "buffer_font_family": "Monaspace Neon Var",
+  "buffer_font_weight": 500,
   "buffer_font_features": {
     "calt": true,
     "liga": true,
@@ -32,9 +33,19 @@
     "ss03": true,
     "ss05": true,
     "ss06": true,
-    "ss07": true
+    "ss07": true,
+    "ss08": true,
+    "ss09": true
   },
   // "ui_font_family": "Monaspace Neon",
+  "experimental.theme_overrides": {
+    "syntax": {
+      "comment": {
+        "font_style": "italic",
+        "font_weight": 400
+      }
+    }
+  },
   "ui_font_size": 15,
   "format_on_save": "on",
   "formatter": "language_server",
