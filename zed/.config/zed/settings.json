@@ -33,6 +33,7 @@
   },
   "cursor_blink": false,
   "detect_venv": "off",
+  "ensure_final_newline_on_save": true,
   "experimental.theme_overrides": {
     "syntax": {
       "comment": {
