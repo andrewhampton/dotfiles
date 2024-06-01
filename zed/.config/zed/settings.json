@@ -7,37 +7,32 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "telemetry": {
-    "metrics": false,
-    "diagnostics": false
-  },
-  "inlay_hints": {
-    "enabled": true
-  },
   "base_keymap": "VSCode",
-  "vim_mode": true,
-  "cursor_blink": false,
-  "terminal": {
-    "blinking": "off"
-  },
-  "buffer_font_size": 14,
   "buffer_font_family": "Monaspace Neon Var",
-  "buffer_font_weight": 500,
   "buffer_font_features": {
     "calt": true,
-    "liga": true,
     "dlig": true,
+    "liga": true,
     "ss01": true,
     "ss02": true,
-    "ss04": true,
     "ss03": true,
+    "ss04": true,
     "ss05": true,
     "ss06": true,
     "ss07": true,
     "ss08": true,
     "ss09": true
   },
-  // "ui_font_family": "Monaspace Neon",
+  "buffer_font_size": 14,
+  "buffer_font_weight": 500,
+  "copilot": {
+    "disabled_globs": [
+      ".env",
+      "application.yml"
+    ]
+  },
+  "cursor_blink": false,
+  "detect_venv": "off",
   "experimental.theme_overrides": {
     "syntax": {
       "comment": {
@@ -46,55 +41,45 @@
       }
     }
   },
-  "ui_font_size": 15,
   "format_on_save": "on",
   "formatter": "language_server",
-  "tab_size": 2,
-  "tabs": {
-    "git_status": true
+  "inlay_hints": {
+    "enabled": true
   },
-  "remove_trailing_whitespace_on_save": true,
   "languages": {
-    "Ruby": {
-      "formatter": {
-        "external": {
-          "command": "rubocop",
-          "arguments": [
-            "--autocorrect",
-            "--stderr",
-            "--stdin",
-            "{buffer_path}"
-          ]
-        }
-      }
-    },
-    "Plain Text": {
-      "soft_wrap": "none"
-    },
     "Git Commit": {
       "preferred_line_length": 72,
       "soft_wrap": "preferred_line_length"
     },
     "Markdown": {
       "remove_trailing_whitespace_on_save": false
+    },
+    "Plain Text": {
+      "soft_wrap": "none"
+    },
+    "Ruby": {
+      "formatter": {
+        "external": {
+          "arguments": [
+            "--autocorrect",
+            "--stderr",
+            "--stdin",
+            "{buffer_path}"
+          ],
+          "command": "rubocop"
+        }
+      }
     }
-  },
-  "detect_venv": "off",
-  "copilot": {
-    "disabled_globs": [
-      ".env",
-      "application.yml"
-    ]
   },
   "lsp": {
     "ruby-lsp": {
       "initialization_options": {
         "enabledFeatures": {
-          "diagnostics": false,
           "codeAction": true,
           "completion": true,
           "definition": true,
           "diagnostic": true,
+          "diagnostics": false,
           "documentHighlights": true,
           "documentSymbols": true,
           "formatting": true,
@@ -105,5 +90,19 @@
         }
       }
     }
-  }
+  },
+  "remove_trailing_whitespace_on_save": true,
+  "tab_size": 2,
+  "tabs": {
+    "git_status": true
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "terminal": {
+    "blinking": "off"
+  },
+  "ui_font_size": 15,
+  "vim_mode": true
 }
