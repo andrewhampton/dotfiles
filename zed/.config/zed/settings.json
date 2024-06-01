@@ -116,7 +116,8 @@
     "metrics": false
   },
   "terminal": {
-    "blinking": "off"
+    "blinking": "off",
+    "copy_on_select": true
   },
   "ui_font_size": 15,
   "use_autoclose": false,
