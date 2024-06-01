@@ -3,7 +3,7 @@
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
       "space y f": "editor::CopyRelativePath",
-      "space g y": "editor::CopyPermalinkToLine"
+      "space y g": "editor::CopyPermalinkToLine"
     }
   }
 ]
