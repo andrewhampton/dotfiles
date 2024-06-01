@@ -69,6 +69,16 @@
           "command": "rubocop"
         }
       }
+    },
+    "TSX": {
+      "code_actions_on_format": {
+        "source.organizeImports": true
+      }
+    },
+    "TypeScript": {
+      "code_actions_on_format": {
+        "source.organizeImports": true
+      }
     }
   },
   "lsp": {
