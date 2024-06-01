@@ -43,6 +43,9 @@
   },
   "format_on_save": "on",
   "formatter": "language_server",
+  "indent_guides": {
+    "enabled": false
+  },
   "inlay_hints": {
     "enabled": true
   },
