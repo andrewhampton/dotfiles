@@ -53,6 +53,7 @@
   "tabs": {
     "git_status": true
   },
+  "remove_trailing_whitespace_on_save": true,
   "languages": {
     "Ruby": {
       "formatter": {
@@ -73,6 +74,9 @@
     "Git Commit": {
       "preferred_line_length": 72,
       "soft_wrap": "preferred_line_length"
+    },
+    "Markdown": {
+      "remove_trailing_whitespace_on_save": false
     }
   },
   "detect_venv": "off",
