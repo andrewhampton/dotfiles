@@ -114,5 +114,6 @@
     "blinking": "off"
   },
   "ui_font_size": 15,
+  "use_autoclose": false,
   "vim_mode": true
 }
