@@ -56,7 +56,8 @@
       "soft_wrap": "preferred_line_length"
     },
     "Markdown": {
-      "remove_trailing_whitespace_on_save": false
+      "remove_trailing_whitespace_on_save": false,
+      "show_whitespaces": "all"
     },
     "Plain Text": {
       "soft_wrap": "none"
