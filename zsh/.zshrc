@@ -78,19 +78,6 @@ man() {
   man "$@"
 }
 
-# Check if main exists and use instead of master
-function git_main_branch() {
-  command git rev-parse --git-dir &>/dev/null || return
-  local ref
-  for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk,dev}; do
-    if command git show-ref -q --verify $ref; then
-      echo ${ref:t}
-      return
-    fi
-  done
-  echo master
-}
-
 # zsh completions
 autoload -Uz compinit && compinit -i
 
@@ -103,16 +90,21 @@ autoload -Uz compinit && compinit -i
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
 
 # git helpers
+alias git_main_branch='git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2'
 alias ghpr='gh pr view -w'
 alias reviewer="(gh api --paginate repos/:owner/:repo/collaborators | jq -r \".[].login\"; gh api --paginate /orgs/:owner/teams | jq -r '\"@workramp/\" + .[].slug') | fzf"
 alias label='gh api --paginate repos/:owner/:repo/labels | jq ".[].name" | tr -d \"| fzf'
 alias branch='git branch --show-current |tr -d \"'
 alias gmru="git for-each-ref --sort=-committerdate --count=50 refs/heads/ --format='%(HEAD) %(refname:short) | %(committerdate:relative) | %(contents:subject)'| fzf | sed -e 's/^[^[[:alnum:]]]*[[:space:]]*//' | cut -d' ' -f1| xargs -I _ git checkout _"
-alias gfx='git commit --fixup $(git log $(git merge-base dev HEAD)..HEAD --oneline| fzf| cut -d" " -f1)'
+alias gfx='git commit --fixup $(git log $(git_main_branch)..HEAD --oneline| fzf| cut -d" " -f1)'
 alias grbi="git rebase -i --autosquash"
 alias grbm='git rebase --autosquash $(git_main_branch)'
-alias gpa='gpf origin $(git log $(git merge-base dev HEAD)..HEAD --graph --abbrev-commit --decorate --date=relative --format=format:"%D" | rev | cut -d" " -f1| rev| awk NF|fzf --select-1 --multi| grep -v origin| tr "\n" " ")'
+alias gpa='gpf origin $(git log $(git_main_branch)..HEAD --graph --abbrev-commit --decorate --date=relative --format=format:"%D" | rev | cut -d" " -f1| rev| awk NF|fzf --select-1 --multi| grep -v origin| tr "\n" " ")'
+alias gd='git diff --color-moved --color-moved-ws=allow-indentation-change'
 alias gdd='GIT_EXTERNAL_DIFF=difft git diff'
+
+alias todo='jira issue list -a$(jira me) -sopen'
+alias next='jira sprint list --current -ax -sOpen --order-by rank --reverse'
 
 function gspin() {
   if [ $# -ne 1 ]; then
