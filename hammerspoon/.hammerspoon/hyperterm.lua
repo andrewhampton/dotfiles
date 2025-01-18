@@ -32,11 +32,11 @@ function hypertermActivationHandler(appName, eventType, app)
       if eventType == hs.application.watcher.activated then
          -- log("terminal mode activated")
          -- hyperterm.terminalModeHandler:start()
-         hyperterm.normalModeHandler:stop()
+         -- hyperterm.normalModeHandler:stop()
       elseif eventType == hs.application.watcher.deactivated then
          -- log("normal mode activated")
          -- hyperterm.terminalModeHandler:stop()
-         hyperterm.normalModeHandler:start()
+         -- hyperterm.normalModeHandler:start()
       end
    end
 end
