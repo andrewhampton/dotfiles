@@ -2,8 +2,23 @@
   {
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
+      "g q": "editor::Rewrap",
       "space y f": "editor::CopyRelativePath",
-      "space y g": "editor::CopyPermalinkToLine"
+      "space y g": "editor::CopyPermalinkToLine",
+      "space w l": "pane::SplitRight",
+      "space w j": "pane::SplitDown",
+      "space w k": "pane::SplitUp",
+      "space w h": "pane::SplitLeft",
+      "space e f": [
+        "workspace::SendKeystrokes",
+        "cmd-alt-e ctrl-enter"
+      ]
+    }
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode == visual",
+    "bindings": {
+      "=": "editor::FormatSelections"
     }
   }
 ]
