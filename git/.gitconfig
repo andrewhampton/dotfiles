@@ -7,6 +7,14 @@
   excludesfile = /Users/andrew/.gitignore_global
   ignoreCase = false
   editor = nvim
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  dark = true
 
 [push]
   default = current
@@ -24,7 +32,8 @@
   mru = for-each-ref --sort=-committerdate --count=10 refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 
 [merge]
-  conflictStyle = zdiff3
+  ; conflictStyle = zdiff3
+  conflictStyle = diff3
   ff = true
 
 [filter "lfs"]
@@ -35,7 +44,8 @@
 
 [diff]
   algorithm = patience
-  colorMoved = plain
+  ; colorMoved = plain
+  colorMoved = default
 
 [pull]
   rebase = true
