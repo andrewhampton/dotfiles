@@ -13,8 +13,11 @@ then
   return
 fi
 
+HISTSIZE=10000
+SAVEHIST=10000
+
 # Source ~/.zshenv if it exists
-#[ -f ~/.zshenv ] && source ~/.zshenv
+[ -f ~/.zshenv ] && source ~/.zshenv
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -102,9 +105,14 @@ alias grbm='git rebase --autosquash $(git_main_branch)'
 alias gpa='gpf origin $(git log $(git_main_branch)..HEAD --graph --abbrev-commit --decorate --date=relative --format=format:"%D" | rev | cut -d" " -f1| rev| awk NF|fzf --select-1 --multi| grep -v origin| tr "\n" " ")'
 alias gd='git diff --color-moved --color-moved-ws=allow-indentation-change'
 alias gdd='GIT_EXTERNAL_DIFF=difft git diff'
+alias gab='git absorb'
+alias gabr'git absorb --and-rebase'
 
 alias todo='jira issue list -a$(jira me) -sopen'
 alias next='jira sprint list --current -ax -sOpen --order-by rank --reverse'
+alias jira_ticket="git rev-parse --abbrev-ref HEAD | grep -oE '^[A-Z0-9]+-[0-9]+'"
+alias jo='open "https://workramp.atlassian.net/browse/$(jira_ticket)"'
+alias qai='jira issue edit $(jira_ticket) --no-input -l QAIgnored'
 
 function gspin() {
   if [ $# -ne 1 ]; then
@@ -145,3 +153,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+[[ -f ~/.secrets ]] && source ~/.secrets
+
+# Added by Windsurf
+export PATH="/Users/ah/.codeium/windsurf/bin:$PATH"
