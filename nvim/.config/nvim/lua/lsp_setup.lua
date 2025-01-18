@@ -1,43 +1,43 @@
 local lspconfig = require('lspconfig')
 local telescope = require('telescope.builtin')
-local wk = require('which-key')
+-- local wk = require('which-key')
 local configs = require("lspconfig.configs")
 local util = require("lspconfig.util")
 
 local on_attach = function(client)
-  wk.register({
-    K = { vim.lsp.buf.hover, 'Hover details' },
-    g = {
-      name = 'goto',
-      d = { telescope.lsp_definitions, 'definition' },
-      r = { telescope.lsp_references, 'references' },
-      I = { telescope.lsp_implementations, 'implementations' },
-      T = { telescope.lsp_type_definitions, 'type definition' },
-    },
-    ["<leader>l"] = {
-      name = 'lsp',
-      r = { vim.lsp.buf.rename, 'rename' },
-      c = { vim.lsp.buf.code_action, 'code action' },
-      d = { telescope.lsp_document_symbols, 'document symbols' },
-    }
-  }, {
-    buffer = 0 -- only the current buffer so we don't get lsp mappings in non-lsp buffers
-  })
+  -- wk.register({
+  --   K = { vim.lsp.buf.hover, 'Hover details' },
+  --   g = {
+  --     name = 'goto',
+  --     d = { telescope.lsp_definitions, 'definition' },
+  --     r = { telescope.lsp_references, 'references' },
+  --     I = { telescope.lsp_implementations, 'implementations' },
+  --     T = { telescope.lsp_type_definitions, 'type definition' },
+  --   },
+  --   ["<leader>l"] = {
+  --     name = 'lsp',
+  --     r = { vim.lsp.buf.rename, 'rename' },
+  --     c = { vim.lsp.buf.code_action, 'code action' },
+  --     d = { telescope.lsp_document_symbols, 'document symbols' },
+  --   }
+  -- }, {
+  --   buffer = 0 -- only the current buffer so we don't get lsp mappings in non-lsp buffers
+  -- })
 
   vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 end
 
-lspconfig.tsserver.setup {
-  on_attach = on_attach,
-  root_dir = lspconfig.util.root_pattern("package.json"),
-  flags = {
-    debounce_text_changes = 150
-  },
-  init_options = {
-    documentFormatting = false
-  },
-}
+-- lspconfig.tsserver.setup {
+--   on_attach = on_attach,
+--   root_dir = lspconfig.util.root_pattern("package.json"),
+--   flags = {
+--     debounce_text_changes = 150
+--   },
+--   init_options = {
+--     documentFormatting = false
+--   },
+-- }
 
 -- lspconfig.solargraph.setup {
 --   on_attach = on_attach,
