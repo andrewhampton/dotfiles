@@ -7,6 +7,15 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "assistant": {
+    "version": "2",
+    "default_open_ai_model": null,
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-latest"
+    },
+    "enable_experimental_live_diffs": true
+  },
   "base_keymap": "VSCode",
   "buffer_font_family": "Monaspace Neon Var",
   "buffer_font_features": {
@@ -25,7 +34,25 @@
   },
   "buffer_font_size": 14,
   "buffer_font_weight": 500,
-  "copilot": {
+  "context_servers": {
+    "postgres-context-server": {
+      "settings": {
+        "database_url": "postgresql://ah:@localhost:5432/workramp_dev"
+      }
+    }
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    "**/node_modules"
+  ],
+  "inline_completions": {
     "disabled_globs": [
       ".env",
       "application.yml"
@@ -50,7 +77,14 @@
   "inlay_hints": {
     "enabled": true
   },
+  "soft_wrap": "none",
   "languages": {
+    "Ruby": {
+      "language_servers": [
+        "ruby-lsp",
+        "!solargraph"
+      ]
+    },
     "Git Commit": {
       "preferred_line_length": 72,
       "soft_wrap": "preferred_line_length"
@@ -62,27 +96,37 @@
     "Plain Text": {
       "soft_wrap": "none"
     },
-    "Ruby": {
+    "JavaScript": {
+      "inlay_hints": {
+        "enabled": true,
+        "show_parameter_hints": false
+      },
       "formatter": {
         "external": {
+          "command": "prettier",
           "arguments": [
-            "--autocorrect",
-            "--stderr",
-            "--stdin",
+            "--stdin-filepath",
             "{buffer_path}"
-          ],
-          "command": "rubocop"
+          ]
         }
       }
     },
     "TSX": {
-      "code_actions_on_format": {
-        "source.organizeImports": true
-      }
-    },
-    "TypeScript": {
-      "code_actions_on_format": {
-        "source.organizeImports": true
+      // "code_actions_on_format": {
+      //   "source.organizeImports": true
+      // }
+      "inlay_hints": {
+        "enabled": true,
+        "show_parameter_hints": false
+      },
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": [
+            "--stdin-filepath",
+            "{buffer_path}"
+          ]
+        }
       }
     }
   },
@@ -93,8 +137,8 @@
           "codeAction": true,
           "completion": true,
           "definition": true,
-          "diagnostic": true,
-          "diagnostics": false,
+          "diagnostic": false,
+          "diagnostics": true,
           "documentHighlights": true,
           "documentSymbols": true,
           "formatting": true,
@@ -116,8 +160,7 @@
     "metrics": false
   },
   "terminal": {
-    "blinking": "off",
-    "copy_on_select": true
+    "blinking": "off"
   },
   "ui_font_size": 15,
   "use_autoclose": false,
