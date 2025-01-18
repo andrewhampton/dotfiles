@@ -10,15 +10,10 @@ require("lazy").setup({
   'nvim-telescope/telescope-fzy-native.nvim',
   'nvim-telescope/telescope-fzf-native.nvim',
   'nvim-telescope/telescope-ui-select.nvim',
+  'github/copilot.vim',
   -- 'williamboman/mason.nvim,
   --
 
-  {
-    'github/copilot.vim',
-    config = function ()
-      vim.g.copilot_node_command = "/opt/homebrew/bin/node"
-    end
-  },
 
   {
     'arcticicestudio/nord-vim',
@@ -39,44 +34,6 @@ require("lazy").setup({
   {'hoob3rt/lualine.nvim', dependencies = {'kyazdani42/nvim-web-devicons', lazy = true}, config = function() require('evil_lualine') end},
 
   {'neovim/nvim-lspconfig', dependencies = 'j-hui/fidget.nvim', config = function() require('lsp_setup') end},
-
-  -- {
-  --   "jackMort/ChatGPT.nvim",
-  --     event = "VeryLazy",
-  --     config = function()
-  --       require("chatgpt").setup({
-  --         edit_with_instructions = {
-  --           diff = true,
-  --         },
-  --         openai_params = {
-  --           model = "gpt-4-turbo-preview",
-  --           temperature = 0.2,
-  --           top_p = 0.1,
-  --           max_tokens = 1000,
-  --         },
-  --         openai_edit_params = {
-  --           model = "gpt-4-turbo-preview",
-  --           temperature = 0.2,
-  --           top_p = 0.1,
-  --         },
-  --       })
-  --     end,
-  --     dependencies = {
-  --       "MunifTanjim/nui.nvim",
-  --       "nvim-lua/plenary.nvim",
-  --       "nvim-telescope/telescope.nvim"
-  --     }
-  -- },
-
-  {
-    'TimUntersberger/neogit',
-    dependencies = 'nvim-lua/plenary.nvim',
-    branch = 'nightly', -- Stay on nightly until support for nvim 0.11 is merged
-    config = function ()
-      local neogit = require('neogit')
-      neogit.setup {}
-    end
-  },
 
   {
     'nvim-telescope/telescope.nvim',
@@ -135,32 +92,6 @@ require("lazy").setup({
     'sbdchd/neoformat',
     config = function ()
       vim.g.neoformat_try_node_exe = 1
-    end
-  },
-
-  {
-    'nvim-treesitter/playground',
-    config = function ()
-      require "nvim-treesitter.configs".setup {
-        playground = {
-          enable = true,
-          disable = {},
-          updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-          persist_queries = false, -- Whether the query persists across vim sessions
-          keybindings = {
-            toggle_query_editor = 'o',
-            toggle_hl_groups = 'i',
-            toggle_injected_languages = 't',
-            toggle_anonymous_nodes = 'a',
-            toggle_language_display = 'I',
-            focus_language = 'f',
-            unfocus_language = 'F',
-            update = 'R',
-            goto_node = '<cr>',
-            show_help = '?',
-          },
-        }
-      }
     end
   },
 
