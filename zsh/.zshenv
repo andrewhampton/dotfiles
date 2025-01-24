@@ -27,9 +27,10 @@ export DOCKER_BUILDKIT=1
 export GPG_TTY=$(tty)
 
 # nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/opt/homebrew/Cellar/node@22/22.13.1/bin:$PATH"
 
 # chruby
 if [[ -f /usr/local/share/chruby/chruby.sh ]] then
@@ -62,7 +63,7 @@ export EDITOR=nvim
 eval "$(pyenv init -)"
 . "$HOME/.cargo/env"
 
-eval "$(github-copilot-cli alias -- "$0")"
+# eval "$(github-copilot-cli alias -- "$0")"
 
 unset PREFIX
 

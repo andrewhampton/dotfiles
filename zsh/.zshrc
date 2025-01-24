@@ -19,6 +19,9 @@ SAVEHIST=10000
 # Source ~/.zshenv if it exists
 [ -f ~/.zshenv ] && source ~/.zshenv
 
+# Only check for a zsh update very 30 days
+UPDATE_ZSH_DAYS=30
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -28,7 +31,7 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME=""
 
-plugins=(git)
+# plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -82,12 +85,12 @@ man() {
 }
 
 # zsh completions
-autoload -Uz compinit && compinit -i
+# autoload -Uz compinit && compinit -i
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Source gh completions if they exist
-[ -f /usr/local/share/zsh/site-functions/_gh ] && source /usr/local/share/zsh/site-functions/_gh
+# [ -f /usr/local/share/zsh/site-functions/_gh ] && source /usr/local/share/zsh/site-functions/_gh
 
 # Bootstrap rbenv if it exists
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
@@ -107,6 +110,11 @@ alias gd='git diff --color-moved --color-moved-ws=allow-indentation-change'
 alias gdd='GIT_EXTERNAL_DIFF=difft git diff'
 alias gab='git absorb'
 alias gabr'git absorb --and-rebase'
+alias gco='git checkout'
+alias gst='git status'
+alias gl='git pull'
+alias gcm='git checkout $(git_main_branch)'
+alias gpf='git push --force-with-lease'
 
 alias todo='jira issue list -a$(jira me) -sopen'
 alias next='jira sprint list --current -ax -sOpen --order-by rank --reverse'
@@ -137,14 +145,14 @@ function coauth() {
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 # bun completions
-[ -s "/Users/ah/.bun/_bun" ] && source "/Users/ah/.bun/_bun"
+# [ -s "/Users/ah/.bun/_bun" ] && source "/Users/ah/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # pnpm
 export PNPM_HOME="/Users/ah/Library/pnpm"
