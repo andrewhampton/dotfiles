@@ -1,3 +1,5 @@
+local util = require 'util'
+
 -- Make <Space> the leader
 vim.g.mapleader = ' '
 vim.keymap.set('n', '<Space>', '', { noremap = true, silent = true, desc = "Set leader" })
@@ -41,6 +43,12 @@ vim.keymap.set('n', '[h', function() require("gitsigns").prev_hunk() end, { desc
 
 -- AI (Copilot)
 vim.keymap.set('n', '<leader>cp', '<cmd>Copilot panel<CR>', { desc = "Open Copilot panel", unpack(opts) })
+
+vim.keymap.set('n', '<leader>yf', function()
+  local path = util.currentFileRelativeToGitRoot()
+  vim.fn.setreg('+', path)
+  vim.notify('Copied ' .. path .. ' to clipboard')
+end, { desc = "Copy file path to clipboard", unpack(opts) })
 
 -- Diagnostics
 vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = "Go to next diagnostic", unpack(opts) })
