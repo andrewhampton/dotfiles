@@ -52,7 +52,7 @@
     "**/.settings",
     "**/node_modules"
   ],
-  "inline_completions": {
+  "edit_predictions": {
     "disabled_globs": [
       ".env",
       "application.yml"
