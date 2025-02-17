@@ -117,7 +117,6 @@ require("lazy").setup({
           "javascript",
           "jsdoc",
           "json",
-          "latex",
           "lua",
           "make",
           "regex",
