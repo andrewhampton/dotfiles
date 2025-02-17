@@ -1,7 +1,9 @@
 # Add custom bin locations
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ah/bin:/home/ah/bin:/usr/local/sbin"
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ -x "$(command -v /opt/homebrew/bin/brew)" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # Add kitty to the path
 export PATH="$PATH:/Applications/kitty.app/Contents/MacOS"
@@ -13,7 +15,9 @@ fi
 
 # Go
 export PATH="$PATH:/usr/local/go/bin"
-export GOPATH=$(go env GOPATH)
+if command -v go &> /dev/null; then
+  export GOPATH=$(go env GOPATH)
+fi
 export PATH="$PATH:$GOPATH/bin"
 
 # Pip bins
@@ -60,8 +64,12 @@ export RIPGREP_CONFIG_PATH=~/.rgconfig
 
 export EDITOR=nvim
 
-eval "$(pyenv init -)"
-. "$HOME/.cargo/env"
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv init -)"
+fi
+if [ -f "$HOME/.cargo/env" ]; then
+  . "$HOME/.cargo/env"
+fi
 
 # eval "$(github-copilot-cli alias -- "$0")"
 
