@@ -19,6 +19,7 @@
 [push]
   default = current
   autoSetupRemote = true
+  followTags = true
 
 [alias]
   lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
@@ -43,9 +44,11 @@
   process = git-lfs filter-process
 
 [diff]
-  algorithm = patience
+  algorithm = histogram
   ; colorMoved = plain
-  colorMoved = default
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
 
 [pull]
   rebase = true
@@ -55,7 +58,7 @@
 
 [commit]
   gpgsign = true
-  template = ~/.gitmessage
+  verbose = true
 
 [gpg]
   format = ssh
@@ -66,8 +69,31 @@
 
 [rebase]
   updateRefs = true
+  autoSquash = true
+  autoStash = true
 
 [credential "https://github.com"]
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = !/opt/homebrew/bin/gh auth git-credential
+
+[column]
+  ui = auto
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = version:refname
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[help]
+  autocorrect = prompt
+
+[rerere]
+  enabled = true
+  autoupdate = true

@@ -103,8 +103,8 @@ alias label='gh api --paginate repos/:owner/:repo/labels | jq ".[].name" | tr -d
 alias branch='git branch --show-current |tr -d \"'
 alias gmru="git for-each-ref --sort=-committerdate --count=50 refs/heads/ --format='%(HEAD) %(refname:short) | %(committerdate:relative) | %(contents:subject)'| fzf | sed -e 's/^[^[[:alnum:]]]*[[:space:]]*//' | cut -d' ' -f1| xargs -I _ git checkout _"
 alias gfx='git commit --fixup $(git log $(git_main_branch)..HEAD --oneline| fzf| cut -d" " -f1)'
-alias grbi="git rebase -i --autosquash"
-alias grbm='git rebase --autosquash $(git_main_branch)'
+alias grbi="git rebase -i"
+alias grbm='git rebase $(git_main_branch)'
 alias grba='git rebase --abort'
 alias grbc='git rebase --continue'
 alias gpa='gpf origin $(git log $(git_main_branch)..HEAD --graph --abbrev-commit --decorate --date=relative --format=format:"%D" | rev | cut -d" " -f1| rev| awk NF|fzf --select-1 --multi| grep -v origin| tr "\n" " ")'
@@ -114,7 +114,7 @@ alias gdd='GIT_EXTERNAL_DIFF=difft git diff'
 alias gab='git absorb'
 alias gabr'git absorb --and-rebase'
 alias gco='git checkout'
-alias gc='git commit -v'
+alias gc='git commit'
 alias gst='git status'
 alias gl='git pull'
 alias gcm='git checkout $(git_main_branch)'
