@@ -1,7 +1,8 @@
 [user]
   name = Andrew Hampton
   email = andrewwh@gmail.com
-  signingkey = /Users/ah/.ssh/id_ed25519.pub
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoKM9nM2uJb/qELkBVg8btd5/v/dn5tLFlLIjKKV8Nt
+  ; signingkey = ~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 [core]
   excludesfile = /Users/andrew/.gitignore_global
@@ -57,8 +58,9 @@
   user = andrewhampton
 
 [commit]
-  gpgsign = true
-  verbose = true
+	gpgsign = true
+	verbose = true
+  ; template = ~/.gitmessage
 
 [gpg]
   format = ssh
@@ -74,11 +76,9 @@
 
 [credential "https://github.com"]
 	helper = !/opt/homebrew/bin/gh auth git-credential
+
 [credential "https://gist.github.com"]
 	helper = !/opt/homebrew/bin/gh auth git-credential
-
-[column]
-  ui = auto
 
 [branch]
   sort = -committerdate
@@ -97,3 +97,9 @@
 [rerere]
   enabled = true
   autoupdate = true
+
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+
+[color]
+  ui = true
