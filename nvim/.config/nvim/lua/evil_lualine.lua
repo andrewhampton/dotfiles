@@ -54,7 +54,7 @@ local config = {
       -- right section. Both are highlighted by c theme .  So we
       -- are just setting default looks o statusline
       normal = {c = {fg = colors.foreground, bg = colors.current_line}},
-      inactive = {c = {fg = colors.forground, bg = colors.current_line}}
+      inactive = {c = {fg = colors.foreground, bg = colors.current_line}}
     }
   },
   sections = {
@@ -129,7 +129,7 @@ ins_right {
   -- Lsp server name .
   function()
     local msg = ''
-    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local buf_ft = vim.bo[0].filetype
     local clients = vim.lsp.get_clients()
     if next(clients) == nil then return msg end
     for _, client in ipairs(clients) do

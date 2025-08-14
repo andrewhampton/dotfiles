@@ -1,5 +1,4 @@
 local api = vim.api
-local ts_utils = require("nvim-treesitter.ts_utils")
 
 local function get_previous_node_type()
   local cursor = api.nvim_win_get_cursor(0)
@@ -10,7 +9,7 @@ end
 
 local function set_textwidth_for_comments()
   local bufnr = api.nvim_get_current_buf()
-  local cursor_node = ts_utils.get_node_at_cursor()
+  local cursor_node = vim.treesitter.get_node()
 
   if cursor_node then
     local node_type = cursor_node:type()
@@ -20,14 +19,14 @@ local function set_textwidth_for_comments()
     if should_set_textwidth then
       local ok, original_textwidth = pcall(api.nvim_buf_get_var, bufnr, 'original_textwidth')
       if not ok then
-        original_textwidth = api.nvim_buf_get_option(bufnr, 'textwidth')
+        original_textwidth = vim.bo[bufnr].textwidth
         api.nvim_buf_set_var(bufnr, 'original_textwidth', original_textwidth)
       end
-      api.nvim_buf_set_option(bufnr, 'textwidth', 80)
+      vim.bo[bufnr].textwidth = 80
     else
       local ok, original_textwidth = pcall(api.nvim_buf_get_var, bufnr, 'original_textwidth')
       if ok then
-        api.nvim_buf_set_option(bufnr, 'textwidth', original_textwidth)
+        vim.bo[bufnr].textwidth = original_textwidth
       end
     end
   end

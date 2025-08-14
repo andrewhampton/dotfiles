@@ -25,7 +25,7 @@ end
 
 function util.hasGit(path)
   local gitFolder = path:joinpath('.git')
-  return gitFolder:exists() and gitFolder:is_dir()
+  return gitFolder:exists()
 end
 
 function util.currentFileRelativeToGitRoot()

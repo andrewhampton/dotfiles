@@ -15,7 +15,7 @@ o.undofile = true
 o.wrap = false
 o.clipboard = 'unnamedplus'
 o.signcolumn = 'yes'
-o.mouse = 'c'
+-- o.mouse = 'c'
 o.swapfile = false
 
 vim.g.editorconfig = true
@@ -55,23 +55,14 @@ api.nvim_create_autocmd("FileType", {
   end
 })
 
-api.nvim_create_augroup("prettier", { clear = true })
+api.nvim_create_augroup("neoformat-on-save", { clear = true })
 api.nvim_create_autocmd("BufWritePre", {
-  group = "prettier",
+  group = "neoformat-on-save",
   pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.sass", "*.scss" },
   callback = function ()
     vim.cmd('Neoformat')
   end
 })
-
--- api.nvim_create_augroup("ruby-lsp-formatting", { clear = true })
--- api.nvim_create_autocmd("BufWritePre", {
---   group = "ruby-lsp-formatting",
---   pattern = { "*.rb" },
---   callback = function ()
---     vim.cmd('FormatRuby')
---   end
--- })
 
 -- Add the Jump command for git jump
 vim.cmd([[
@@ -83,7 +74,7 @@ command! -bar -nargs=* Jump cexpr system('git jump ' . expand(<q-args>))
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
   group = highlight_group,
   pattern = '*',
