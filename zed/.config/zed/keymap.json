@@ -3,7 +3,7 @@
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
       "g q": "editor::Rewrap",
-      "space y f": "editor::CopyRelativePath",
+      "space y f": "workspace::CopyRelativePath",
       "space y g": "editor::CopyPermalinkToLine",
       "space w l": "pane::SplitRight",
       "space w j": "pane::SplitDown",
@@ -12,6 +12,12 @@
       "space e f": [
         "workspace::SendKeystrokes",
         "cmd-alt-e ctrl-enter"
+      ],
+      "space l c": [
+        "task::Spawn",
+        {
+          "task_name": "Claude"
+        }
       ]
     }
   },

@@ -8,17 +8,164 @@
 // from the command palette or from `Zed` application menu.
 {
   "icon_theme": "Zed (Default)",
-  "assistant": {
-    "version": "2",
-    "default_open_ai_model": null,
-    "default_model": {
+  "agent": {
+    "play_sound_when_agent_done": true,
+    "inline_assistant_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
+      "model": "claude-sonnet-4"
     },
-    "enable_experimental_live_diffs": true
+    "profiles": {
+      "ask-w/-terminal": {
+        "name": "Ask w/ Terminal",
+        "tools": {
+          "terminal": true,
+          "contents": true,
+          "diagnostics": true,
+          "fetch": true,
+          "list_directory": false,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": false,
+        "context_servers": {
+          "postgres-context-server": {
+            "tools": {
+              "query": true,
+              "pg-schema": true
+            }
+          }
+        }
+      },
+      "write-w/-terminal": {
+        "name": "Write w/ Terminal",
+        "tools": {
+          "project_notifications": true,
+          "open": true,
+          "create_directory": true,
+          "batch_tool": true,
+          "code_actions": true,
+          "code_symbols": true,
+          "contents": true,
+          "copy_path": true,
+          "create_file": true,
+          "delete_path": true,
+          "diagnostics": true,
+          "edit_file": true,
+          "fetch": true,
+          "list_directory": true,
+          "move_path": true,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "rename": false,
+          "symbol_info": true,
+          "terminal": true,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": true,
+        "context_servers": {}
+      },
+      "write": {
+        "name": "Write",
+        "tools": {
+          "open": true,
+          "create_directory": true,
+          "batch_tool": true,
+          "code_actions": true,
+          "code_symbols": true,
+          "contents": true,
+          "copy_path": true,
+          "create_file": true,
+          "delete_path": false,
+          "diagnostics": true,
+          "edit_file": true,
+          "fetch": true,
+          "list_directory": true,
+          "move_path": false,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "rename": false,
+          "symbol_info": true,
+          "terminal": false,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": true,
+        "context_servers": {}
+      },
+      "ask": {
+        "name": "Ask",
+        "tools": {
+          "contents": true,
+          "diagnostics": true,
+          "fetch": true,
+          "list_directory": false,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": false,
+        "context_servers": {
+          "postgres-context-server": {
+            "tools": {
+              "query": true,
+              "pg-schema": true
+            }
+          }
+        }
+      }
+    },
+    "default_profile": "write-w/-terminal",
+    "always_allow_tool_actions": true,
+    "default_model": {
+      "provider": "lmstudio",
+      "model": "openai/gpt-oss-20b",
+    },
+  },
+  "language_models": {
+    "lmstudio": {
+      "available_models": [
+        {
+          "name": "openai/gtp-oss-20b",
+          "display_name": "OpenAI GPT-20B",
+          "max_tokens": 131072,
+          "supports_tool_calls": true,
+          "supports_images": false
+        }
+      ]
+    },
+    "ollama": {
+      "api_url": "http://localhost:11434",
+      "available_models": [
+        {
+          "name": "qwen3:14b",
+          "display_name": "quen 3 14B",
+          "max_tokens": 131072,
+          "supports_tools": false
+        },
+        {
+          "name": "qwen3:8b",
+          "display_name": "quen 3 8B",
+          "max_tokens": 131072,
+          "supports_tools": false
+        }
+      ]
+    }
   },
   "base_keymap": "VSCode",
-  "buffer_font_family": "Monaspace Neon Var",
+  "buffer_font_family": "Monaspace Argon Var",
+  // => ==> --> -> != === >= <= A::B += *=
   "buffer_font_features": {
     "calt": true,
     "dlig": true,
@@ -34,11 +181,12 @@
     "ss09": true
   },
   "buffer_font_size": 14,
-  "buffer_font_weight": 500,
+  "buffer_font_weight": 400,
   "context_servers": {
     "postgres-context-server": {
+      "source": "extension",
       "settings": {
-        "database_url": "postgresql://ah:@localhost:5432/workramp_dev"
+        "database_url": "postgresql://andrewhampton:@localhost:5432/artemis_development"
       }
     }
   },
@@ -54,13 +202,13 @@
     "**/node_modules"
   ],
   "edit_predictions": {
+    "mode": "eager",
     "disabled_globs": [
       ".env",
-      "application.yml"
+      "config/credentials/*"
     ]
   },
   "cursor_blink": false,
-  "detect_venv": "off",
   "ensure_final_newline_on_save": true,
   "experimental.theme_overrides": {
     "syntax": {
@@ -70,7 +218,7 @@
       }
     }
   },
-  "format_on_save": "on",
+  "format_on_save": "off",
   "formatter": "language_server",
   "indent_guides": {
     "enabled": false
@@ -80,6 +228,21 @@
   },
   "soft_wrap": "none",
   "languages": {
+    "CSS": {
+      "format_on_save": "on",
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "ERB": {
+      "language_servers": [
+        "ruby-lsp",
+        "!solargraph"
+      ],
+      "format_on_save": "on"
+    },
     "Ruby": {
       "language_servers": [
         "ruby-lsp",
@@ -97,18 +260,37 @@
     "Plain Text": {
       "soft_wrap": "none"
     },
+    "TypeScript": {
+      "inlay_hints": {
+        "enabled": false,
+        "show_type_hints": true,
+        "show_background": true,
+        "toggle_on_modifiers_press": {
+          "alt": true
+        }
+      }
+    },
     "JavaScript": {
       "inlay_hints": {
-        "enabled": true,
-        "show_parameter_hints": false
+        "enabled": false,
+        "show_type_hints": true,
+        "show_background": true,
+        "toggle_on_modifiers_press": {
+          "alt": true
+        }
       },
+      "format_on_save": "off",
       "formatter": {
-        "external": {
-          "command": "prettier",
-          "arguments": [
-            "--stdin-filepath",
-            "{buffer_path}"
-          ]
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "JSON": {
+      "format_on_save": "on",
+      "formatter": {
+        "language_server": {
+          "name": "biome"
         }
       }
     },
@@ -136,7 +318,7 @@
       "initialization_options": {
         "enabledFeatures": {
           "codeAction": true,
-          "completion": true,
+          "completion": false,
           "definition": true,
           "diagnostic": false,
           "diagnostics": true,
@@ -148,6 +330,11 @@
           "signatureHelp": true,
           "workspaceSymbols": true
         }
+      }
+    },
+    "biome": {
+      "settings": {
+        "config_path": "<path>/biome.json"
       }
     }
   },
@@ -161,7 +348,24 @@
     "metrics": false
   },
   "terminal": {
-    "blinking": "off"
+    "blinking": "off",
+    "font_family": "Monaspace Neon Var",
+    "font_size": 14,
+    "font_weight": 400,
+    "font_features": {
+      "calt": true,
+      "dlig": true,
+      "liga": true,
+      "ss01": true,
+      "ss02": true,
+      "ss03": true,
+      "ss04": true,
+      "ss05": true,
+      "ss06": true,
+      "ss07": true,
+      "ss08": true,
+      "ss09": true
+    }
   },
   "ui_font_size": 15,
   "use_autoclose": false,
