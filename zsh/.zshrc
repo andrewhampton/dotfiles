@@ -125,17 +125,19 @@ alias grst='git restore --stage'
 alias ga='git add'
 alias gsh='git show'
 alias gapa='git add --patch'
-alias gcb='git switch -c'
-alias gco='git switch'
+alias gcb='git checkout -b'
 alias gc!='git commit --amend'
 alias gcn!='git commit --amend --no-edit'
-alias glg='git log --graph --abbrev-commit --decorate --date=relative --format=format:"%C(auto)%h%d %Creset%s %Cgreen(%cr)"'
+alias glg='git lg'
+alias gsta='git stash'
+alias gstp='git stash pop'
+alias g='git'
+alias gm='git merge'
+alias gcp='git cherry-pick'
 
-alias todo='jira issue list -a$(jira me) -sopen'
-alias next='jira sprint list --current -ax -sOpen --order-by rank --reverse'
-alias jira_ticket="git rev-parse --abbrev-ref HEAD | grep -oE '^[A-Z0-9]+-[0-9]+'"
-alias jo='open "https://workramp.atlassian.net/browse/$(jira_ticket)"'
-alias qai='jira issue edit $(jira_ticket) --no-input -l QAIgnored'
+alias t='bin/rails test'
+alias fix='bin/biome check --write && bin/rubocop -a'
+alias merge='git fetch origin && git rebase origin/main && gpf && bin/ci && git switch --ignore-other-worktrees $(git_main_branch) && gm - && gp && echo "merged! 🎉" && gco -'
 
 function gspin() {
   if [ $# -ne 1 ]; then
@@ -156,6 +158,41 @@ function coauth() {
   gh api repos/{owner}/{repo}/collaborators --paginate --jq '.[] | .login + " <" + .html_url + ">"' | fzf --multi | xargs -I _ printf "Co-authored-by: %s\n" "_"| pbcopy
 }
 
+# Function to switch Kubernetes context namespace and update kubeconfig symlink
+# Usage: ks <environment>
+function ks() {
+  if [ -z "$1" ]; then
+    echo "Usage: ks <environment>"
+    echo "Switches Kubernetes namespace and updates kubeconfig symlink"
+    return 1
+  fi
+
+  local env="$1"
+  local config_path="/Users/andrewhampton/.pollev/config/k8s/teleport-${env}.k8s.ops.pe"
+
+  # Check if the target config file exists
+  if [ ! -f "$config_path" ]; then
+    echo "Error: Kubernetes config for environment '$env' not found at:"
+    echo "$config_path"
+    return 1
+  fi
+
+  # Update symlink
+  echo "Updating kubeconfig symlink to point to: $config_path"
+  ln -sf "$config_path" ~/.kube/config
+
+  # Set namespace
+  echo "Setting Kubernetes namespace to: $env"
+  kubectl config set-context --current --namespace="$env"
+
+  echo "Kubernetes environment switched to: $env"
+}
+
+# Random artemis pod
+function artemis_pod() {
+  return kubectl get pods -l app=artemis -l deployment=artemis -o jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | awk 'BEGIN{srand()} {a[NR]=$0} END{print a[int(rand()*NR)+1]}'
+}
+
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
@@ -170,7 +207,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # pnpm
-export PNPM_HOME="/Users/ah/Library/pnpm"
+export PNPM_HOME="/Users/andrewhampton/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -180,4 +217,18 @@ esac
 [[ -f ~/.secrets ]] && source ~/.secrets
 
 # Added by Windsurf
-export PATH="/Users/ah/.codeium/windsurf/bin:$PATH"
+export PATH="/Users/andrewhampton/.codeium/windsurf/bin:$PATH"
+
+# Added by Windsurf
+export PATH="/Users/andrewhampton/.codeium/windsurf/bin:$PATH"
+alias claude="/Users/andrewhampton/.claude/local/claude"
+
+source ~/.agent-aliases
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/andrewhampton/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+# opencode
+export PATH=/Users/andrewhampton/.opencode/bin:$PATH
