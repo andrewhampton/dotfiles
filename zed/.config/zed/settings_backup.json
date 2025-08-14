@@ -1,0 +1,362 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "icon_theme": "Zed (Default)",
+  "agent": {
+    "play_sound_when_agent_done": true,
+    "inline_assistant_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
+    },
+    "profiles": {
+      "ask-w/-terminal": {
+        "name": "Ask w/ Terminal",
+        "tools": {
+          "terminal": true,
+          "contents": true,
+          "diagnostics": true,
+          "fetch": true,
+          "list_directory": false,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": false,
+        "context_servers": {
+          "postgres-context-server": {
+            "tools": {
+              "query": true,
+              "pg-schema": true
+            }
+          }
+        }
+      },
+      "write-w/-terminal": {
+        "name": "Write w/ Terminal",
+        "tools": {
+          "project_notifications": true,
+          "open": true,
+          "create_directory": true,
+          "batch_tool": true,
+          "code_actions": true,
+          "code_symbols": true,
+          "contents": true,
+          "copy_path": true,
+          "create_file": true,
+          "delete_path": true,
+          "diagnostics": true,
+          "edit_file": true,
+          "fetch": true,
+          "list_directory": true,
+          "move_path": true,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "rename": false,
+          "symbol_info": true,
+          "terminal": true,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": true,
+        "context_servers": {}
+      },
+      "write": {
+        "name": "Write",
+        "tools": {
+          "open": true,
+          "create_directory": true,
+          "batch_tool": true,
+          "code_actions": true,
+          "code_symbols": true,
+          "contents": true,
+          "copy_path": true,
+          "create_file": true,
+          "delete_path": false,
+          "diagnostics": true,
+          "edit_file": true,
+          "fetch": true,
+          "list_directory": true,
+          "move_path": false,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "rename": false,
+          "symbol_info": true,
+          "terminal": false,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": true,
+        "context_servers": {}
+      },
+      "ask": {
+        "name": "Ask",
+        "tools": {
+          "contents": true,
+          "diagnostics": true,
+          "fetch": true,
+          "list_directory": false,
+          "now": true,
+          "find_path": true,
+          "read_file": true,
+          "grep": true,
+          "thinking": true,
+          "web_search": true
+        },
+        "enable_all_context_servers": false,
+        "context_servers": {
+          "postgres-context-server": {
+            "tools": {
+              "query": true,
+              "pg-schema": true
+            }
+          }
+        }
+      }
+    },
+    "default_profile": "write",
+    "always_allow_tool_actions": true,
+    "default_model": {
+      "provider": "ollama",
+      "model": "gpt-oss:20b"
+    },
+  },
+  "language_models": {
+    "ollama": {
+      "api_url": "http://localhost:11434",
+      "available_models": [
+        {
+          "name": "qwen3:14b",
+          "display_name": "quen 3 14B",
+          "max_tokens": 131072,
+          "supports_tools": false
+        },
+        {
+          "name": "qwen3:8b",
+          "display_name": "quen 3 8B",
+          "max_tokens": 131072,
+          "supports_tools": false
+        }
+      ]
+    }
+  },
+  "base_keymap": "VSCode",
+  "buffer_font_family": "Monaspace Argon Var",
+  // => ==> --> -> != === >= <= A::B += *=
+  "buffer_font_features": {
+    "calt": true,
+    "dlig": true,
+    "liga": true,
+    "ss01": true,
+    "ss02": true,
+    "ss03": true,
+    "ss04": true,
+    "ss05": true,
+    "ss06": true,
+    "ss07": true,
+    "ss08": true,
+    "ss09": true
+  },
+  "buffer_font_size": 14,
+  "buffer_font_weight": 400,
+  "context_servers": {
+    "postgres-context-server": {
+      "settings": {
+        "database_url": "postgresql://andrewhampton:@localhost:5432/artemis_development"
+      }
+    }
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    "**/node_modules"
+  ],
+  "edit_predictions": {
+    "mode": "eager",
+    "disabled_globs": [
+      ".env",
+      "config/credentials/*"
+    ]
+  },
+  "cursor_blink": false,
+  "detect_venv": "off",
+  "ensure_final_newline_on_save": true,
+  "experimental.theme_overrides": {
+    "syntax": {
+      "comment": {
+        "font_style": "italic",
+        "font_weight": 400
+      }
+    }
+  },
+  "format_on_save": "off",
+  "formatter": "language_server",
+  "indent_guides": {
+    "enabled": false
+  },
+  "inlay_hints": {
+    "enabled": true
+  },
+  "soft_wrap": "none",
+  "languages": {
+    "CSS": {
+      "format_on_save": "on",
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "ERB": {
+      "language_servers": [
+        "ruby-lsp",
+        "!solargraph"
+      ],
+      "format_on_save": "on"
+    },
+    "Ruby": {
+      "language_servers": [
+        "ruby-lsp",
+        "!solargraph"
+      ]
+    },
+    "Git Commit": {
+      "preferred_line_length": 72,
+      "soft_wrap": "preferred_line_length"
+    },
+    "Markdown": {
+      "remove_trailing_whitespace_on_save": false,
+      "show_whitespaces": "all"
+    },
+    "Plain Text": {
+      "soft_wrap": "none"
+    },
+    "TypeScript": {
+      "inlay_hints": {
+        "enabled": false,
+        "show_type_hints": true,
+        "show_background": true,
+        "toggle_on_modifiers_press": {
+          "alt": true
+        }
+      }
+    },
+    "JavaScript": {
+      "inlay_hints": {
+        "enabled": false,
+        "show_type_hints": true,
+        "show_background": true,
+        "toggle_on_modifiers_press": {
+          "alt": true
+        }
+      },
+      "format_on_save": "off",
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "JSON": {
+      "format_on_save": "on",
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      }
+    },
+    "TSX": {
+      // "code_actions_on_format": {
+      //   "source.organizeImports": true
+      // }
+      "inlay_hints": {
+        "enabled": true,
+        "show_parameter_hints": false
+      },
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": [
+            "--stdin-filepath",
+            "{buffer_path}"
+          ]
+        }
+      }
+    }
+  },
+  "lsp": {
+    "ruby-lsp": {
+      "initialization_options": {
+        "enabledFeatures": {
+          "codeAction": true,
+          "completion": false,
+          "definition": true,
+          "diagnostic": false,
+          "diagnostics": true,
+          "documentHighlights": true,
+          "documentSymbols": true,
+          "formatting": true,
+          "hover": true,
+          "inlayHints": true,
+          "signatureHelp": true,
+          "workspaceSymbols": true
+        }
+      }
+    },
+    "biome": {
+      "settings": {
+        "config_path": "<path>/biome.json"
+      }
+    }
+  },
+  "remove_trailing_whitespace_on_save": true,
+  "tab_size": 2,
+  "tabs": {
+    "git_status": true
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "terminal": {
+    "blinking": "off",
+    "font_family": "Monaspace Neon Var",
+    "font_size": 14,
+    "font_weight": 400,
+    "font_features": {
+      "calt": true,
+      "dlig": true,
+      "liga": true,
+      "ss01": true,
+      "ss02": true,
+      "ss03": true,
+      "ss04": true,
+      "ss05": true,
+      "ss06": true,
+      "ss07": true,
+      "ss08": true,
+      "ss09": true
+    }
+  },
+  "ui_font_size": 15,
+  "use_autoclose": false,
+  "vim_mode": true
+}
