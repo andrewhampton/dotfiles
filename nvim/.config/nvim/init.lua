@@ -1,3 +1,6 @@
+-- Ensure PATH includes opencode binary location (must be before bootstrap)
+vim.env.PATH = vim.env.PATH .. ':' .. os.getenv('HOME') .. '/.opencode/bin'
+
 require('bootstrap')
 
 if _G.vscode then -- Vim in vscode config
