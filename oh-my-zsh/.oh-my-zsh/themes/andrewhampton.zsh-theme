@@ -42,6 +42,15 @@ ZSH_THEME_GIT_PROMPT_DELETED="${base08} ✖"
 ZSH_THEME_GIT_PROMPT_RENAMED="${base0E} →"
 ZSH_THEME_GIT_PROMPT_UNMERGED="${base0A} ⇅"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="${base01} 🟄"
+ZSH_THEME_GIT_PROMPT_UNPUSHED="${base0A} ↑"
+ZSH_THEME_GIT_PROMPT_UNPULLED="${base0A} ↓"
+
+# JJ info with Base16 colors (using same colors as git for consistency)
+ZSH_THEME_JJ_PROMPT_PREFIX="${base0C}"
+ZSH_THEME_JJ_PROMPT_SUFFIX="${reset_color}"
+ZSH_THEME_JJ_PROMPT_ADDED="${base0B} ✚"
+ZSH_THEME_JJ_PROMPT_MODIFIED="${base0D} 🟉"
+ZSH_THEME_JJ_PROMPT_DELETED="${base08} ✖"
 
 # Function for git status
 function git_prompt_status() {
@@ -76,7 +85,100 @@ function git_prompt_status() {
   if $(echo "$INDEX" | grep '^UU ' &> /dev/null); then
     STATUS="$ZSH_THEME_GIT_PROMPT_UNMERGED$STATUS"
   fi
+  if $(echo "$INDEX" | grep '^## [^ ]\+ .*ahead' &> /dev/null); then
+    STATUS="$ZSH_THEME_GIT_PROMPT_UNPUSHED$STATUS"
+  fi
+  if $(echo "$INDEX" | grep '^## [^ ]\+ .*behind' &> /dev/null); then
+    STATUS="$ZSH_THEME_GIT_PROMPT_UNPULLED$STATUS"
+  fi
+
   echo $STATUS
+}
+
+# JJ status function
+function jj_prompt_status() {
+  local INDEX STATUS
+  INDEX=$(command jj status 2> /dev/null)
+  STATUS=""
+  if $(echo "$INDEX" | grep -E '^Working copy changes:' &> /dev/null); then
+    if $(echo "$INDEX" | grep -E '^A ' &> /dev/null); then
+      STATUS="$ZSH_THEME_JJ_PROMPT_ADDED$STATUS"
+    fi
+    if $(echo "$INDEX" | grep -E '^M ' &> /dev/null); then
+      STATUS="$ZSH_THEME_JJ_PROMPT_MODIFIED$STATUS"
+    fi
+    if $(echo "$INDEX" | grep -E '^D ' &> /dev/null); then
+      STATUS="$ZSH_THEME_JJ_PROMPT_DELETED$STATUS"
+    fi
+  fi
+
+  echo $STATUS
+}
+
+# JJ/Git detection function
+is_jj_repo() {
+  command jj root &> /dev/null
+}
+
+# JJ prompt info function
+jj_prompt_info() {
+  local jj_info bookmarks distance bookmarked_commit
+
+  # Find the nearest ancestor with bookmarks
+  local bookmark_info
+  bookmark_info=$(command jj log -r "ancestors(@, 10)" --no-graph -T 'if(bookmarks, bookmarks ++ "|" ++ change_id.short() ++ "\n", "")' 2> /dev/null | grep -v '^$' | head -1) || return 0
+
+  if [ -n "$bookmark_info" ]; then
+    bookmarks=$(echo "$bookmark_info" | cut -d'|' -f1)
+    bookmarked_commit=$(echo "$bookmark_info" | cut -d'|' -f2)
+
+    # Count distance from @ to the bookmarked commit
+    distance=$(command jj log -r "$bookmarked_commit::@" --no-graph -T 'change_id.short() ++ "\n"' 2> /dev/null | wc -l) || return 0
+    distance=$((distance - 1))  # Subtract 1 because the range includes both endpoints
+
+    if [ $distance -eq 0 ]; then
+      jj_info="$bookmarks"
+    else
+      jj_info="${bookmarks}+${distance}"
+    fi
+  else
+    jj_info="(no bookmarks)"
+  fi
+
+  echo "$ZSH_THEME_JJ_PROMPT_PREFIX$jj_info$ZSH_THEME_JJ_PROMPT_SUFFIX"
+}
+
+# Unified VCS prompt info function
+vcs_prompt_info() {
+  local info=""
+  if is_jj_repo; then
+    info="$(jj_prompt_info)"
+  fi
+  if git rev-parse --git-dir &> /dev/null; then
+    if [ -n "$info" ]; then
+      info="$info $(git_prompt_info)"
+    else
+      info="$(git_prompt_info)"
+    fi
+  fi
+  echo "$info"
+}
+
+# Unified VCS prompt status function
+vcs_prompt_status() {
+  local vcs_status=""
+  if is_jj_repo; then
+    vcs_status="$(jj_prompt_status)"
+  fi
+  if git rev-parse --git-dir &> /dev/null; then
+    local git_status="$(git_prompt_status)"
+    if [ -n "$vcs_status" ] && [ -n "$git_status" ]; then
+      vcs_status="$vcs_status$git_status"
+    elif [ -n "$git_status" ]; then
+      vcs_status="$git_status"
+    fi
+  fi
+  echo "$vcs_status"
 }
 
 # Git branch display function
@@ -88,6 +190,7 @@ git_prompt_info() {
 }
 
 # Set prompt content with Base16 colors
-PROMPT='
-${base05}%~${reset_color} $(git_prompt_info)$(git_prompt_status)${cmd_time}
+# PROMPT='${base0D}%~${reset_color} $(vcs_prompt_info)$(vcs_prompt_status)${cmd_time} ${base02}%D{%H:%M:%S}${reset_color}
+# %(?.${base0D}.${base08})${reset_color} '
+PROMPT='${base0D}%~${reset_color} $(vcs_prompt_info)$(vcs_prompt_status)${cmd_time} ${base02}%D{%H:%M:%S}${reset_color}
 %(?.${base0D}.${base08})${reset_color} '
