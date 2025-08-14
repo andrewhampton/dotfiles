@@ -1,31 +1,112 @@
 local o = vim.o
 
+-- Ensure common bin paths are available inside Neovim (esp. for GUI/launcher sessions)
+local hb = "/opt/homebrew/bin"
+local ul = "/usr/local/bin"
+local lb = (os.getenv("HOME") or "") .. "/.local/bin"
+local ocb = (os.getenv("HOME") or "") .. "/.opencode/bin"
+vim.env.PATH = table.concat({ hb, ul, lb, ocb, vim.env.PATH or "" }, ":")
+vim.fn.setenv('PATH', vim.env.PATH)
+
 require("lazy").setup({
   'chriskempson/base16-vim',
   'kyazdani42/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
-  -- 'gpanders/editorconfig.nvim',
-  -- 'tpope/vim-commentary',
+  'gpanders/editorconfig.nvim',
   'tpope/vim-surround',
   'nvim-telescope/telescope-fzy-native.nvim',
   'nvim-telescope/telescope-fzf-native.nvim',
   'nvim-telescope/telescope-ui-select.nvim',
   'github/copilot.vim',
-  -- 'williamboman/mason.nvim,
-  --
-
-
   {
-    'arcticicestudio/nord-vim',
-    config = function ()
-      vim.cmd('colorscheme nord')
+    'williamboman/mason.nvim',
+    cmd = 'Mason',
+    keys = { { '<leader>cm', '<cmd>Mason<cr>', desc = 'Mason' } },
+    build = ':MasonUpdate',
+    event = 'VeryLazy',
+    opts = {
+      ensure_installed = {
+        'typescript-language-server',
+        'ruby-lsp',
+        'herb-language-server',
+        'rubocop',
+        'prettier',
+      },
+    },
+    dependencies = {
+      'williamboman/mason-lspconfig.nvim',
+    },
+    config = function(_, opts)
+      require('mason').setup(opts)
+      local mr = require('mason-registry')
+      mr:on('package:install:success', function()
+        vim.defer_fn(function()
+          require('lazy.core.handler.event').trigger({
+            event = 'FileType',
+            buf = vim.api.nvim_get_current_buf(),
+          })
+        end, 100)
+      end)
+      local function ensure_installed()
+        for _, tool in ipairs(opts.ensure_installed or {}) do
+          local p = mr.get_package(tool)
+          if not p:is_installed() then
+            p:install()
+          end
+        end
+      end
+      if mr.refresh then
+        mr.refresh(ensure_installed)
+      else
+        ensure_installed()
+      end
+
+      -- Setup mason-lspconfig integration
+      require('mason-lspconfig').setup({
+        ensure_installed = { 'ts_ls', 'ruby_lsp' },
+        automatic_installation = true,
+      })
+    end,
+  },
+
+  -- {
+  --   'arcticicestudio/nord-vim',
+  --   config = function ()
+  --     vim.cmd('colorscheme nord')
+  --   end
+  -- },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+          styles = {
+              conditionals = {},
+          },
+      })
+
+      vim.cmd.colorscheme('catppuccin-mocha')
     end
   },
 
   {
     'j-hui/fidget.nvim',
-    config = function () require('fidget').setup() end,
-    branch = 'legacy' -- Stay on the legacy branch until the new version is rewritten
+    opts = {
+      progress = {
+        suppress_on_insert = true,
+        ignore_done_already = true,
+        display = {
+          render_limit = 16,
+          done_ttl = 3,
+        },
+      },
+      notification = {
+        window = {
+          winblend = 0,
+        },
+      },
+    },
   },
 
   -- Make <leader>gy yank a link to the current line in GitHub
@@ -104,7 +185,7 @@ require("lazy").setup({
           enable = true
         },
         indent = {
-          enabled = true
+          enable = true
         },
         ensure_installed = {
           "bash",
@@ -150,6 +231,11 @@ require("lazy").setup({
     config = function()
       require('Comment').setup()
     end
+  },
+
+  {
+    'coder/claudecode.nvim',
+    config = true,
   },
 })
 
