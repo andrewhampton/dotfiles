@@ -53,6 +53,7 @@ end, { desc = "Copy file path to clipboard", unpack(opts) })
 -- Diagnostics
 vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = "Go to next diagnostic", unpack(opts) })
 vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic", unpack(opts) })
+vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float, { desc = "Show diagnostic details", unpack(opts) })
 vim.keymap.set('n', '<leader>da', '<cmd>Telescope diagnostics<CR>', { desc = "List all diagnostics", unpack(opts) })
 
 -- Find/Telescope
@@ -67,7 +68,7 @@ end, { desc = "Find files in project", unpack(opts) })
 vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { desc = "List open buffers", unpack(opts) })
 vim.keymap.set('n', '<leader>fr', '<cmd>Telescope oldfiles<CR>', { desc = "List recent files", unpack(opts) })
 vim.keymap.set('n', '<leader>fq', '<cmd>Telescope quickfix<CR>', { desc = "List quickfix items", unpack(opts) })
-vim.keymap.set('n', '<leader>ft', function() require('nvim-tree').toggle() end, { desc = "Toggle file tree", unpack(opts) })
+-- vim.keymap.set('n', '<leader>ft', function() require('nvim-tree').toggle() end, { desc = "Toggle file tree", unpack(opts) })
 
 -- Git related
 vim.keymap.set('n', '<leader>gl', '<cmd>Telescope git_commits<CR>', { desc = "List commits", unpack(opts) })
@@ -80,16 +81,7 @@ vim.keymap.set('n', '<leader>gy', function() copyAndOpenGitHubLink('n') end, { d
 -- Git hunks
 vim.keymap.set('n', '<leader>ghj', '<cmd>Gitsigns next_hunk<CR>', { desc = "Next git hunk", unpack(opts) })
 vim.keymap.set('n', '<leader>ghk', '<cmd>Gitsigns prev_hunk<CR>', { desc = "Previous git hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>ghs', '<cmd>Gitsigns stage_hunk<CR>', { desc = "Stage hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>ghu', '<cmd>Gitsigns undo_stage_hunk<CR>', { desc = "Unstage hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>ghr', '<cmd>Gitsigns reset_hunk<CR>', { desc = "Reset hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>ghb', '<cmd>Gitsigns blame_line<CR>', { desc = "Blame line", unpack(opts) })
 vim.keymap.set('n', '<leader>ght', '<cmd>Gitsigns toggle_current_line_blame<CR>', { desc = "Toggle current line blame", unpack(opts) })
-
--- Notes
-vim.keymap.set('n', '<leader>ot', function()
-  vim.cmd(os.date(':vsplit ~/notes/%Y-%m-%d.md'))
-end, { desc = "Open today's note", unpack(opts) })
 
 -- Utilities
 vim.keymap.set('n', '<leader>ur', ':checktime<CR>', { desc = "Reload file from disk", unpack(opts) })
@@ -117,9 +109,23 @@ vim.keymap.set('v', '<leader>hu', function() require('gitsigns').undo_stage_hunk
 ---------------------------------------
 -- Other modes
 ---------------------------------------
+-- Pane navigation with Alt+hjkl
+vim.keymap.set('n', '<M-h>', '<C-w>h', { desc = "Move to left pane", unpack(opts) })
+vim.keymap.set('n', '<M-j>', '<C-w>j', { desc = "Move to bottom pane", unpack(opts) })
+vim.keymap.set('n', '<M-k>', '<C-w>k', { desc = "Move to top pane", unpack(opts) })
+vim.keymap.set('n', '<M-l>', '<C-w>l', { desc = "Move to right pane", unpack(opts) })
+
 -- Clear search highlights
 vim.keymap.set('n', '<C-l>', ':noh<CR>', { noremap = true, silent = false, desc = "Clear search highlights" })
 
 -- Insert mode Copilot panel
 vim.keymap.set('i', '<C-c>', '<cmd>Copilot panel<CR>', { noremap = true, silent = true, desc = "Open Copilot panel" })
 
+vim.keymap.set('n', '<leader>ac', '<cmd>ClaudeCode<cr>', { desc = "Toggle Claude Code", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>af', '<cmd>ClaudeCodeFocus<cr>', { desc = "Focus Claude Code", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ar', '<cmd>ClaudeCode --resume<cr>', { desc = "Resume Claude Code", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>aC', '<cmd>ClaudeCode --continue<cr>', { desc = "Continue Claude Code", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', { desc = "Add current buffer to Claude Code", noremap = true, silent = true })
+vim.keymap.set('v', '<leader>as', '<cmd>ClaudeCodeSend<cr>', { desc = "Send selection to Claude Code", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>aa', '<cmd>ClaudeCodeDiffAccept<cr>', { desc = "Accept Claude Code diff", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ad', '<cmd>ClaudeCodeDiffDeny<cr>', { desc = "Deny Claude Code diff", noremap = true, silent = true })
