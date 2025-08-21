@@ -139,6 +139,18 @@ alias t='bin/rails test'
 alias fix='bin/biome check --write && bin/rubocop -a'
 alias merge='git fetch origin && git rebase origin/main && gpf && bin/ci && git switch --ignore-other-worktrees $(git_main_branch) && gm - && gp && echo "merged! 🎉" && gco -'
 
+alias jc='jj commit'
+alias jn='jj new'
+alias jd='jj describe'
+alias jbs='jj bookmark set'
+alias jbc='jj bookmark create'
+alias jlm='jj log -r "mine()"'
+alias jgf='jj git fetch'
+alias jgp='jj git push'
+alias jgp!='jj git push --allow-new'
+alias jrbm='jj rebase -d "trunk()"'
+alias jmerge='jj git fetch && jj rebase -d "trunk()" && jj git push && bin/ci && jj bookmark set main -r @ && jj git push -b main'
+
 function gspin() {
   if [ $# -ne 1 ]; then
     echo "Usage: gspin <branch_name>"
