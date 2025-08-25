@@ -39,7 +39,7 @@ local on_attach = function(client)
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover details', unpack(opts) })
   vim.keymap.set('n', 'gd', function()
-    local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
     local has_definition_support = false
     for _, client in ipairs(clients) do
       if client.server_capabilities.definitionProvider then
