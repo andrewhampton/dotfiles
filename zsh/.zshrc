@@ -152,6 +152,57 @@ alias jgp!='jj git push --allow-new'
 alias jrbm='jj rebase -d "trunk()"'
 alias jmerge='jj git fetch && jj rebase -d "trunk()" && jj git push && bin/ci && jj bookmark set main -r "latest(heads(::@ & ~empty()))" && jj git push -b main'
 
+# Default revset used by all helpers
+export JJ_REVSET_CURRENT_BRANCH='trunk()::@ | @::'
+
+# 1) Pick a commit in the revset, preview with jj show, print short commit id
+jj_pick_commit() {
+  emulate -L zsh
+  setopt pipefail
+  local revset=${1:-$JJ_REVSET_CURRENT_BRANCH}
+  jj log -r "$revset" --no-graph \
+    -T 'separate(" ", commit_id.short(), change_id.short(), bookmarks, description.first_line()) ++ "\n"' \
+  | fzf --prompt='rev> ' \
+        --preview 'jj show -r {1} --color=always' \
+  | awk '{print $2}'
+}
+
+# 2) Pick one or more bookmarks (branches) in the same revset, print names (NL-separated)
+jj_pick_bookmarks() {
+  emulate -L zsh
+  setopt pipefail
+  local revset=${1:-$JJ_REVSET_CURRENT_BRANCH}
+
+  # derive bookmark names from changes in revset, then de-duplicate and sort
+  local names
+  names=$(jj log -r "($revset) & bookmarks()" -T 'bookmarks ++ "\n"' --no-graph \
+          | tr ' ' '\n' | sed '/^$/d' | sort -u) || return 1
+  [[ -n $names ]] || { print -u2 "no bookmarks in revset"; return 1 }
+
+  print -r -- "$names" \
+  | fzf --multi --prompt='bookmark> ' \
+        --preview 'jj show --color=always -r "{}"' \
+        --preview-window=right:80%:border
+}
+
+# 3) Combine: pick bookmarks, then pick a commit, then move the bookmarks
+jbu() {
+  emulate -L zsh
+  setopt pipefail
+  local revset=${1:-$JJ_REVSET_CURRENT_BRANCH}
+
+  local -a bms
+  bms=(${(f)"$(jj_pick_bookmarks "$revset")"}) || return 1
+  (( ${#bms} )) || { print -u2 "no bookmarks selected"; return 1 }
+
+  local target
+  target=$(jj_pick_commit "$revset") || return 1
+  [[ -n $target ]] || { print -u2 "no revision selected"; return 1 }
+
+  jj bookmark move -B --to "$target" "${bms[@]}"
+}
+
+
 function gspin() {
   if [ $# -ne 1 ]; then
     echo "Usage: gspin <branch_name>"
