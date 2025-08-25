@@ -233,9 +233,9 @@ require("lazy").setup({
     end
   },
 
-  {
-    'coder/claudecode.nvim',
-    config = true,
-  },
+  -- {
+  --   'coder/claudecode.nvim',
+  --   config = true,
+  -- },
 })
 
