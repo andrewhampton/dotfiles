@@ -47,7 +47,7 @@ local on_attach = function(client)
         break
       end
     end
-    
+
     if has_definition_support then
       telescope.lsp_definitions()
     else
@@ -140,7 +140,7 @@ if not configs.herb_ls then
   configs.herb_ls = {
     default_config = {
       cmd = { "herb-language-server", "--stdio" },
-      filetypes = { "html", "ruby", "eruby" },
+      filetypes = { "html", "eruby" },
       root_dir = util.root_pattern("Gemfile", ".git"),
       settings = {},
     },
