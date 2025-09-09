@@ -110,10 +110,20 @@ vim.keymap.set('v', '<leader>hu', function() require('gitsigns').undo_stage_hunk
 -- Other modes
 ---------------------------------------
 -- Pane navigation with Alt+hjkl
-vim.keymap.set('n', '<M-h>', '<C-w>h', { desc = "Move to left pane", unpack(opts) })
-vim.keymap.set('n', '<M-j>', '<C-w>j', { desc = "Move to bottom pane", unpack(opts) })
-vim.keymap.set('n', '<M-k>', '<C-w>k', { desc = "Move to top pane", unpack(opts) })
-vim.keymap.set('n', '<M-l>', '<C-w>l', { desc = "Move to right pane", unpack(opts) })
+-- vim.keymap.set('n', '<M-h>', '<C-w>h', { desc = "Move to left pane", unpack(opts) })
+-- vim.keymap.set('n', '<M-j>', '<C-w>j', { desc = "Move to bottom pane", unpack(opts) })
+-- vim.keymap.set('n', '<M-k>', '<C-w>k', { desc = "Move to top pane", unpack(opts) })
+-- vim.keymap.set('n', '<M-l>', '<C-w>l', { desc = "Move to right pane", unpack(opts) })
+
+-- require that vim-kitty-navigator is installed and the .py kittens are copied into ~/.config/kitty/
+vim.g.kitty_navigator_no_mappings = 1
+
+local kitty_opts = { noremap = true, silent = true, desc = "Kitty-aware navigation" }
+
+vim.keymap.set('n', '<M-h>', '<cmd>KittyNavigateLeft<CR>',  kitty_opts)
+vim.keymap.set('n', '<M-j>', '<cmd>KittyNavigateDown<CR>',  kitty_opts)
+vim.keymap.set('n', '<M-k>', '<cmd>KittyNavigateUp<CR>',    kitty_opts)
+vim.keymap.set('n', '<M-l>', '<cmd>KittyNavigateRight<CR>', kitty_opts)
 
 -- Clear search highlights
 vim.keymap.set('n', '<C-l>', ':noh<CR>', { noremap = true, silent = false, desc = "Clear search highlights" })

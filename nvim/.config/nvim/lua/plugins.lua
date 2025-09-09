@@ -237,5 +237,9 @@ require("lazy").setup({
   --   'coder/claudecode.nvim',
   --   config = true,
   -- },
+  {
+    "knubie/vim-kitty-navigator",
+    build = "cp ./*.py ~/.config/kitty/"
+  }
 })
 
