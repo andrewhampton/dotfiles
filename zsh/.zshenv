@@ -1,5 +1,5 @@
 # Add custom bin locations
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/andrewhampton/bin:/home/andrewhampton/bin:/usr/local/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ah/bin:/home/ah/bin:/usr/local/sbin"
 
 if [[ -x "$(command -v /opt/homebrew/bin/brew)" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -9,7 +9,7 @@ fi
 export PATH="$PATH:/Applications/kitty.app/Contents/MacOS"
 
 # Add lm studio binary to the path
-export PATH="$PATH:/Users/andrewhampton/.lmstudio/bin"
+export PATH="$PATH:/Users/ah/.lmstudio/bin"
 
 # Source brew node
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
@@ -50,7 +50,7 @@ if [[ -f /usr/local/share/chruby/chruby.sh ]] then
 fi
 
 # rbenv
-export PATH="/Users/andrewhampton/.rbenv/shims:$PATH"
+export PATH="/Users/ah/.rbenv/shims:$PATH"
 
 # cargo
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -82,3 +82,7 @@ fi
 unset PREFIX
 
 export CDPATH=$HOME:$HOME/code
+
+export PATH="$HOME/.pollev/bin:$PATH"
+
+export USE_JJ=true

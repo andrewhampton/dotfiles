@@ -232,7 +232,7 @@ function ks() {
   fi
 
   local env="$1"
-  local config_path="/Users/andrewhampton/.pollev/config/k8s/teleport-${env}.k8s.ops.pe"
+  local config_path="/Users/ah/.pollev/config/k8s/teleport-${env}.k8s.ops.pe"
 
   # Check if the target config file exists
   if [ ! -f "$config_path" ]; then
@@ -257,42 +257,6 @@ function artemis_pod() {
   return kubectl get pods -l app=artemis -l deployment=artemis -o jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | awk 'BEGIN{srand()} {a[NR]=$0} END{print a[int(rand()*NR)+1]}'
 }
 
-# added by Snowflake SnowSQL installer v1.2
-export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
-
-# bun completions
-# [ -s "/Users/ah/.bun/_bun" ] && source "/Users/ah/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# pnpm
-export PNPM_HOME="/Users/andrewhampton/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
 [[ -f ~/.secrets ]] && source ~/.secrets
 
-# Added by Windsurf
-export PATH="/Users/andrewhampton/.codeium/windsurf/bin:$PATH"
-
-# Added by Windsurf
-export PATH="/Users/andrewhampton/.codeium/windsurf/bin:$PATH"
-alias claude="/Users/andrewhampton/.claude/local/claude"
-
-source ~/.agent-aliases
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/andrewhampton/.lmstudio/bin"
-# End of LM Studio CLI section
-
-
-# opencode
-export PATH=/Users/andrewhampton/.opencode/bin:$PATH
+export PATH="$PATH:/Users/ah/.lmstudio/bin"
