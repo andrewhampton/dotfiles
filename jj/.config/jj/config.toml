@@ -7,6 +7,7 @@ email = "andrewwh@gmail.com"
 [ui]
 default-command = ["log", "-r", "(heads(::main & ::@):: & ::main) | (heads(::main & ::@):: & ::@)"]
 pager = ":builtin"
+conflict-marker-style = "snapshot"
 
 [ui.streampager]
 interface = "quit-if-one-page"  # same behavior as less -FRX
