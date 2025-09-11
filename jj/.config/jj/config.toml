@@ -33,4 +33,5 @@ concat(
 [signing]
 behavior = "own"
 backend  = "ssh"
-key      = "~/.ssh/id_ed25519.pub"
+key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoKM9nM2uJb/qELkBVg8btd5/v/dn5tLFlLIjKKV8Nt"
+backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
