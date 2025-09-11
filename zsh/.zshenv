@@ -65,6 +65,9 @@ export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 # Rust bins
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# Postgres bins
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
 # set rg config file
 export RIPGREP_CONFIG_PATH=~/.rgconfig
 

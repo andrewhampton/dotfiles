@@ -84,7 +84,7 @@ jj_prompt_info() {
       jj_info="${bookmarks}+${distance}"
     fi
   else
-    jj_info="(no bookmarks)"
+    jj_info=""
   fi
 
   echo "$ZSH_THEME_JJ_PROMPT_PREFIX$jj_info$ZSH_THEME_JJ_PROMPT_SUFFIX"

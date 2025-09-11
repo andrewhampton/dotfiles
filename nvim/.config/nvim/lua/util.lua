@@ -3,7 +3,7 @@ local p = require 'plenary.path'
 local util = {}
 
 function util.gitRoot ()
-  local path = util.gitRootPath()
+  local path = util.repoRootPath()
   if not path then
     path = p:new('.')
   end
@@ -11,21 +11,22 @@ function util.gitRoot ()
   return path:absolute()
 end
 
-function util.gitRootPath ()
+function util.repoRootPath ()
   local path = p:new('.')
   local failsafe = 100
   repeat
     path = path:parent()
     failsafe = failsafe - 1
-    if util.hasGit(path) then
+    if util.hasRepo(path) then
       return path
     end
-  until (path:absolute() == "/" and failsafe > 0) or util.hasGit(path)
+  until (path:absolute() == "/" and failsafe > 0) or util.hasRepo(path)
 end
 
-function util.hasGit(path)
+function util.hasRepo(path)
   local gitFolder = path:joinpath('.git')
-  return gitFolder:exists()
+  local jjFolder = path:joinpath('.jj')
+  return gitFolder:exists() or jjFolder:exists()
 end
 
 function util.currentFileRelativeToGitRoot()
@@ -34,7 +35,7 @@ function util.currentFileRelativeToGitRoot()
     return p:new('.'):absolute()
   end
 
-  local gitRoot = util.gitRootPath()
+  local gitRoot = util.repoRootPath()
   if not gitRoot then
     return currentBuffer
   end
