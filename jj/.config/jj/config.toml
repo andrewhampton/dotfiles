@@ -9,6 +9,10 @@ default-command = ["log", "-r", "(heads(::main & ::@):: & ::main) | (heads(::mai
 pager = ":builtin"
 conflict-marker-style = "snapshot"
 
+[colors]
+"diff removed token" = { underline = false }
+"diff added token" = { underline = false }
+
 [ui.streampager]
 interface = "quit-if-one-page"  # same behavior as less -FRX
 
