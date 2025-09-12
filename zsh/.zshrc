@@ -202,6 +202,19 @@ jbu() {
   jj bookmark move -B --to "$target" "${bms[@]}"
 }
 
+# Push a selected commit and auto-create branch name
+jpa() {
+  emulate -L zsh
+  setopt pipefail
+  local revset=${1:-$JJ_REVSET_CURRENT_BRANCH}
+
+  local target
+  target=$(jj_pick_commit "$revset") || return 1
+  [[ -n $target ]] || { print -u2 "no revision selected"; return 1 }
+
+  jj git push -c "$target"
+}
+
 
 function gspin() {
   if [ $# -ne 1 ]; then
