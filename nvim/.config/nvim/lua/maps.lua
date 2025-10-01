@@ -125,6 +125,11 @@ vim.keymap.set('n', '<M-j>', '<cmd>KittyNavigateDown<CR>',  kitty_opts)
 vim.keymap.set('n', '<M-k>', '<cmd>KittyNavigateUp<CR>',    kitty_opts)
 vim.keymap.set('n', '<M-l>', '<cmd>KittyNavigateRight<CR>', kitty_opts)
 
+vim.keymap.set('v', '<M-h>', '<cmd>KittyNavigateLeft<CR>',  kitty_opts)
+vim.keymap.set('v', '<M-j>', '<cmd>KittyNavigateDown<CR>',  kitty_opts)
+vim.keymap.set('v', '<M-k>', '<cmd>KittyNavigateUp<CR>',    kitty_opts)
+vim.keymap.set('v', '<M-l>', '<cmd>KittyNavigateRight<CR>', kitty_opts)
+
 -- Clear search highlights
 vim.keymap.set('n', '<C-l>', ':noh<CR>', { noremap = true, silent = false, desc = "Clear search highlights" })
 
