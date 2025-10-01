@@ -1,8 +1,5 @@
-local lspconfig = require('lspconfig')
 local telescope = require('telescope.builtin')
 -- local wk = require('which-key')
-local configs = require("lspconfig.configs")
-local util = require("lspconfig.util")
 
 -- Setup LSP capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -66,17 +63,17 @@ local on_attach = function(client)
   vim.bo[0].omnifunc = 'v:lua.vim.lsp.omnifunc'
 end
 
-lspconfig.ts_ls.setup {
-  on_attach = on_attach,
+vim.lsp.config.ts_ls = {
+  cmd = { 'typescript-language-server', '--stdio' },
+  filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx' },
+  root_markers = { "package.json", "tsconfig.json" },
   capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json"),
-  flags = {
-    debounce_text_changes = 150
-  },
-  init_options = {
+  on_attach = on_attach,
+  settings = {
     documentFormatting = false
   },
 }
+vim.lsp.enable('ts_ls')
 
 -- lspconfig.solargraph.setup {
 --   on_attach = on_attach,
@@ -98,28 +95,37 @@ lspconfig.ts_ls.setup {
 --   }
 -- }
 
-lspconfig.ruby_lsp.setup({
-  on_attach = on_attach,
+vim.lsp.config.ruby_lsp = {
+  cmd = { 'ruby-lsp' },
+  filetypes = { 'ruby', 'rakefile' },
+  root_markers = { 'Gemfile', '.git' },
   capabilities = capabilities,
-  init_options = {
+  on_attach = on_attach,
+  settings = {
     formatter = 'none',  -- Disable LSP formatting, use Neoformat instead
   }
-})
+}
+vim.lsp.enable('ruby_lsp')
 
 vim.g.markdown_fenced_languages = {
   "ts=typescript"
 }
 
-lspconfig.denols.setup {
-  on_attach = on_attach,
+vim.lsp.config.denols = {
+  cmd = { 'deno', 'lsp' },
+  filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx' },
+  root_markers = { "deno.json", "deno.jsonc" },
   capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
+  on_attach = on_attach,
 }
+vim.lsp.enable('denols')
 
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config.rust_analyzer = {
   cmd = { "rustup", "run", "stable", "rust-analyzer" },
+  filetypes = { 'rust' },
+  root_markers = { 'Cargo.toml', 'rust-project.json' },
+  capabilities = capabilities,
+  on_attach = on_attach,
   -- settings = {
   --   ["rust-analyzer"] = {
   --     assist = {
@@ -135,16 +141,13 @@ lspconfig.rust_analyzer.setup {
   --   }
   -- }
 }
+vim.lsp.enable('rust_analyzer')
 
-if not configs.herb_ls then
-  configs.herb_ls = {
-    default_config = {
-      cmd = { "herb-language-server", "--stdio" },
-      filetypes = { "html", "eruby" },
-      root_dir = util.root_pattern("Gemfile", ".git"),
-      settings = {},
-    },
-  }
-end
-
-lspconfig.herb_ls.setup({ on_attach = on_attach, capabilities = capabilities })
+vim.lsp.config.herb_ls = {
+  cmd = { "herb-language-server", "--stdio" },
+  filetypes = { "html", "eruby" },
+  root_markers = { "Gemfile", ".git" },
+  capabilities = capabilities,
+  on_attach = on_attach,
+}
+vim.lsp.enable('herb_ls')
