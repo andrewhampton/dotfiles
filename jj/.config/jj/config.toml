@@ -5,7 +5,7 @@ name = "Andrew Hampton"
 email = "andrewwh@gmail.com"
 
 [ui]
-default-command = ["log", "-r", "(heads(::main & ::@):: & ::main) | (heads(::main & ::@):: & ::@)"]
+default-command = ["log", "-r", "(heads(::main & ::@):: & ::main) | (heads(::main & ::@):: & ::@) | @::"]
 pager = ":builtin"
 conflict-marker-style = "snapshot"
 
