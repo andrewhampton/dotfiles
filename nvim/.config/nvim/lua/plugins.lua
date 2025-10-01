@@ -19,6 +19,12 @@ require("lazy").setup({
   'nvim-telescope/telescope-ui-select.nvim',
   'github/copilot.vim',
   {
+    "sourcegraph/amp.nvim",
+    branch = "main",
+    lazy = false,
+    opts = { auto_start = true, log_level = "info" },
+  },
+  {
     'williamboman/mason.nvim',
     cmd = 'Mason',
     keys = { { '<leader>cm', '<cmd>Mason<cr>', desc = 'Mason' } },
