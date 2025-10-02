@@ -80,6 +80,8 @@ if [ -f "$HOME/.cargo/env" ]; then
   . "$HOME/.cargo/env"
 fi
 
+export PATH="$PATH:~/go/bin"
+
 # eval "$(github-copilot-cli alias -- "$0")"
 
 unset PREFIX
