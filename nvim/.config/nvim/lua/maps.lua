@@ -136,11 +136,26 @@ vim.keymap.set('n', '<C-l>', ':noh<CR>', { noremap = true, silent = false, desc 
 -- Insert mode Copilot panel
 vim.keymap.set('i', '<C-c>', '<cmd>Copilot panel<CR>', { noremap = true, silent = true, desc = "Open Copilot panel" })
 
+-- AmpSend command
+vim.api.nvim_create_user_command("AmpSend", function(opts)
+  local message = opts.args
+  if message == "" then
+    print("Please provide a message to send")
+    return
+  end
+
+  local amp_message = require("amp.message")
+  amp_message.send_message(message)
+end, {
+  nargs = "*",
+  desc = "Send a message to Amp",
+})
+
 vim.keymap.set('n', '<leader>ac', '<cmd>ClaudeCode<cr>', { desc = "Toggle Claude Code", noremap = true, silent = true })
 vim.keymap.set('n', '<leader>af', '<cmd>ClaudeCodeFocus<cr>', { desc = "Focus Claude Code", noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ar', '<cmd>ClaudeCode --resume<cr>', { desc = "Resume Claude Code", noremap = true, silent = true })
 vim.keymap.set('n', '<leader>aC', '<cmd>ClaudeCode --continue<cr>', { desc = "Continue Claude Code", noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', { desc = "Add current buffer to Claude Code", noremap = true, silent = true })
-vim.keymap.set('v', '<leader>as', '<cmd>ClaudeCodeSend<cr>', { desc = "Send selection to Claude Code", noremap = true, silent = true })
+vim.keymap.set('v', '<leader>as', '<cmd>AmpSend<cr>', { desc = "Send selection to Amp", noremap = true, silent = true })
 vim.keymap.set('n', '<leader>aa', '<cmd>ClaudeCodeDiffAccept<cr>', { desc = "Accept Claude Code diff", noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ad', '<cmd>ClaudeCodeDiffDeny<cr>', { desc = "Deny Claude Code diff", noremap = true, silent = true })
