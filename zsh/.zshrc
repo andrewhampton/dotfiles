@@ -37,6 +37,9 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# fzf shell completions
+source <(fzf --zsh)
+
 # aliases
 alias fs="foreman start| grep web.1"
 alias om="overmind"
