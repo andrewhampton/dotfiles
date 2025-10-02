@@ -150,7 +150,19 @@ alias jgf='jj git fetch'
 alias jgp='jj git push'
 alias jgp!='jj git push --allow-new'
 alias jrbm='jj rebase -d "trunk()"'
-alias jmerge='jj git fetch && jj rebase -d "trunk()" && jj git push -c @ && bin/ci && jj bookmark set main -r "latest(heads(::@ & ~empty()))" && jj git push -b main'
+jmerge() {
+  jj git fetch &&
+  jj rebase -d "trunk()" &&
+  jj git push -c @ &&
+  bin/ci &&
+  jj bookmark set main -r "latest(heads(::@ & ~empty()))" &&
+  jj git push -b main || return $?
+
+  if jj bookmark list | grep -q 'push-'; then
+    jj bookmark delete glob:"push-*" &&
+    jj git push --deleted
+  fi
+}
 alias jmain='jj log -r ::main' # pronounced "juh-main" like flight of the concords
 
 # Default revset used by all helpers
