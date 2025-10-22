@@ -44,7 +44,7 @@ ZSH_THEME_JJ_PROMPT_DELETED="${base08} ✖"
 # JJ status function
 function jj_prompt_status() {
   local INDEX STATUS
-  INDEX=$(command jj status 2> /dev/null)
+  INDEX=$(command jj status --ignore-working-copy 2> /dev/null)
   STATUS=""
   if $(echo "$INDEX" | grep -E '^Working copy changes:' &> /dev/null); then
     if $(echo "$INDEX" | grep -E '^A ' &> /dev/null); then
@@ -68,14 +68,14 @@ jj_prompt_info() {
 
   # Find the nearest ancestor with bookmarks
   local bookmark_info
-  bookmark_info=$(command jj log -r "ancestors(@, 10)" --no-graph -T 'if(bookmarks, bookmarks ++ "|" ++ change_id.short() ++ "\n", "")' 2> /dev/null | grep -v '^$' | head -1) || return 0
+  bookmark_info=$(command jj log --ignore-working-copy -r "ancestors(@, 10)" --no-graph -T 'if(bookmarks, bookmarks ++ "|" ++ change_id.short() ++ "\n", "")' 2> /dev/null | grep -v '^$' | head -1) || return 0
 
   if [ -n "$bookmark_info" ]; then
     bookmarks=$(echo "$bookmark_info" | cut -d'|' -f1)
     bookmarked_commit=$(echo "$bookmark_info" | cut -d'|' -f2)
 
     # Count distance from @ to the bookmarked commit
-    distance=$(command jj log -r "$bookmarked_commit::@" --no-graph -T 'change_id.short() ++ "\n"' 2> /dev/null | wc -l) || return 0
+    distance=$(command jj log --ignore-working-copy -r "$bookmarked_commit::@" --no-graph -T 'change_id.short() ++ "\n"' 2> /dev/null | wc -l) || return 0
     distance=$((distance - 1))  # Subtract 1 because the range includes both endpoints
 
     if [ $distance -eq 0 ]; then
