@@ -44,7 +44,7 @@ function util.currentFileRelativeToGitRoot()
 end
 
 function util.editNorgToday ()
-  filename = os.date("~/neorg/%Y-%m-%d.norg")
+  local filename = os.date("~/neorg/%Y-%m-%d.norg")
   vim.cmd('edit ' .. filename)
 end
 

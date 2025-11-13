@@ -31,7 +31,7 @@ vim.diagnostic.config({
   -- },
 })
 
-local on_attach = function(client)
+local on_attach = function(_)
   local opts = { noremap = true, silent = true, buffer = 0 }
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover details', unpack(opts) })

@@ -34,7 +34,7 @@ api.nvim_create_autocmd("VimResized", {
 api.nvim_create_augroup("textBuffers", { clear = true })
 api.nvim_create_autocmd("FileType", {
   group = "textBuffers",
-  pattern = { "gitcommit", "*" },
+  pattern = "*",
   callback = function ()
     local textFiles = { 'gitcommit', 'markdown' }
 
