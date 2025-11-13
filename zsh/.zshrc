@@ -174,7 +174,7 @@ jmerge() {
     jj git push --deleted
   fi
 }
-alias jmain='jj log -r ::main' # pronounced "juh-main" like flight of the concords
+alias jmain='jj log -r "::trunk()"' # pronounced "juh-main" like flight of the concords
 
 # Default revset used by all helpers
 export JJ_REVSET_CURRENT_BRANCH='(heads(::main & ::@)+::@ | @::)'
