@@ -290,3 +290,6 @@ function artemis_pod() {
 [[ -f ~/.secrets ]] && source ~/.secrets
 
 export PATH="$PATH:/Users/ah/.lmstudio/bin"
+
+# Added by Antigravity
+export PATH="/Users/ah/.antigravity/antigravity/bin:$PATH"
