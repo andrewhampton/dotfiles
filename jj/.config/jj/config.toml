@@ -5,7 +5,8 @@ name = "Andrew Hampton"
 email = "andrewwh@gmail.com"
 
 [ui]
-default-command = ["log", "-r", "(heads(::main & ::@):: & ::main) | (heads(::main & ::@):: & ::@) | @::"]
+# default-command = ["log", "-r", "(heads(::trunk() & ::@):: & ::trunk()) | (heads(::trunk() & ::@):: & ::@) | @::"]
+default-command = ["log", "-r", "(heads(::trunk() & ::@):: & ::trunk()) | (heads(::trunk() & ::@)::)"]
 pager = ":builtin"
 conflict-marker-style = "snapshot"
 
@@ -19,7 +20,7 @@ interface = "quit-if-one-page"  # same behavior as less -FRX
 [templates]
 draft_commit_description = '''
 concat(
-  description,
+  coalesce(description, default_commit_description, "\n"),
   surround(
     "\nJJ: This commit contains the following changes:\n", "",
     indent("JJ:     ", diff.summary()),
@@ -34,8 +35,16 @@ concat(
 )
 '''
 
+# [template-aliases]
+# "format_timestamp(timestamp)" = "format_timestamp(timestamp, \"%Y-%m-%d %H:%M:%S %z\")"
+
 [signing]
 behavior = "own"
 backend  = "ssh"
 key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoKM9nM2uJb/qELkBVg8btd5/v/dn5tLFlLIjKKV8Nt"
 backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[revsets]
+# Try to keep the change ID short for my recent commits and the current branch commits
+# short-prefixes = '(mine() & committer_date(after:"1 day ago")) | (main::@) | @::'
+short-prefixes = 'heads(::main & ::@)::'
