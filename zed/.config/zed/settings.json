@@ -11,8 +11,8 @@
   "agent": {
     "play_sound_when_agent_done": true,
     "inline_assistant_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "provider": "copilot_chat",
+      "model": "gpt-5-codex"
     },
     "profiles": {
       "ask-w/-terminal": {
@@ -129,8 +129,8 @@
     "default_profile": "write-w/-terminal",
     "always_allow_tool_actions": true,
     "default_model": {
-      "provider": "lmstudio",
-      "model": "openai/gpt-oss-20b",
+      "provider": "copilot_chat",
+      "model": "gpt-5.1",
     },
   },
   "language_models": {
@@ -218,7 +218,7 @@
       }
     }
   },
-  "format_on_save": "off",
+  "format_on_save": "on",
   "formatter": "language_server",
   "indent_guides": {
     "enabled": false
@@ -236,10 +236,12 @@
         }
       }
     },
-    "ERB": {
+    "HTML+ERB": {
       "language_servers": [
+        "herb",
         "ruby-lsp",
-        "!solargraph"
+        "!solargraph",
+        "..."
       ],
       "format_on_save": "on"
     },
