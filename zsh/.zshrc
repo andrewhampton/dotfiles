@@ -177,7 +177,7 @@ jmerge() {
 alias jmain='jj log -r ::main' # pronounced "juh-main" like flight of the concords
 
 # Default revset used by all helpers
-export JJ_REVSET_CURRENT_BRANCH='trunk()::@ | @::'
+export JJ_REVSET_CURRENT_BRANCH='(heads(::main & ::@)+::@ | @::)'
 
 # 1) Pick a commit in the revset, preview with jj show, print short commit id
 jj_pick_commit() {
