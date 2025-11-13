@@ -12,10 +12,7 @@ require("lazy").setup({
   'chriskempson/base16-vim',
   'kyazdani42/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
-  'gpanders/editorconfig.nvim',
   'tpope/vim-surround',
-  'nvim-telescope/telescope-fzy-native.nvim',
-  'nvim-telescope/telescope-fzf-native.nvim',
   'nvim-telescope/telescope-ui-select.nvim',
   'github/copilot.vim',
   {
@@ -33,9 +30,7 @@ require("lazy").setup({
     opts = {
       ensure_installed = {
         'typescript-language-server',
-        'ruby-lsp',
         'herb-language-server',
-        'rubocop',
         'prettier',
       },
     },
@@ -69,8 +64,8 @@ require("lazy").setup({
 
       -- Setup mason-lspconfig integration
       require('mason-lspconfig').setup({
-        ensure_installed = { 'ts_ls', 'ruby_lsp' },
-        automatic_installation = true,
+        ensure_installed = { 'ts_ls' },
+        automatic_installation = false,
       })
     end,
   },
@@ -239,10 +234,6 @@ require("lazy").setup({
     end
   },
 
-  -- {
-  --   'coder/claudecode.nvim',
-  --   config = true,
-  -- },
   {
     "knubie/vim-kitty-navigator",
     build = "cp ./*.py ~/.config/kitty/"
