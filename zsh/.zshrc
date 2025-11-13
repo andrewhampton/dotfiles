@@ -156,8 +156,15 @@ alias jrbm='jj rebase -d "trunk()"'
 alias jres='jj resolve --tool mergiraf'
 jmerge() {
   jj git fetch &&
-  jj rebase -d "trunk()" &&
-  jj git push -c @ &&
+  jj rebase -d "trunk()" || return $?
+
+  local -a bookmarks=(${(f)"$(jj bookmark list -r @ -T 'name ++ "\n"' | grep -v '^push-' | sort -u)"})
+  if (( ${#bookmarks} )); then
+    jj git push ${bookmarks[@]/#/-b}
+  else
+    jj git push -c @
+  fi &&
+
   bin/ci &&
   jj bookmark set main -r "latest(heads(::@ & ~empty()))" &&
   jj git push -b main || return $?
