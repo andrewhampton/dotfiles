@@ -1,8 +1,8 @@
 local grid = require "grid"
 
 -- hyperterm
-local hyperterm = require "hyperterm"
-hyperterm.init()
+-- local hyperterm = require "hyperterm"
+-- hyperterm.init()
 
 local mash =    {"cmd", "shift", "ctrl"}
 local mashalt = {"ctrl", "shift", "alt"}
