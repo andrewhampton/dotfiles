@@ -153,6 +153,7 @@ alias jgf='jj git fetch'
 alias jgp='jj git push'
 alias jgp!='jj git push --allow-new'
 alias jrbm='jj rebase -d "trunk()"'
+alias jres='jj resolve --tool mergiraf'
 jmerge() {
   jj git fetch &&
   jj rebase -d "trunk()" &&
