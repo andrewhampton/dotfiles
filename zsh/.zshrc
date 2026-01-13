@@ -149,12 +149,27 @@ alias jd='jj describe'
 alias jbs='jj bookmark set'
 alias jbs!='jj bookmark set --allow-backwards'
 alias jbc='jj bookmark create'
+alias jba='jj bookmark advance'
 alias jlm='jj log -r "mine()"'
 alias jgf='jj git fetch'
 alias jgp='jj git push'
-alias jgp!='jj git push --allow-new'
+alias jgp!='jj git push'
+alias ja='jj arrange'
 alias jrbm='jj rebase -d "trunk()"'
 alias jres='jj resolve --tool mergiraf'
+jj_current_workspace_name() {
+  emulate -L zsh
+  local workspace
+  workspace=$(jj workspace list --color=never -T 'if(target.current_working_copy(), name)' 2>/dev/null)
+  workspace=${workspace//$'\n'/}
+  if [[ -z "$workspace" || "$workspace" == "default" ]]; then
+    print -nr -- "artemis"
+  else
+    print -nr -- "$workspace"
+  fi
+}
+alias f='open "https://$(jj_current_workspace_name).eng.pe/auth/sign_in"'
+
 jmerge() {
   jj git fetch &&
   jj rebase -d "trunk()" || return $?
@@ -176,6 +191,23 @@ jmerge() {
   fi
 }
 alias jmain='jj log -r "::trunk()"' # pronounced "juh-main" like flight of the concords
+alias jmine='jj log -r "::trunk() & mine()"' # pronounced "juh-main" like flight of the concords
+function ob() {
+  emulate -L zsh
+  local branch
+  branch=$(jj_pick_bookmarks) || return 1
+  [[ -n $branch ]] || { echo "ob: no bookmark selected" >&2; return 1 }
+
+  if ! jj git remote list 2>/dev/null | grep -q . || \
+     ! git ls-remote --heads origin "$branch" 2>/dev/null | grep -q .; then
+    echo -n "ob: bookmark '$branch' is not pushed. Push now? [y/n] "
+    read -q || { echo; return 1 }
+    echo
+    jj git push -b "$branch" || return 1
+  fi
+
+  open "https://github.com/polleverywhere/artemis/compare/${branch}...main"
+}
 
 # Default revset used by all helpers
 export JJ_REVSET_CURRENT_BRANCH='(heads(::main & ::@)+::@ | @::)'
@@ -266,16 +298,20 @@ function jh() {
   local head_file="$git_dir/HEAD"
   local head_contents restore_head=0 branch_commit branch_name
 
+  if (( is_jj )); then
+    # For jj repos, get the bookmark name directly and inject --head into PR commands
+    # Avoids manipulating the shared .git/HEAD which breaks in non-default workspaces
+    branch_name=$(jj log -r @ --no-graph -T 'local_bookmarks.map(|b| b.name()).join("\n")' 2>/dev/null | head -n1)
+    if [[ -n $branch_name && "$1" == "pr" ]]; then
+      GIT_DIR="$git_dir" GIT_WORK_TREE="$work_tree" gh "$@" --head "$branch_name"
+      return $?
+    fi
+  fi
+
   if [[ -f $head_file ]]; then
     head_contents=$(<"$head_file")
     if [[ $head_contents != ref:\ * ]]; then
-      # For jj repos, get current commit from jj; otherwise use HEAD file
-      if (( is_jj )); then
-        branch_commit=$(jj log -r @ --no-graph -T 'commit_id' 2>/dev/null)
-      else
-        branch_commit=${head_contents//$'\n'/}
-      fi
-
+      branch_commit=${head_contents//$'\n'/}
       branch_name=$(
         GIT_DIR="$git_dir" git for-each-ref --format='%(refname:short)' \
           --points-at "$branch_commit" refs/heads 2>/dev/null | head -n1
