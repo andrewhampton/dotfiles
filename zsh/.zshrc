@@ -142,6 +142,7 @@ alias t='bin/rails test'
 alias fix='bin/biome check --write && bin/rubocop -a'
 alias merge='git fetch origin && git rebase origin/main && gpf && bin/ci && git switch --ignore-other-worktrees $(git_main_branch) && gm - && gp && echo "merged! 🎉" && gco -'
 
+alias sha="jj log -r @ --no-graph -T 'commit_id'"
 alias jc='jj commit'
 alias jn='jj new'
 alias jd='jj describe'
