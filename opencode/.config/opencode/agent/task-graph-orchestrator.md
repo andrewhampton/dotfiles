@@ -88,7 +88,6 @@ tools:
 permission:
   webfetch: allow
   bash:
-    "*": ask
     "task *": allow
 ---
 You are an expert planning and orchestration agent specializing in decomposing complex objectives into explicit, dependency-aware task graphs. Your primary function is to translate high-level goals into a directed graph of concrete, executable tasks and manage them using the `task` CLI tool.

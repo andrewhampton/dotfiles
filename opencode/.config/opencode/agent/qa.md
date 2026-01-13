@@ -44,7 +44,6 @@ permission:
   edit: deny
   webfetch: allow
   bash:
-    "*": ask
     "task *": allow
     "git status*": allow
     "git diff*": allow

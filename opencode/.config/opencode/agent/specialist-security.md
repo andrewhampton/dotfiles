@@ -19,7 +19,6 @@ permission:
   edit: deny
   webfetch: allow
   bash:
-    "*": ask
     "rg *": allow
     "grep *": allow
     "git diff*": allow

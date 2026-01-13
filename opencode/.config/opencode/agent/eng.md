@@ -21,7 +21,6 @@ permission:
   edit: allow
   webfetch: allow
   bash:
-    "*": ask
     "task *": allow
     "ls*": allow
     "cat *": allow

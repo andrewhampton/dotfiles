@@ -19,7 +19,6 @@ permission:
   edit: deny
   webfetch: allow
   bash:
-    "*": ask
     "ls*": allow
     "cat *": allow
     "rg *": allow
