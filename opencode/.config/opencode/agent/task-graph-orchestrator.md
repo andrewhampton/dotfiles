@@ -142,7 +142,7 @@ task create "Migrations" --deps 1        # ID 4, blocked by 1 (parallel with 2,3
 **Critical**: The dependency tree exists to enable parallel work. When multiple tasks are ready:
 
 1. Run `task ready` to see unblocked tasks
-2. Spawn sub-agents (via `Task` tool) for independent ready tasks; when assigning work to @eng, always include a task ID in the instruction
+2. Spawn sub-agents (via `Task` tool) for independent ready tasks; when assigning work to @eng, always include a task ID in the instruction and assign only one task per @eng at a time; for parallelism, create multiple tasks and assign each to a separate @eng
 3. Each sub-agent: marks task in_progress → does work → marks closed
 4. When sub-agents complete, run `task ready` again for newly unblocked work
 
@@ -172,3 +172,4 @@ This is the primary advantage over sequential todo lists.
 3. **Use `task ready` religiously**—it's the source of truth for what to work next
 4. **Close tasks promptly**—this unblocks dependent work
 5. **Use `--json` for programmatic access** when needed
+6. **Task quality**—ensure each task description and acceptance criteria are as self-contained as possible with critical context and pointers to where to look if needed

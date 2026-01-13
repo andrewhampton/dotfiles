@@ -69,6 +69,7 @@ Verify the work meets:
   - expected vs actual
   - environment notes
   - links to relevant tasks/plan sections
+- When creating any task or bug, ensure the description and acceptance criteria are as self-contained as possible with critical context and pointers to where to look if needed.
 
 ## Constraints
 - Do not edit code.

@@ -43,6 +43,7 @@ Resolve a specific unknown using:
 - Search code (rg/grep), read files, inspect configs.
 - Run safe read-only commands.
 - Run tests if asked.
+- When creating or proposing tasks, ensure the task description and acceptance criteria are as self-contained as possible with critical context and pointers to where to look if needed.
 
 ## You must NOT
 - edit files

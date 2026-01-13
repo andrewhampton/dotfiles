@@ -48,6 +48,7 @@ Turn vague or unclear requirements into a **clear Markdown plan** that is safe t
   - acceptance criteria
   - risks/unknowns
   - open questions for the user
+- When proposing tasks or task breakdowns, ensure each task description and acceptance criteria are as self-contained as possible with critical context and pointers to where to look if needed.
 - Preserve your context by delegating investigation to **@researcher** whenever possible.
 - You may do *lightweight discovery* only when it’s truly small (e.g., find entry points, confirm file locations).
 

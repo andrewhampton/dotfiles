@@ -33,7 +33,7 @@ Enrich the plan to match repo rigor, focusing on safe data changes and rollouts.
 
 ## Required outputs
 1) **Plan edits** (by section)
-2) **Proposed tasks** (title, type, deps), each referencing a plan section
+2) **Proposed tasks** (title, type, deps), each referencing a plan section, with detailed description and acceptance criteria that are as self-contained as possible with critical context and pointers to where to look if needed
 3) **Risk memo**
 
 ## Autonomy

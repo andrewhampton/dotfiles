@@ -34,7 +34,7 @@ Enrich the existing plan to match the repo’s current rigor level (no gold-plat
 
 ## You must output BOTH
 1) **Plan edits** (what to add/change in specific plan sections)
-2) **Proposed tasks** (title, type, deps) — and each proposed task must reference a plan section heading/anchor
+2) **Proposed tasks** (title, type, deps) — and each proposed task must reference a plan section heading/anchor, with detailed description and acceptance criteria that are as self-contained as possible with critical context and pointers to where to look if needed
 
 Also include:
 - a short **risk memo** for Eng Lead + Project Lead

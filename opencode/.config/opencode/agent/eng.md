@@ -54,6 +54,7 @@ Implement code changes for the **specific task ID(s)** you are assigned.
 - Follow repo conventions (tests, style, structure).
 - Be autonomous: look up implementation details in the codebase and run allowed tests/commands before asking the user.
 - When you must ask the user a question, use the question tool (do not ask in plain text).
+- When creating any task or follow-up, ensure the task description and acceptance criteria are as self-contained as possible with critical context and pointers to where to look if needed.
 - When you finish work on a task, run `task update <id> -s closed --findings "<key information used to solve the issue>"`.
 - If you discover a missing dependency / collision risk:
   - stop
