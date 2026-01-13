@@ -1,9 +1,17 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "aura",
-  "tui": {
-    "scroll_acceleration": {
-      "enabled": true
+  "provider": {
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:1234/v1"
+      },
+      "models": {
+        "/qwen/qwen3.5-9b": {
+          "name": "Quen 3.5-9b"
+        }
+      }
     }
   },
   "mcp": {
@@ -32,7 +40,13 @@
       "pwd": "allow",
       "which *": "allow",
       "echo *": "allow",
-      "bin/prism *": "allow"
+      "bin/prism *": "allow",
+      "go build *": "allow",
+      "go test *": "allow",
+      "go run *": "allow",
+      "task *": "allow",
+      "jq *": "allow",
+      "printf *": "allow",
     },
     "external_directory": {
       "*": "ask",
