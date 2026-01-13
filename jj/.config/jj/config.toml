@@ -48,3 +48,6 @@ backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 # Try to keep the change ID short for my recent commits and the current branch commits
 # short-prefixes = '(mine() & committer_date(after:"1 day ago")) | (main::@) | @::'
 short-prefixes = 'heads(::main & ::@)::'
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
