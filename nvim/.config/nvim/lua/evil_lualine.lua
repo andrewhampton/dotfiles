@@ -1,6 +1,7 @@
 -- Modified from https://gist.github.com/hoob3rt/b200435a765ca18f09f83580a606b878
 local lualine = require 'lualine'
 local util = require 'util'
+local jjsigns = require('jjsigns')
 
 -- Color table for highlights based on tomorrow night eighties
 -- local colors = {

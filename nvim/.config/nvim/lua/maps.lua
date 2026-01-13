@@ -33,9 +33,6 @@ vim.keymap.set('n', 'gqp', '<cmd>cprev<CR>', { desc = "Previous quickfix item", 
 vim.keymap.set('n', 'gqon', '<cmd>cnewer<CR>', { desc = "Next quickfix list", unpack(opts) })
 vim.keymap.set('n', 'gqoo', '<cmd>colder<CR>', { desc = "Previous quickfix list", unpack(opts) })
 
--- Git hunk navigation
-vim.keymap.set('n', ']h', function() require("gitsigns").next_hunk() end, { desc = "Next git hunk", unpack(opts) })
-vim.keymap.set('n', '[h', function() require("gitsigns").prev_hunk() end, { desc = "Previous git hunk", unpack(opts) })
 
 ---------------------------------------
 -- Normal mode maps with <leader>
@@ -78,33 +75,25 @@ vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = "Git
 vim.keymap.set('n', '<leader>gt', '<cmd>Telescope git_stash<CR>', { desc = "List git stashes", unpack(opts) })
 vim.keymap.set('n', '<leader>gy', function() copyAndOpenGitHubLink('n') end, { desc = "Open GitHub link", unpack(opts) })
 
--- Git hunks
-vim.keymap.set('n', '<leader>ghj', '<cmd>Gitsigns next_hunk<CR>', { desc = "Next git hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>ghk', '<cmd>Gitsigns prev_hunk<CR>', { desc = "Previous git hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>ght', '<cmd>Gitsigns toggle_current_line_blame<CR>', { desc = "Toggle current line blame", unpack(opts) })
+-- JJ blame
+vim.keymap.set('n', '<leader>ght', '<cmd>JJSigns toggle_current_line_blame<CR>', { desc = "Toggle current line blame", unpack(opts) })
+vim.keymap.set('n', '<leader>ghb', '<cmd>JJSigns blame<CR>', { desc = "Show full file blame", unpack(opts) })
+vim.keymap.set('n', '<leader>ghs', '<cmd>JJSigns show_line_commit<CR>', { desc = "Show commit for current line", unpack(opts) })
 
 -- Utilities
 vim.keymap.set('n', '<leader>ur', ':checktime<CR>', { desc = "Reload file from disk", unpack(opts) })
 vim.keymap.set('n', '<leader>uc', function() require('telescope.builtin').find_files({ cwd = '~/dotfiles/nvim' }) end, { desc = "Open Neovim config", unpack(opts) })
 
--- Additional hunk mappings under <leader>h
-vim.keymap.set('n', '<leader>hs', function() require('gitsigns').stage_hunk() end, { desc = "Stage hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>hr', function() require('gitsigns').reset_hunk() end, { desc = "Reset hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>hu', function() require('gitsigns').undo_stage_hunk() end, { desc = "Unstage hunk", unpack(opts) })
-vim.keymap.set('n', '<leader>hb', function() require('gitsigns').blame_line({full=true}) end, { desc = "Blame line (full)", unpack(opts) })
-vim.keymap.set('n', '<leader>hd', function() require('gitsigns').diffthis() end, { desc = "Diff this", unpack(opts) })
+-- JJ blame shortcuts under <leader>h
+vim.keymap.set('n', '<leader>hb', '<cmd>JJSigns blame<CR>', { desc = "Full file blame", unpack(opts) })
+vim.keymap.set('n', '<leader>ht', '<cmd>JJSigns toggle_current_line_blame<CR>', { desc = "Toggle line blame", unpack(opts) })
+vim.keymap.set('n', '<leader>hs', '<cmd>JJSigns show_line_commit<CR>', { desc = "Show commit for current line", unpack(opts) })
 
 ---------------------------------------
 -- Visual mode maps
 ---------------------------------------
 vim.keymap.set('v', '<leader>gy', function() copyAndOpenGitHubLink('v') end, { desc = "GitHub link for selection", unpack(opts) })
 
-vim.keymap.set('v', '<leader>hs', function() require('gitsigns').stage_hunk({vim.fn.line("'<"), vim.fn.line("'>")}) end,
-  { desc = "Stage selected hunk", unpack(opts) })
-vim.keymap.set('v', '<leader>hr', function() require('gitsigns').reset_hunk({vim.fn.line("'<"), vim.fn.line("'>")}) end,
-  { desc = "Reset selected hunk", unpack(opts) })
-vim.keymap.set('v', '<leader>hu', function() require('gitsigns').undo_stage_hunk({vim.fn.line("'<"), vim.fn.line("'>")}) end,
-  { desc = "Unstage selected hunk", unpack(opts) })
 
 ---------------------------------------
 -- Other modes

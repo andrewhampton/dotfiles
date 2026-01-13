@@ -16,12 +16,6 @@ require("lazy").setup({
   'nvim-telescope/telescope-ui-select.nvim',
   'github/copilot.vim',
   {
-    "sourcegraph/amp.nvim",
-    branch = "main",
-    lazy = false,
-    opts = { auto_start = true, log_level = "info" },
-  },
-  {
     'williamboman/mason.nvim',
     cmd = 'Mason',
     keys = { { '<leader>cm', '<cmd>Mason<cr>', desc = 'Mason' } },
@@ -216,7 +210,19 @@ require("lazy").setup({
 
   {"folke/which-key.nvim", config = function() require("which-key").setup() end},
 
-  {'lewis6991/gitsigns.nvim', dependencies = {'nvim-lua/plenary.nvim'}, config = function() require('gitsigns').setup() end},
+  -- jjsigns.nvim for Jujutsu VCS (local plugin)
+  {
+    dir = '~/tmp/signs/jjsigns.nvim',
+    config = function()
+      require('jjsigns').setup({
+        current_line_blame = true,
+        current_line_blame_opts = {
+          delay = 500,
+          virt_text_pos = 'eol',
+        },
+      })
+    end
+  },
 
   {
     'karb94/neoscroll.nvim',
