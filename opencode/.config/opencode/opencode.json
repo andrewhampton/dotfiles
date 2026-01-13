@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "aura",
+  "tui": {
+    "scroll_acceleration": {
+      "enabled": true
+    }
+  },
+  "mcp": {
+    "chrome-devtools": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
+    }
+  },
+  "autoupdate": true,
+  "plugin": [
+    "@franlol/opencode-md-table-formatter@0.0.3",
+    "@mohak34/opencode-notifier@latest",
+    "/Users/ah/code/opencode-handoff",
+  ],
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "bundle show *": "allow",
+      "jj *": "allow",
+      "git *": "allow",
+      "ls *": "allow",
+      "pwd": "allow",
+      "which *": "allow",
+      "echo *": "allow",
+      "bin/prism *": "allow"
+    },
+    "external_directory": {
+      "*": "ask",
+      "/Users/ah/.rbenv/**": "allow"
+    }
+  }
+}
