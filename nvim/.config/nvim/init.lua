@@ -17,5 +17,8 @@ else -- Vim on the CLI config
 
   -- Git commit textwidth config
   require('commit-message-formatting')
+
+  -- @file autocomplete in markdown
+  require('md-file-complete').setup()
 end
 
