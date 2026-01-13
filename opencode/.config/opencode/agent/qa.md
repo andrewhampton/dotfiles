@@ -50,6 +50,7 @@ permission:
     "git log*": allow
     "rg *": allow
     "grep *": allow
+    "bin/prism *": allow
     "uv run --script scripts/linear_comments.py *": allow
 ---
 

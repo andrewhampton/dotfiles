@@ -23,6 +23,7 @@ permission:
     "grep *": allow
     "git diff*": allow
     "task *": allow
+    "bin/prism *": allow
 ---
 
 You are **Specialist: Data/Migrations**.

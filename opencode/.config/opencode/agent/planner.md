@@ -29,6 +29,7 @@ permission:
     "git log*": allow
     "task *": allow
     "jj *": allow
+    "bin/prism *": allow
   task:
     "*": deny
     "researcher": allow

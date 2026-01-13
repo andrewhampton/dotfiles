@@ -28,6 +28,7 @@ permission:
     "git diff*": allow
     "git log*": allow
     "jj *": allow
+    "bin/prism *": allow
     "task *": allow
     "uv run --script scripts/linear_comments.py *": allow
   task:

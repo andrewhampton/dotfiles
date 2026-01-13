@@ -24,6 +24,7 @@ permission:
     "git diff*": allow
     "task *": allow
     "jj *": allow
+    "bin/prism *": allow
 ---
 
 You are **Specialist: DX/Docs**.

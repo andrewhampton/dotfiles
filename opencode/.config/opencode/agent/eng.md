@@ -36,6 +36,7 @@ permission:
     "git rebase*": ask
     "git merge*": ask
     "jj *": allow
+    "bin/prism *": allow
     "uv run --script scripts/linear_comments.py *": allow
   task:
     "*": deny
