@@ -6,7 +6,7 @@ email = "andrewwh@gmail.com"
 
 [ui]
 # default-command = ["log", "-r", "(heads(::trunk() & ::@):: & ::trunk()) | (heads(::trunk() & ::@):: & ::@) | @::"]
-default-command = ["log", "-r", "(heads(::trunk() & ::@):: & ::trunk()) | (heads(::trunk() & ::@)::)"]
+default-command = ["log", "-r", "(heads(::@ & ::trunk()))::(@ | trunk()) | (trunk()..@)::"]
 pager = ":builtin"
 conflict-marker-style = "snapshot"
 
