@@ -96,7 +96,7 @@ man() {
 # [ -f /usr/local/share/zsh/site-functions/_gh ] && source /usr/local/share/zsh/site-functions/_gh
 
 # Bootstrap rbenv if it exists
-(( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
+#(( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
 
 # git helpers
 alias git_main_branch='git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2'
