@@ -19,8 +19,8 @@ SAVEHIST=10000
 # Source ~/.zshenv if it exists
 [ -f ~/.zshenv ] && source ~/.zshenv
 
-# Only check for a zsh update very 30 days
-UPDATE_ZSH_DAYS=30
+# Disable oh-my-zsh auto-updates
+DISABLE_AUTO_UPDATE="true"
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh

@@ -85,31 +85,12 @@ require("lazy").setup({
     end
   },
 
-  {
-    'j-hui/fidget.nvim',
-    opts = {
-      progress = {
-        suppress_on_insert = true,
-        ignore_done_already = true,
-        display = {
-          render_limit = 16,
-          done_ttl = 3,
-        },
-      },
-      notification = {
-        window = {
-          winblend = 0,
-        },
-      },
-    },
-  },
-
   -- Make <leader>gy yank a link to the current line in GitHub
   {'ruifm/gitlinker.nvim', dependencies = 'nvim-lua/plenary.nvim', config = function() require('gitlinker').setup({mappings = nil}) end},
 
   {'hoob3rt/lualine.nvim', dependencies = {'kyazdani42/nvim-web-devicons', lazy = true}, config = function() require('evil_lualine') end},
 
-  {'neovim/nvim-lspconfig', dependencies = 'j-hui/fidget.nvim', config = function() require('lsp_setup') end},
+  {'neovim/nvim-lspconfig', config = function() require('lsp_setup') end},
 
   {
     'nvim-telescope/telescope.nvim',
@@ -176,12 +157,6 @@ require("lazy").setup({
     build = ':TSUpdate',
     config = function ()
       require('nvim-treesitter.configs').setup {
-        highlight = {
-          enable = true
-        },
-        indent = {
-          enable = true
-        },
         ensure_installed = {
           "bash",
           "cmake",
@@ -195,6 +170,7 @@ require("lazy").setup({
           "json",
           "lua",
           "make",
+          "markdown",
           "regex",
           "ruby",
           "scss",

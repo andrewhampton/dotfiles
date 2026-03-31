@@ -145,6 +145,13 @@ ins_right {
   color = {fg = colors.yellow, gui = 'bold'}
 }
 
+ins_right {
+  function()
+    return vim.ui.progress_status() or ''
+  end,
+  color = {fg = colors.aqua}
+}
+
 -- Add components to right sections
 ins_right {
   'o:encoding', -- option component same as &encoding in viml
