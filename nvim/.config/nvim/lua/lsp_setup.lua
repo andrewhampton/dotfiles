@@ -31,7 +31,7 @@ vim.diagnostic.config({
   -- },
 })
 
-local on_attach = function(_)
+local on_attach = function(client)
   local opts = { noremap = true, silent = true, buffer = 0 }
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover details', unpack(opts) })
@@ -58,7 +58,7 @@ local on_attach = function(_)
   vim.keymap.set('n', '<leader>lc', function() vim.notify('Use gra for code action (nvim 0.12 default)') end, { desc = 'Use gra instead', unpack(opts) })
   vim.keymap.set('n', '<leader>ld', telescope.lsp_document_symbols, { desc = 'LSP document symbols', unpack(opts) })
 
-  vim.bo[0].omnifunc = 'v:lua.vim.lsp.omnifunc'
+  vim.lsp.completion.enable(true, client.id, 0, { autotrigger = true })
 end
 
 vim.lsp.config.ts_ls = {

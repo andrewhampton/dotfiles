@@ -17,6 +17,8 @@ o.clipboard = 'unnamedplus'
 o.signcolumn = 'yes'
 -- o.mouse = 'c'
 o.swapfile = false
+o.completeopt = 'menuone,noselect,popup'
+o.pumborder = 'single'
 
 vim.g.editorconfig = true
 
