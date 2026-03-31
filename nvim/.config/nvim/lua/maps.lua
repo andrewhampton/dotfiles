@@ -48,9 +48,9 @@ vim.keymap.set('n', '<leader>yf', function()
 end, { desc = "Copy file path to clipboard", unpack(opts) })
 
 -- Diagnostics
-vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = "Go to next diagnostic", unpack(opts) })
-vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic", unpack(opts) })
-vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float, { desc = "Show diagnostic details", unpack(opts) })
+vim.keymap.set('n', '<leader>dn', function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Go to next diagnostic", unpack(opts) })
+vim.keymap.set('n', '<leader>dp', function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Go to previous diagnostic", unpack(opts) })
+vim.keymap.set('n', '<leader>dd', function() vim.diagnostic.open_float({ scope = 'cursor' }) end, { desc = "Show diagnostic details", unpack(opts) })
 vim.keymap.set('n', '<leader>da', '<cmd>Telescope diagnostics<CR>', { desc = "List all diagnostics", unpack(opts) })
 
 -- Find/Telescope
