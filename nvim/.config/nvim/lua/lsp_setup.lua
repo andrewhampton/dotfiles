@@ -52,12 +52,10 @@ local on_attach = function(_)
       vim.cmd('normal! gd')
     end
   end, { desc = 'Go to definition', unpack(opts) })
-  vim.keymap.set('n', 'gr', telescope.lsp_references, { desc = 'Go to references', unpack(opts) })
-  vim.keymap.set('n', 'gI', telescope.lsp_implementations, { desc = 'Go to implementations', unpack(opts) })
-  vim.keymap.set('n', 'gT', telescope.lsp_type_definitions, { desc = 'Go to type definition', unpack(opts) })
-
-  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { desc = 'LSP rename', unpack(opts) })
-  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, { desc = 'LSP code action', unpack(opts) })
+  -- nvim 0.12 provides default LSP mappings: grr (references), gra (code action), grn (rename), grt (type def)
+  vim.keymap.set('n', 'gr', function() vim.notify('Use grr for references (nvim 0.12 default)') end, { desc = 'Use grr instead', unpack(opts) })
+  vim.keymap.set('n', '<leader>lr', function() vim.notify('Use grn for rename (nvim 0.12 default)') end, { desc = 'Use grn instead', unpack(opts) })
+  vim.keymap.set('n', '<leader>lc', function() vim.notify('Use gra for code action (nvim 0.12 default)') end, { desc = 'Use gra instead', unpack(opts) })
   vim.keymap.set('n', '<leader>ld', telescope.lsp_document_symbols, { desc = 'LSP document symbols', unpack(opts) })
 
   vim.bo[0].omnifunc = 'v:lua.vim.lsp.omnifunc'
