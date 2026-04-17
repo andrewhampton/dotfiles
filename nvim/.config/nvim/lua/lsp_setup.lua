@@ -99,9 +99,6 @@ vim.lsp.config.ruby_lsp = {
   root_markers = { 'Gemfile', '.git' },
   capabilities = capabilities,
   on_attach = on_attach,
-  settings = {
-    formatter = 'none',  -- Disable LSP formatting, use Neoformat instead
-  }
 }
 vim.lsp.enable('ruby_lsp')
 

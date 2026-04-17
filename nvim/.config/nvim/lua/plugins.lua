@@ -144,13 +144,6 @@ require("lazy").setup({
   },
 
   {
-    'sbdchd/neoformat',
-    config = function ()
-      vim.g.neoformat_try_node_exe = 1
-    end
-  },
-
-  {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     config = function ()
