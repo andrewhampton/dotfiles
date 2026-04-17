@@ -9,7 +9,6 @@ vim.env.PATH = table.concat({ hb, ul, lb, ocb, vim.env.PATH or "" }, ":")
 vim.fn.setenv('PATH', vim.env.PATH)
 
 require("lazy").setup({
-  'chriskempson/base16-vim',
   'kyazdani42/nvim-web-devicons',
   'nvim-lua/plenary.nvim',
   'tpope/vim-surround',

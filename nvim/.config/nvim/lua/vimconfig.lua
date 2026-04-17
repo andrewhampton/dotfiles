@@ -22,8 +22,6 @@ o.pumborder = 'single'
 
 vim.g.editorconfig = true
 
--- vim.cmd('colorscheme base16-tomorrow-night-eighties')
-
 vim.cmd('hi SpellBad gui=undercurl')
 
 api.nvim_create_augroup("autoResize", { clear = true })
