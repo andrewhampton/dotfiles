@@ -38,9 +38,6 @@ vim.keymap.set('n', 'gqoo', '<cmd>colder<CR>', { desc = "Previous quickfix list"
 -- Normal mode maps with <leader>
 ---------------------------------------
 
--- AI (Copilot)
-vim.keymap.set('n', '<leader>cp', '<cmd>Copilot panel<CR>', { desc = "Open Copilot panel", unpack(opts) })
-
 vim.keymap.set('n', '<leader>yf', function()
   local path = util.currentFileRelativeToGitRoot()
   vim.fn.setreg('+', path)
@@ -121,9 +118,6 @@ vim.keymap.set('v', '<M-l>', '<cmd>KittyNavigateRight<CR>', kitty_opts)
 
 -- Clear search highlights
 vim.keymap.set('n', '<C-l>', ':noh<CR>', { noremap = true, silent = false, desc = "Clear search highlights" })
-
--- Insert mode Copilot panel
-vim.keymap.set('i', '<C-c>', '<cmd>Copilot panel<CR>', { noremap = true, silent = true, desc = "Open Copilot panel" })
 
 -- Claude Code keybindings
 vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<cr>', { desc = "Toggle Claude Code", noremap = true, silent = true })

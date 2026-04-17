@@ -13,7 +13,6 @@ require("lazy").setup({
   'nvim-lua/plenary.nvim',
   'tpope/vim-surround',
   'nvim-telescope/telescope-ui-select.nvim',
-  'github/copilot.vim',
   {
     'williamboman/mason.nvim',
     cmd = 'Mason',
