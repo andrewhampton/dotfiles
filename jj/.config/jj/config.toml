@@ -54,3 +54,6 @@ auto-track-bookmarks = "glob:*"
 
 [snapshot]
 auto-update-stale = true
+
+[git]
+write-change-id-header = true
