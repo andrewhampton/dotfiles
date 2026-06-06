@@ -162,6 +162,7 @@ require("lazy").setup({
           "lua",
           "make",
           "markdown",
+          "markdown_inline",
           "regex",
           "ruby",
           "scss",
