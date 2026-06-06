@@ -39,7 +39,7 @@ concat(
 # "format_timestamp(timestamp)" = "format_timestamp(timestamp, \"%Y-%m-%d %H:%M:%S %z\")"
 
 [signing]
-behavior = "own"
+behavior = "force"
 backend  = "ssh"
 key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoKM9nM2uJb/qELkBVg8btd5/v/dn5tLFlLIjKKV8Nt"
 backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
