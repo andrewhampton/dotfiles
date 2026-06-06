@@ -11,17 +11,18 @@ stow --dir="$HOME/dotfiles" --target="$HOME" claude
 - `.claude/CLAUDE.md` — global user instructions (jj workflow, commit conventions, prefs).
 - `.claude/statusline.sh` — custom status line (referenced by `settings.json`).
 - `.claude/agents/` — custom agent definitions (`librarian`, `oracle`).
-- `.claude/hooks/kitty-tab-status.sh` — sets this kitty tab's title with a
-  status prefix so a glance tells you what Claude Code wants:
+- `.claude/hooks/kitty-tab-status.sh` — prefixes this kitty tab's title with a
+  status emoji so a glance tells you what Claude Code wants:
   - **❓** Claude is asking you something (waiting on input)
   - **👀** Claude finished its turn and handed back
-  - while it works there's no override, so Claude Code's own `⠂ <task summary>`
-    spinner title shows through.
+  - no emoji while Claude is working.
 
-  It sets the title via `kitty @ set-tab-title` over the remote-control socket
-  (`$KITTY_LISTEN_ON`) — an explicit tab-title override that wins over, and
-  coexists with, Claude Code's own OSC title writes. Requires kitty with
-  `allow_remote_control yes`.
+  It only ever swaps the **leading emoji** and leaves the tab's **name**
+  untouched, so external tab managers that identify tabs by name keep working
+  (e.g. the `o` orchestrator, which matches `^(?:\S+ )?<name>$` and owns the
+  name). It writes via `kitty @ set-tab-title` over the remote-control socket
+  (`$KITTY_LISTEN_ON`) — an explicit override that wins over Claude Code's own
+  OSC title writes. Requires kitty with `allow_remote_control yes`.
 
 ## Not tracked here
 
