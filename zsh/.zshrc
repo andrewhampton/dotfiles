@@ -301,7 +301,7 @@ function ks() {
   fi
 
   local env="$1"
-  local config_path="/Users/ah/.pollev/config/k8s/teleport-${env}.k8s.ops.pe"
+  local config_path="/Users/ah/.cache/pogo/k8s/teleport-${env}.k8s.ops.pe"
 
   # Check if the target config file exists
   if [ ! -f "$config_path" ]; then
