@@ -272,6 +272,52 @@ jpa() {
   jj git push -c "$target"
 }
 
+# AI command generation, copilot-style:
+#   ?? recursively find all files in this folder that contain 'apple'
+# Generates a command with claude, shows an explanation of each piece, and
+# pre-fills your prompt with the command so you can hit enter to run it
+# (or edit it first). Override the model with CLAUDE_QQ_MODEL.
+function ai-command() {
+  emulate -L zsh
+  setopt pipefail
+
+  if (( $# == 0 )); then
+    print -u2 "usage: ?? <describe the command you want>"
+    return 1
+  fi
+
+  local model=${CLAUDE_QQ_MODEL:-haiku}
+  local prompt="You generate zsh commands for macOS.
+Output the single best command on the first line, with no backticks, quotes, or prose around it.
+Then output a blank line, then a brief markdown explanation breaking down each piece of the command.
+Do not use any tools; answer directly.
+
+Task: $*"
+
+  local response
+  response=$(gum spin --title 'Consulting claude…' --show-output -- \
+    claude -p --model "$model" "$prompt" < /dev/null) || {
+    print -u2 "?? claude failed"
+    return 1
+  }
+
+  # Strip stray code fences in case the model ignores instructions
+  response=$(print -r -- "$response" | sed -e '/^```/d')
+
+  local cmd=${response%%$'\n'*}
+  if [[ -z "$cmd" ]]; then
+    print -u2 "?? no command generated"
+    return 1
+  fi
+
+  if [[ "$response" == *$'\n'* ]]; then
+    print -r -- "${response#*$'\n'}" | gum format
+  fi
+
+  print -z -- "$cmd"
+}
+alias '??'='noglob ai-command'
+
 function gspin() {
   if [ $# -ne 1 ]; then
     echo "Usage: gspin <branch_name>"
