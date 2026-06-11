@@ -41,6 +41,10 @@ this into it:
       { "matcher": "AskUserQuestion|ExitPlanMode",
         "hooks": [ { "type": "command", "command": "$HOME/.claude/hooks/kitty-tab-status.sh question" } ] }
     ],
+    "PostToolUse": [
+      { "matcher": "AskUserQuestion|ExitPlanMode",
+        "hooks": [ { "type": "command", "command": "$HOME/.claude/hooks/kitty-tab-status.sh working" } ] }
+    ],
     "Stop": [
       { "hooks": [ { "type": "command", "command": "$HOME/.claude/hooks/kitty-tab-status.sh stop" } ] }
     ]
