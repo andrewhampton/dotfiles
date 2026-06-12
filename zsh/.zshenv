@@ -91,3 +91,10 @@ export CDPATH=$HOME:$HOME/code
 export PATH="$HOME/.pollev/bin:$PATH"
 
 export USE_JJ=true
+
+# kubectl/k9s see pogo's per-cluster Teleport kubeconfigs as one merged view.
+# ~/.kube/pogo-contexts.yaml comes first so it owns current-context: switch
+# clusters with `kubectl config use-context <env>` (or :ctx in k9s).
+_kcfgs=(~/.kube/pogo-contexts.yaml ~/.cache/pogo/k8s/*(N))
+export KUBECONFIG=${(j.:.)_kcfgs}
+unset _kcfgs

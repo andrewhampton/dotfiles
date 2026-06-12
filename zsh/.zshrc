@@ -337,34 +337,20 @@ function coauth() {
   gh api repos/{owner}/{repo}/collaborators --paginate --jq '.[] | .login + " <" + .html_url + ">"' | fzf --multi | xargs -I _ printf "Co-authored-by: %s\n" "_"| pbcopy
 }
 
-# Function to switch Kubernetes context namespace and update kubeconfig symlink
-# Usage: ks <environment>
+# Switch Kubernetes context (contexts defined in ~/.kube/pogo-contexts.yaml,
+# merged with pogo's per-cluster kubeconfigs via KUBECONFIG in .zshenv)
+# Usage: ks [environment]
 function ks() {
-  if [ -z "$1" ]; then
-    echo "Usage: ks <environment>"
-    echo "Switches Kubernetes namespace and updates kubeconfig symlink"
-    return 1
+  emulate -L zsh
+  setopt pipefail
+  local context="$1"
+  if [ -z "$context" ]; then
+    context=$(kubectl config get-contexts -o name \
+      | fzf --prompt='context> ' \
+            --preview 'kubectl config get-contexts {1}') || return 1
+    [[ -n "$context" ]] || return 1
   fi
-
-  local env="$1"
-  local config_path="/Users/ah/.cache/pogo/k8s/teleport-${env}.k8s.ops.pe"
-
-  # Check if the target config file exists
-  if [ ! -f "$config_path" ]; then
-    echo "Error: Kubernetes config for environment '$env' not found at:"
-    echo "$config_path"
-    return 1
-  fi
-
-  # Update symlink
-  echo "Updating kubeconfig symlink to point to: $config_path"
-  ln -sf "$config_path" ~/.kube/config
-
-  # Set namespace
-  echo "Setting Kubernetes namespace to: $env"
-  kubectl config set-context --current --namespace="$env"
-
-  echo "Kubernetes environment switched to: $env"
+  kubectl config use-context "$context"
 }
 
 # Random artemis pod
