@@ -92,6 +92,8 @@ export PATH="$HOME/.pollev/bin:$PATH"
 
 export USE_JJ=true
 
+export VERIFY_STAGING_KCOP=1
+
 # kubectl/k9s see pogo's per-cluster Teleport kubeconfigs as one merged view.
 # ~/.kube/pogo-contexts.yaml comes first so it owns current-context: switch
 # clusters with `kubectl config use-context <env>` (or :ctx in k9s).
