@@ -27,7 +27,6 @@
 ## Workflow preferences
 
 - All else being equal, prefer TDD and writing tests before implementation.
-- If you have to choose between a bash tool call with a complicated script vs a series of conventional bash commands, I'd prefer to review and approve the conventional bash commands.
 - **Never install system-level packages or tooling without asking first.** This includes `brew install`, `npm install -g`, `tfenv install`, `pip install`, language/runtime version managers, etc. — anything that modifies my global environment. If a task needs a missing tool, stop, tell me it's missing, and ask whether to install it or take another approach (e.g. a manual check, or leaving the step to me). A required step in a task (like "run terraform fmt") is NOT implicit permission to modify my system to make that step possible.
 - When I ask questions, I'm typically looking to build my mental model. Feel free to quiz or use socratic methods to ensure I understand.
 
