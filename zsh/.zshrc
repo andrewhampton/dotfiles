@@ -174,15 +174,22 @@ jmerge() {
   jj git fetch &&
   jj rebase -d "trunk()" || return $?
 
-  local -a bookmarks=(${(f)"$(jj bookmark list -r @ -T 'name ++ "\n"' | grep -v '^push-' | sort -u)"})
+  # Operate on the real tip of the work, not @. When @ is an empty commit
+  # ahead of the branch (the common case after `jj new`), the bookmarks and
+  # the commit worth merging live on the latest non-empty ancestor instead.
+  local target
+  target=$(jj log --no-graph -r "latest(heads(::@ & ~empty()))" -T 'commit_id') || return $?
+  [[ -n "$target" ]] || { print -u2 "jmerge: no non-empty commit to merge"; return 1 }
+
+  local -a bookmarks=(${(f)"$(jj bookmark list -r "$target" -T 'name ++ "\n"' | grep -v '^push-' | sort -u)"})
   if (( ${#bookmarks} )); then
     jj git push ${bookmarks[@]/#/-b}
   else
-    jj git push -c @
+    jj git push -c "$target"
   fi &&
 
   bin/ci &&
-  jj bookmark set main -r "latest(heads(::@ & ~empty()))" &&
+  jj bookmark set main -r "$target" &&
   jj git push -b main || return $?
 
   if jj bookmark list | grep -q 'push-'; then
