@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Claude Code status line.
-# Segments: jj diff (+add -del ~mod) · bookmark↑ahead · cwd · ctx% · model effort · 5h% · id
+# Segments: jj diff (+add -del ~mod) · bookmark↑ahead · cwd · ctx% · model effort · [5h%] · [wk%] · id
+#
+# The 5h (five_hour) and wk (seven_day) usage numbers are HIDDEN unless a
+# trajectory projection says you're on pace to exhaust that window's limit:
+#   yellow = may run out (projected finish 90-115% of limit)
+#   red    = will run out (projected finish >=115% with enough evidence)
+# See the rate-limit trajectory section below for the model.
 #
 # Receives the session JSON on stdin.
 
@@ -11,7 +17,7 @@ j() { printf '%s' "$input" | jq -r "$1" 2>/dev/null; }
 # --- Colors (real escape bytes so length-stripping works) ---
 RST=$'\e[0m'; DIM=$'\e[2m'
 C_ADD=$'\e[32m'; C_DEL=$'\e[31m'; C_MOD=$'\e[33m'
-C_BM=$'\e[35m'; C_CWD=$'\e[34m'; C_RATE=$'\e[36m'; C_MODEL=$'\e[96m'
+C_BM=$'\e[35m'; C_CWD=$'\e[34m'; C_MODEL=$'\e[96m'
 
 # --- Context % (red when over the 200k threshold, else by usage) ---
 ctx=$(j '.context_window.used_percentage // 0 | floor')
@@ -26,8 +32,63 @@ fi
 model=$(j '.model.display_name // empty')
 effort=$(j '.effort.level // empty')
 
-# --- 5h rate limit ---
-rate=$(j '.rate_limits.five_hour.used_percentage // empty | floor')
+# --- Rate-limit usage + trajectory (5h "hourly" and 7d "weekly") ---
+# Claude Code (Pro/Max) provides .rate_limits.{five_hour,seven_day}.{used_percentage,resets_at}.
+# Both segments are hidden unless we project you'll run out of that window.
+#
+# Model: projected_end% = used% / elapsed_token_fraction.
+#   - 5h window: elapsed fraction is flat over the 5h span (resets_at-5h .. resets_at).
+#   - 7d window: elapsed fraction is weighted by how you actually spend tokens across
+#     the week. From your Jun 3-18 usage, a weekday is ~18.1% of a typical week's tokens
+#     and a weekend day ~4.7% (any rolling 7d window has 5 weekdays + 2 weekend days,
+#     so these sum to ~100%). So burning hard on a Monday projects higher than the same
+#     %-used reached on a quiet Sunday.
+# State per window: 0=hidden, 1=yellow (may run out), 2=red (will run out).
+five_used=$(j '.rate_limits.five_hour.used_percentage // empty')
+five_reset=$(j '.rate_limits.five_hour.resets_at // empty')
+seven_used=$(j '.rate_limits.seven_day.used_percentage // empty')
+seven_reset=$(j '.rate_limits.seven_day.resets_at // empty')
+
+TRAJ_PY='
+import sys,time,datetime
+WD=0.1813   # one weekday as a fraction of a typical weeks tokens (Jun 3-18)
+WE=0.0467   # one weekend day, ditto
+def num(x):
+    try: return float(x)
+    except: return None
+fu,fr,su,sr=(num(a) for a in sys.argv[1:5])
+now=time.time()
+def state(used,ef):
+    if used is None or ef<=0: return (0,int(used or 0))
+    if used<10: return (0,int(used))
+    proj=used/ef
+    if proj>=115 and (ef>=0.08 or used>=40): s=2
+    elif proj>=90: s=1
+    else: s=0
+    return (s,int(used))
+# 5h: flat elapsed fraction across the 5-hour (18000s) span
+ef5=max(0.0,min(1.0,(now-(fr-18000))/18000.0)) if fr else 0.0
+s5,p5=state(fu,ef5)
+# 7d: integrate weekday/weekend daily shares over the elapsed part of the window
+def wk_elapsed(sr):
+    start=sr-604800; frac=0.0; t=start
+    while t<now and t<sr:
+        dt=datetime.datetime.fromtimestamp(t)
+        day0=dt.replace(hour=0,minute=0,second=0,microsecond=0)
+        nxt=(day0+datetime.timedelta(days=1)).timestamp()
+        seg=min(nxt,now)-t
+        frac+=(WE if dt.weekday()>=5 else WD)*seg/86400.0
+        t=nxt
+    return frac
+ef7=wk_elapsed(sr) if sr else 0.0
+s7,p7=state(su,ef7)
+print(int(s5),int(p5),int(s7),int(p7))
+'
+five_state=0; five_pct=0; seven_state=0; seven_pct=0
+if [[ -n $five_used || -n $seven_used ]]; then
+  read -r five_state five_pct seven_state seven_pct < <(
+    python3 -c "$TRAJ_PY" "${five_used:-}" "${five_reset:-}" "${seven_used:-}" "${seven_reset:-}" 2>/dev/null)
+fi
 
 # --- session id (short prefix) ---
 sid=$(j '.session_id // empty'); sid=${sid:0:8}
@@ -73,7 +134,15 @@ if [[ -n $model ]]; then
   [[ -n $effort ]] && seg_model+=" ${DIM}${effort}${RST}"
   line="${line}${sep}${seg_model}"
 fi
-[[ -n $rate ]] && line="${line}${sep}${C_RATE}5h ${rate}%${RST}"
+# Rate-limit segments: only shown when on a trajectory to run out.
+if (( five_state >= 1 )); then
+  col=$'\e[33m'; (( five_state == 2 )) && col=$'\e[31m'
+  line="${line}${sep}${col}5h ${five_pct}%${RST}"
+fi
+if (( seven_state >= 1 )); then
+  col=$'\e[33m'; (( seven_state == 2 )) && col=$'\e[31m'
+  line="${line}${sep}${col}wk ${seven_pct}%${RST}"
+fi
 [[ -n $sid  ]] && line="${line}${sep}${DIM}${sid}${RST}"
 
 # Left-aligned: Claude Code strips leading whitespace from status line output
