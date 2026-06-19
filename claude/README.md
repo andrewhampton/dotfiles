@@ -12,10 +12,13 @@ stow --dir="$HOME/dotfiles" --target="$HOME" claude
 - `.claude/statusline.sh` — custom status line (referenced by `settings.json`).
 - `.claude/agents/` — custom agent definitions (`librarian`, `oracle`).
 - `.claude/hooks/kitty-tab-status.sh` — prefixes this kitty tab's title with a
-  status emoji so a glance tells you what Claude Code wants:
-  - **❓** Claude is asking you something (waiting on input)
-  - **👀** Claude finished its turn and handed back
-  - no emoji while Claude is working.
+  status emoji **and plays a short, distinct audio cue** so a glance — or just
+  your ears — tells you what Claude Code wants:
+  - **❓** Claude is asking you something (waiting on input) — a rising,
+    *unresolved* two-note "?" (the melody of a spoken question)
+  - **👀** Claude finished its turn and handed back — a brighter three-note
+    arpeggio that *resolves* up to the tonic (a soft "ta-da, ready")
+  - no emoji and no sound while Claude is working.
 
   It only ever swaps the **leading emoji** and leaves the tab's **name**
   untouched, so external tab managers that identify tabs by name keep working
@@ -23,6 +26,25 @@ stow --dir="$HOME/dotfiles" --target="$HOME" claude
   name). It writes via `kitty @ set-tab-title` over the remote-control socket
   (`$KITTY_LISTEN_ON`) — an explicit override that wins over Claude Code's own
   OSC title writes. Requires kitty with `allow_remote_control yes`.
+
+- `.claude/hooks/sounds/` — the audio cues and their generator:
+  - `review.wav` / `question.wav` — the active cues the hook plays. The hook
+    finds them as siblings of itself (`${0:A:h}/sounds/…`), resolving through
+    the stow symlink, so they work without re-stowing once the hook is linked.
+  - `generate.py` — renders the cues with the pure Python standard library (no
+    numpy/sox/ffmpeg). Re-run after editing: `python3 generate.py`.
+  - `variants/` — three timbral personalities rendered for both cues:
+    `arcade` (the shipped pair), `musicbox`, and `bell`.
+  - `audition.sh [name…]` — play the variants to pick by ear;
+    `use.sh <name>` — make a personality the active pair.
+  - Cues are **non-blocking** (detached `afplay`), **focus-aware** (silent when
+    you're already looking at this pane — the point of a sound is the tab you're
+    *not* watching), **debounced** per window+cue (rapid re-fires of the same
+    event are suppressed, ~3s), and **mutable**: `CLAUDE_TAB_SOUND=0` keeps the
+    emoji but silences the sound, `CLAUDE_TAB_SOUND=always` plays even when the
+    pane is focused. Requires `afplay` (stock on macOS); no new `settings.json`
+    wiring — the cues live inside the hook the existing `PreToolUse`/`Stop`
+    hooks already call.
 
 ## Not tracked here
 
