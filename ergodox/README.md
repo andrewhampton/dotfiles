@@ -1,3 +1,8 @@
+Ergodox Infinity keyboard firmware (built with [kiibohd](https://github.com/kiibohd)/KLL).
+**Not a stow package** — don't symlink this into your home directory. The `.kll`
+files are KLL keymap layers, `MDErgo1-Default.json` is the configurator export, and
+the `.dfu.bin` files are the compiled firmware flashed below.
+
 # Update procedure
 
 1. `brew install dfu-util` / `sudo apt install dfu-util`
