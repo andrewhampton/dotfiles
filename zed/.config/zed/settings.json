@@ -354,7 +354,6 @@
     },
     "biome": {
       "settings": {
-        "config_path": "<path>/biome.json"
       }
     }
   },
