@@ -16,9 +16,6 @@ fi
 HISTSIZE=10000
 SAVEHIST=10000
 
-# Source ~/.zshenv if it exists
-[ -f ~/.zshenv ] && source ~/.zshenv
-
 # Disable oh-my-zsh auto-updates
 DISABLE_AUTO_UPDATE="true"
 
