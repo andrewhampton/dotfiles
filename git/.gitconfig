@@ -5,7 +5,7 @@
   ; signingkey = ~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 [core]
-  excludesfile = /Users/andrew/.gitignore_global
+  excludesfile = ~/.gitignore_global
   ignoreCase = false
   editor = nvim
   pager = delta

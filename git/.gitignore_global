@@ -1,0 +1,31 @@
+# Global gitignore — stowed to ~/.gitignore_global (see .gitconfig core.excludesfile)
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.DocumentRevisions-V100
+.TemporaryItems
+.VolumeIcon.icns
+
+# Vim / Neovim swap & undo
+*.swp
+*.swo
+*.swn
+
+# Emacs backups, auto-saves, lock files
+*~
+\#*#
+.#*
+
+# JetBrains
+.idea/
+*.iml
+
+# direnv
+.direnv/
