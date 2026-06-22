@@ -2,7 +2,7 @@ Self-bootstrapping-ish config for nvim on the CLI and using the vscode plugin.
 To use, just follow these steps:
 
 ```shell
-# Install neovim from head of measter
+# Install neovim from head of master
 brew install neovim --HEAD
 # You can upgrade it later with 
 brew upgrade neovim --fetch-head
@@ -18,8 +18,8 @@ git clone git@github.com:andrewhampton/dotfiles.git
 stow -d dotfiles nvim
 ```
 
-At this point, you'll have these config files symlinked in `~./config/nvim`. In
-the example code I'm using brew to install stow, but it's a gnu until and may
+At this point, you'll have these config files symlinked in `~/.config/nvim`. In
+the example code I'm using brew to install stow, but it's a gnu utility and may
 be already available on your linux distro.
 
 Next, you're ready to start up nvim and let lazy.nvim install the plugins. It
