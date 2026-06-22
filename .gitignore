@@ -24,3 +24,9 @@ zed/.config/zed/prompts/
 
 # Python virtualenvs (e.g. nvim plugin-created venvs)
 **/.venv/
+
+# Keyboard firmware build artifacts (regenerable from the .kll sources)
+/ergodox/log/
+
+# Generated neovim spell binary (recompiled from en.utf-8.add)
+nvim/.config/nvim/spell/*.spl
