@@ -40,15 +40,6 @@ export GPG_TTY=$(tty)
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/opt/homebrew/Cellar/node@22/22.13.1/bin:$PATH"
-
-# chruby
-if [[ -f /usr/local/share/chruby/chruby.sh ]] then
-    source /usr/local/share/chruby/chruby.sh
-    source /usr/local/share/chruby/auto.sh
-    chruby ruby-2.7.4
-fi
-
 # rbenv
 export PATH="/Users/ah/.rbenv/shims:$PATH"
 
@@ -79,8 +70,6 @@ fi
 if [ -f "$HOME/.cargo/env" ]; then
   . "$HOME/.cargo/env"
 fi
-
-export PATH="$PATH:~/go/bin"
 
 # eval "$(github-copilot-cli alias -- "$0")"
 
