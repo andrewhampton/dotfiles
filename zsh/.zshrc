@@ -362,7 +362,7 @@ function ks() {
 
 # Random artemis pod
 function artemis_pod() {
-  return kubectl get pods -l app=artemis -l deployment=artemis -o jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | awk 'BEGIN{srand()} {a[NR]=$0} END{print a[int(rand()*NR)+1]}'
+  kubectl get pods -l app=artemis -l deployment=artemis -o jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | awk 'BEGIN{srand()} {a[NR]=$0} END{print a[int(rand()*NR)+1]}'
 }
 
 [[ -f ~/.secrets ]] && source ~/.secrets
