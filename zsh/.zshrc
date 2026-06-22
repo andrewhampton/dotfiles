@@ -87,8 +87,6 @@ man() {
 # zsh completions
 # autoload -Uz compinit && compinit -i
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # Source gh completions if they exist
 # [ -f /usr/local/share/zsh/site-functions/_gh ] && source /usr/local/share/zsh/site-functions/_gh
 
