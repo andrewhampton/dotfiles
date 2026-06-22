@@ -102,8 +102,6 @@ require("lazy").setup({
         end,
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
-      'nvim-telescope/telescope-fzf-native.nvim',
-      'nvim-telescope/telescope-fzy-native.nvim',
       'neovim/nvim-lspconfig'
     },
     config = function()
@@ -129,15 +127,7 @@ require("lazy").setup({
             },
           },
         },
-        extensions = {
-          fzy_native = {
-            override_generic_sorter = true,
-            override_file_sorter = true,
-          },
-        },
       })
-      -- telescope.load_extension('fzf')
-      -- telescope.load_extension('fzy_native')
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
     end
