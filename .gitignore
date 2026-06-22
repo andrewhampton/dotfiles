@@ -21,3 +21,6 @@ emacs/.emacs.d/auto-save-list
 # Zed conversations contain potentially sensitive project information
 zed/.config/zed/conversations/
 zed/.config/zed/prompts/
+
+# Python virtualenvs (e.g. nvim plugin-created venvs)
+**/.venv/
