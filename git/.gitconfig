@@ -64,7 +64,6 @@
 
 [gpg]
   format = ssh
-  program = gpg1
 
 [init]
   defaultBranch = main
