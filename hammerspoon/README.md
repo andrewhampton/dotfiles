@@ -1,6 +1,6 @@
-- [Weather](#markdown-header-grid)
-- [Gmail](#markdown-header-gmail)
-- [Grid](#markdown-header-grid)
+- [Weather](#weather)
+- [Gmail](#gmail)
+- [Grid](#grid)
 
 # Weather
 ![weather notification image](../screenshots/weather.png)
