@@ -178,9 +178,9 @@ require("lazy").setup({
 
   {"folke/which-key.nvim", config = function() require("which-key").setup() end},
 
-  -- jjsigns.nvim for Jujutsu VCS (local plugin)
+  -- jjsigns.nvim for Jujutsu VCS
   {
-    dir = '~/tmp/signs/jjsigns.nvim',
+    'andrewhampton/jjsigns.nvim',
     config = function()
       require('jjsigns').setup({
         current_line_blame = true,
