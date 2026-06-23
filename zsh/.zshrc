@@ -16,6 +16,11 @@ fi
 HISTSIZE=10000
 SAVEHIST=10000
 
+# Re-source ~/.zshenv here: macOS's /etc/zprofile runs path_helper *after*
+# ~/.zshenv, which demotes /opt/homebrew/bin (and the keg-only prepends) below
+# /usr/bin. Re-running .zshenv after /etc/zprofile restores Homebrew's priority.
+[ -f ~/.zshenv ] && source ~/.zshenv
+
 # Disable oh-my-zsh auto-updates
 DISABLE_AUTO_UPDATE="true"
 
