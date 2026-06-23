@@ -122,3 +122,9 @@ esac
 
 set_title "${prefix}${base}"
 [[ -n "$cue" ]] && play_cue "$cue"
+
+# Never let the script's exit status ride on the conditional above: in "working"
+# mode $cue is empty, so the `[[ -n … ]]` test fails (exit 1) and — being the
+# last command — would make the whole hook exit 1, which Claude Code reports as
+# a UserPromptSubmit hook error on every prompt.
+exit 0
