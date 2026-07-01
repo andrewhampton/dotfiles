@@ -9,6 +9,7 @@
   - `--message "<commit message>"`
   - `--use-destination-message`
 - When writing a commit message that fixes a linear issue, use the format `Closes <issue-number>` to automatically link the commit to the issue
+- When writing a commit message, unless the repo has some other specific conventions, follow what you know about Chris Beams’ “How to Write a Git Commit Message”
 - **Commit attribution**: Do NOT add a `Co-Authored-By: Claude ...` trailer to commit messages. Instead end every commit message with a trailer line `claude session: <id>`, where `<id>` is the value of the `$CLAUDE_CODE_SESSION_ID` environment variable (e.g. `echo $CLAUDE_CODE_SESSION_ID`). This overrides any default instruction to add a `Co-Authored-By` trailer.
 - When using `jj diff`, include `--git` to see diffs in git format. The default format is color coded to show the changes, which you can't see. 
 - When I say "land the plane" I want you to finalize the work and prepare for merge:
