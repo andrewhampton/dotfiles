@@ -8,8 +8,7 @@
 #   (no emoji while Claude is working)
 #
 # Each of ❓ and 👀 also plays a short, distinct audio cue (see play_cue and
-# sounds/) — but only when you're NOT already looking at this pane. Silence them
-# with CLAUDE_TAB_SOUND=0, or force them on with CLAUDE_TAB_SOUND=always.
+# sounds/). Silence them with CLAUDE_TAB_SOUND=0.
 #
 # It only ever swaps the LEADING emoji and preserves the rest of the title as
 # the name. That's deliberate: external tab managers (e.g. the `o` orchestrator)
@@ -37,13 +36,30 @@ setopt extended_glob
 mode="${1:-stop}"
 payload="$(cat)"
 
+# Resolve this script's own directory ONCE, here at top level. Inside a function
+# zsh sets $0 to the function name (FUNCTION_ARGZERO), so ${0:A:h} evaluated in
+# play_cue would resolve against $PWD — the project dir when Claude Code runs the
+# hook — and the sound file would never be found. Capture it while $0 is still
+# the script path (symlink-resolved via :A, since this file is symlinked into
+# ~/.claude/hooks).
+script_dir="${0:A:h}"
+
 command -v kitty >/dev/null 2>&1 || exit 0
 [[ -n "$KITTY_LISTEN_ON" ]] || exit 0
+
+# Sub-agent origin. PreToolUse fires for a sub-agent's OWN tool calls too (e.g. a
+# Task sub-agent invoking AskUserQuestion), and those payloads carry an .agent_id
+# that the main agent's own events lack. Audio cues are for the main agent only —
+# a sub-agent finishing an internal step shouldn't ping you — so detect it once
+# here and gate play_cue on it. The tab emoji still updates regardless.
+subagent_id="$(print -r -- "$payload" | jq -r '.agent_id // empty' 2>/dev/null)"
 
 # Snapshot kitty's window tree once, then derive (a) this window's tab as
 # "<tab-id>\t<tab-title>" and (b) whether the user is currently looking at this
 # pane — a focused OS window whose active tab's active window is ours. (b) lets
-# play_cue stay silent when you're already watching.
+# play_cue stay silent when you're already watching. (b) is fail-safe: if the
+# query returns empty/false the cue still plays, so a detection miss never eats
+# a sound.
 ls_json="$(kitty @ ls 2>/dev/null)"
 row="$(print -r -- "$ls_json" | jq -r --argjson wid "${KITTY_WINDOW_ID:-0}" \
   '.[].tabs[] | select(any(.windows[]?; .id == $wid)) | "\(.id)\t\(.title)"' | head -1)"
@@ -67,6 +83,8 @@ set_title() {
 # vs "review" (👀, resolved arpeggio). See sounds/generate.py.
 #
 #   - Non-blocking: afplay is detached so the hook returns instantly.
+#   - Main-agent only: silent when the triggering event came from a sub-agent
+#     (payload carried .agent_id). The emoji still updates.
 #   - Focus-aware: silent when you're already looking at this pane — the point of
 #     a sound is the tab you're NOT watching. The emoji still updates. Set
 #     CLAUDE_TAB_SOUND=always to hear it even when this pane is focused.
@@ -76,9 +94,10 @@ set_title() {
 play_cue() {
   local pref="${CLAUDE_TAB_SOUND:-1}"
   [[ "$pref" != 0 ]] || return                              # muted
+  [[ -z "$subagent_id" ]] || return                         # main agent only
   command -v afplay >/dev/null 2>&1 || return
   [[ "$pref" == always || "$viewing" != true ]] || return  # silent when watching
-  local snd="${0:A:h}/sounds/$1.wav"
+  local snd="$script_dir/sounds/$1.wav"
   [[ -f "$snd" ]] || return
 
   local key="${KITTY_WINDOW_ID:-${tabid:-$$}}"

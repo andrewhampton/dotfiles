@@ -37,12 +37,14 @@ stow --dir="$HOME/dotfiles" --target="$HOME" claude
     `arcade` (the shipped pair), `musicbox`, and `bell`.
   - `audition.sh [name…]` — play the variants to pick by ear;
     `use.sh <name>` — make a personality the active pair.
-  - Cues are **non-blocking** (detached `afplay`), **focus-aware** (silent when
-    you're already looking at this pane — the point of a sound is the tab you're
-    *not* watching), **debounced** per window+cue (rapid re-fires of the same
-    event are suppressed, ~3s), and **mutable**: `CLAUDE_TAB_SOUND=0` keeps the
-    emoji but silences the sound, `CLAUDE_TAB_SOUND=always` plays even when the
-    pane is focused. Requires `afplay` (stock on macOS); no new `settings.json`
+  - Cues are **non-blocking** (detached `afplay`), **main-agent only** (silent
+    when the triggering event came from a sub-agent, i.e. the payload carried an
+    `agent_id`), **focus-aware** (silent when you're already looking at this
+    pane — the point of a sound is the tab you're *not* watching), **debounced**
+    per window+cue (rapid re-fires of the same event are suppressed, ~3s), and
+    **mutable**: `CLAUDE_TAB_SOUND=0` keeps the emoji but silences the sound,
+    `CLAUDE_TAB_SOUND=always` plays even when the pane is focused. Requires
+    `afplay` (stock on macOS); no new `settings.json`
     wiring — the cues live inside the hook the existing `PreToolUse`/`Stop`
     hooks already call.
 
