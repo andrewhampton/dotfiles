@@ -117,52 +117,63 @@ play_cue() {
   ( afplay "$snd" >/dev/null 2>&1 & )   # detached; orphaned afplay keeps playing
 }
 
-# ── Attention marker: a "most-recent" highlight that MOVES ────────────────────
+# ── Attention marker: a transient tab pulse + a moving pane wash ──────────────
 # When a cue fires (same trigger as the sound: main agent, and you're not looking
-# at the pane), the just-signalled tab pulses through an orange ramp and settles
-# on its last/amber color, and its pane gets a faint background wash. Only ONE tab
-# is ever marked — the latest to signal — so among several ❓/👀 tabs you can see
-# which one just pinged. The mark is reverted when a newer cue supersedes it, or
-# when you visit the tab (clear_fresh_here).
+# at the pane), the just-signalled tab breathes an orange pulse — from its normal
+# color up to orange and back, a few times — then returns to its default color on
+# its own. The pane, meanwhile, gets a faint PERSISTENT background wash, and that
+# wash is the lingering "most recent" marker: only ONE pane is washed at a time,
+# so among several ❓/👀 tabs you can tell which just pinged. The wash is reverted
+# when a newer cue supersedes it, or when you visit the pane (clear_fresh_here).
+# The tab pulse itself is fire-and-forget — it never leaves a lasting tint.
 #
 #   - Detached: the ~3s pulse runs in the background so the hook returns at once.
 #   - Superseded-safe: each pulse step re-reads the shared state file and bows out
-#     (reverting its own tab) the instant a newer tab becomes the freshest.
+#     (clearing its tab + pane) the instant a newer pane becomes the freshest.
 #   - Disable with CLAUDE_TAB_COLOR=0.
 #
 # State file holds one line "<socket>\t<tabid>\t<windowid>" naming the currently
-# marked spot, so the next cue can revert it — even in another kitty instance.
+# washed spot, so the next cue can revert it — even in another kitty instance.
 CLAUDE_TAB_STATE="${TMPDIR:-/tmp}/claude-tab-freshest"
-typeset -ga CLAUDE_TAB_RAMP=(
-  "#ffd9b3" "#ffcea0" "#ffc38d" "#ffb87a" "#ffad66"
-  "#ffa252" "#ff973e" "#ff8f22" "#ff8710" "#ff8000")   # pale → saturated; [-1] settles
-CLAUDE_TAB_WASH="#211e28"                               # base #1e1e2e nudged barely warm
+typeset -ga CLAUDE_TAB_RAMP=(                          # inactive_tab_background → orange:
+  "#181825" "#322421" "#4b2f1d" "#653b19" "#7f4615"    # the breath ramp. [1] ≈ the tab's
+  "#985210" "#b25d0c" "#cc6908" "#e57404" "#ff8000")   # Catppuccin default; breath clears to it
+CLAUDE_TAB_WASH="#211e28"                              # base #1e1e2e nudged barely warm
 
 # Revert a mark: restore the tab's default colors and reset the pane's colors.
 # The socket may name a different kitty instance than ours, so target it via --to.
 clear_mark() {   # $1=socket $2=tabid $3=windowid
-  [[ -n "$2" ]] && kitty @ --to "$1" set-tab-color --match "id:$2" \
-    active_bg=NONE inactive_bg=NONE active_fg=NONE inactive_fg=NONE 2>/dev/null
+  clear_tab "$2" "$1"
   [[ -n "$3" ]] && kitty @ --to "$1" set-colors --reset --match "id:$3" 2>/dev/null
 }
 
-# The detached pulse. Breathes CLAUDE_TAB_RAMP up/down and comes to rest on its
-# last (settle) color; aborts and reverts our tab if we stop being the freshest.
+# Clear ONLY the tab's color override (leave the pane wash — the lasting marker).
+# $2 is an optional socket for cross-instance targeting; default is our own.
+clear_tab() {   # $1=tabid [$2=socket]
+  [[ -n "$1" ]] && kitty @ --to "${2:-$KITTY_LISTEN_ON}" set-tab-color --match "id:$1" \
+    active_bg=NONE inactive_bg=NONE active_fg=NONE inactive_fg=NONE 2>/dev/null
+}
+
+# The detached pulse. Breathes CLAUDE_TAB_RAMP from the tab's default up to orange
+# and back a few times, then returns the tab to its default color — the pane wash
+# is what lingers. Aborts and reverts tab+pane if we stop being the freshest.
 pulse_loop() {
   local sweep i w
   local -a seq
-  for sweep in up down up down up; do
+  for sweep in up down up down up down; do
     if [[ "$sweep" == up ]]; then seq=({1..10}); else seq=({10..1}); fi
     for i in "${seq[@]}"; do
       [[ -f "$CLAUDE_TAB_STATE" ]] || { clear_mark "$KITTY_LISTEN_ON" "$tabid" "$KITTY_WINDOW_ID"; return }
       w="$(<"$CLAUDE_TAB_STATE")"; w="${w##*$'\t'}"
       [[ "$w" == "$KITTY_WINDOW_ID" ]] || { clear_mark "$KITTY_LISTEN_ON" "$tabid" "$KITTY_WINDOW_ID"; return }
+      # Only touch the background; leave the foreground at the tab's default
+      # (light) text so titles stay legible as the background darkens/brightens.
       kitty @ set-tab-color --match "id:$tabid" \
-        active_bg="$CLAUDE_TAB_RAMP[$i]" inactive_bg="$CLAUDE_TAB_RAMP[$i]" \
-        active_fg="#000000" inactive_fg="#000000" 2>/dev/null
+        active_bg="$CLAUDE_TAB_RAMP[$i]" inactive_bg="$CLAUDE_TAB_RAMP[$i]" 2>/dev/null
       sleep 0.06
     done
   done
+  clear_tab "$tabid"   # breath done → tab back to default; pane wash stays
 }
 
 # Move the marker to THIS tab: revert the previous mark, claim the state, wash our
