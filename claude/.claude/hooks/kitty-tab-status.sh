@@ -10,6 +10,12 @@
 # Each of ❓ and 👀 also plays a short, distinct audio cue (see play_cue and
 # sounds/). Silence them with CLAUDE_TAB_SOUND=0.
 #
+# The tab that JUST signalled also gets a moving color marker (see mark_fresh):
+# it pulses through an orange ramp and comes to rest on an amber tint, and its
+# pane gets a faint background wash. Only ever ONE tab is marked at a time — the
+# most recent to signal — so when several tabs already show ❓/👀 you can tell
+# which one just pinged. Disable with CLAUDE_TAB_COLOR=0.
+#
 # It only ever swaps the LEADING emoji and preserves the rest of the title as
 # the name. That's deliberate: external tab managers (e.g. the `o` orchestrator)
 # identify their tabs by name, so the name must stay untouched. Consequently it
@@ -111,6 +117,87 @@ play_cue() {
   ( afplay "$snd" >/dev/null 2>&1 & )   # detached; orphaned afplay keeps playing
 }
 
+# ── Attention marker: a "most-recent" highlight that MOVES ────────────────────
+# When a cue fires (same trigger as the sound: main agent, and you're not looking
+# at the pane), the just-signalled tab pulses through an orange ramp and settles
+# on its last/amber color, and its pane gets a faint background wash. Only ONE tab
+# is ever marked — the latest to signal — so among several ❓/👀 tabs you can see
+# which one just pinged. The mark is reverted when a newer cue supersedes it, or
+# when you visit the tab (clear_fresh_here).
+#
+#   - Detached: the ~3s pulse runs in the background so the hook returns at once.
+#   - Superseded-safe: each pulse step re-reads the shared state file and bows out
+#     (reverting its own tab) the instant a newer tab becomes the freshest.
+#   - Disable with CLAUDE_TAB_COLOR=0.
+#
+# State file holds one line "<socket>\t<tabid>\t<windowid>" naming the currently
+# marked spot, so the next cue can revert it — even in another kitty instance.
+CLAUDE_TAB_STATE="${TMPDIR:-/tmp}/claude-tab-freshest"
+typeset -ga CLAUDE_TAB_RAMP=(
+  "#ffd9b3" "#ffcea0" "#ffc38d" "#ffb87a" "#ffad66"
+  "#ffa252" "#ff973e" "#ff8f22" "#ff8710" "#ff8000")   # pale → saturated; [-1] settles
+CLAUDE_TAB_WASH="#211e28"                               # base #1e1e2e nudged barely warm
+
+# Revert a mark: restore the tab's default colors and reset the pane's colors.
+# The socket may name a different kitty instance than ours, so target it via --to.
+clear_mark() {   # $1=socket $2=tabid $3=windowid
+  [[ -n "$2" ]] && kitty @ --to "$1" set-tab-color --match "id:$2" \
+    active_bg=NONE inactive_bg=NONE active_fg=NONE inactive_fg=NONE 2>/dev/null
+  [[ -n "$3" ]] && kitty @ --to "$1" set-colors --reset --match "id:$3" 2>/dev/null
+}
+
+# The detached pulse. Breathes CLAUDE_TAB_RAMP up/down and comes to rest on its
+# last (settle) color; aborts and reverts our tab if we stop being the freshest.
+pulse_loop() {
+  local sweep i w
+  local -a seq
+  for sweep in up down up down up; do
+    if [[ "$sweep" == up ]]; then seq=({1..10}); else seq=({10..1}); fi
+    for i in "${seq[@]}"; do
+      [[ -f "$CLAUDE_TAB_STATE" ]] || { clear_mark "$KITTY_LISTEN_ON" "$tabid" "$KITTY_WINDOW_ID"; return }
+      w="$(<"$CLAUDE_TAB_STATE")"; w="${w##*$'\t'}"
+      [[ "$w" == "$KITTY_WINDOW_ID" ]] || { clear_mark "$KITTY_LISTEN_ON" "$tabid" "$KITTY_WINDOW_ID"; return }
+      kitty @ set-tab-color --match "id:$tabid" \
+        active_bg="$CLAUDE_TAB_RAMP[$i]" inactive_bg="$CLAUDE_TAB_RAMP[$i]" \
+        active_fg="#000000" inactive_fg="#000000" 2>/dev/null
+      sleep 0.06
+    done
+  done
+}
+
+# Move the marker to THIS tab: revert the previous mark, claim the state, wash our
+# pane, and launch the detached pulse. Same gate as the sound (minus the mute).
+mark_fresh() {
+  [[ "${CLAUDE_TAB_COLOR:-1}" != 0 ]] || return             # disabled
+  [[ -z "$subagent_id" ]] || return                         # main agent only
+  [[ "$viewing" != true ]] || return                        # you're already here
+  [[ "$tabid" == <-> ]] || return                           # need a real tab id
+
+  if [[ -f "$CLAUDE_TAB_STATE" ]]; then
+    local psock ptab pwin
+    IFS=$'\t' read -r psock ptab pwin < "$CLAUDE_TAB_STATE"
+    [[ "$ptab" == "$tabid" && "$pwin" == "$KITTY_WINDOW_ID" ]] || clear_mark "$psock" "$ptab" "$pwin"
+  fi
+
+  # Claim the mark atomically so a concurrent pulse elsewhere sees the handover.
+  printf '%s\t%s\t%s\n' "$KITTY_LISTEN_ON" "$tabid" "$KITTY_WINDOW_ID" > "${CLAUDE_TAB_STATE}.$$" \
+    && mv -f "${CLAUDE_TAB_STATE}.$$" "$CLAUDE_TAB_STATE"
+  kitty @ set-colors --match "id:$KITTY_WINDOW_ID" background="$CLAUDE_TAB_WASH" 2>/dev/null
+
+  ( pulse_loop & )   # detached; orphaned pulse keeps breathing after we exit
+}
+
+# When we ARE the pane being looked at, drop our mark (revert colors, clear state).
+clear_fresh_here() {
+  [[ -f "$CLAUDE_TAB_STATE" ]] || return
+  local psock ptab pwin
+  IFS=$'\t' read -r psock ptab pwin < "$CLAUDE_TAB_STATE"
+  if [[ "$ptab" == "$tabid" || "$pwin" == "$KITTY_WINDOW_ID" ]]; then
+    clear_mark "$psock" "$ptab" "$pwin"
+    rm -f "$CLAUDE_TAB_STATE"
+  fi
+}
+
 # Name = current title minus any leading status/spinner glyph (braille spinner
 # U+2800–U+28FF, our own ❓👀⚙️🔒🤔, variation selectors). This preserves
 # whatever owns the name — Claude Code, or an orchestrator like `o`. Fall back
@@ -140,10 +227,18 @@ case "$mode" in
 esac
 
 set_title "${prefix}${base}"
-[[ -n "$cue" ]] && play_cue "$cue"
 
-# Never let the script's exit status ride on the conditional above: in "working"
-# mode $cue is empty, so the `[[ -n … ]]` test fails (exit 1) and — being the
-# last command — would make the whole hook exit 1, which Claude Code reports as
-# a UserPromptSubmit hook error on every prompt.
+# You're looking at this pane → drop any marker it's holding.
+[[ "$viewing" == true ]] && clear_fresh_here
+
+# Sound + moving color marker share one trigger: a real cue you're not watching.
+if [[ -n "$cue" ]]; then
+  play_cue "$cue"
+  mark_fresh
+fi
+
+# Never let the script's exit status ride on the conditionals above: in "working"
+# mode $cue is empty and you may not be viewing, so the last test can fail (exit
+# 1) and — being the last command — would make the whole hook exit 1, which
+# Claude Code reports as a UserPromptSubmit hook error on every prompt.
 exit 0
