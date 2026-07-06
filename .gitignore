@@ -30,3 +30,9 @@ zed/.config/zed/prompts/
 
 # Generated neovim spell binary (recompiled from en.utf-8.add)
 nvim/.config/nvim/spell/*.spl
+
+# macOS Finder metadata
+.DS_Store
+
+# Scratch transcripts/outputs written by pi sub-agent runs
+/.pi-subagents/
