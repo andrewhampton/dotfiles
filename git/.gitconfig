@@ -32,6 +32,25 @@
   branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
   lru = for-each-ref --sort=committerdate --count=10 refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
   mru = for-each-ref --sort=-committerdate --count=10 refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+  ; Delete branches (local and on origin) that have been merged into main.
+  ; Skips main/master and the currently checked-out branch. Note: squash-merged
+  ; branches are not ancestors of main, so they are not caught here.
+  tidy = "!f() { \
+		git fetch --prune --quiet; \
+		main=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|^origin/||'); \
+		main=${main:-main}; \
+		current=$(git branch --show-current); \
+		for rb in $(git branch -r --merged \"origin/$main\" --format='%(refname:short)'); do \
+			case \"$rb\" in origin|origin/HEAD|\"origin/$main\"|origin/master|\"origin/$current\") continue ;; esac; \
+			echo \"Deleting $rb from origin\"; \
+			git push origin --delete \"$(echo \"$rb\" | sed 's|^origin/||')\"; \
+		done; \
+		for b in $(git branch --merged \"origin/$main\" --format='%(refname:short)'); do \
+			case \"$b\" in \"$main\"|master|\"$current\") continue ;; esac; \
+			echo \"Deleting local branch $b\"; \
+			git branch -D \"$b\"; \
+		done; \
+	}; f"
 
 [merge]
   ; conflictStyle = zdiff3

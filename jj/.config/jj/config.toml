@@ -40,6 +40,23 @@ backend  = "ssh"
 key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoKM9nM2uJb/qELkBVg8btd5/v/dn5tLFlLIjKKV8Nt"
 backends.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
+[aliases]
+# Delete bookmarks (local and on origin) that have been merged into trunk.
+# Skips main/master/trunk. Note: squash-merged bookmarks are not ancestors of
+# trunk, so they are not caught here (rely on `jj git fetch` + GitHub's
+# "Automatically delete head branches" for those).
+tidy = ["util", "exec", "--", "bash", "-c", '''
+set -euo pipefail
+jj git fetch
+merged=$(jj bookmark list -r '::trunk()' -T 'if(!self.remote(), self.name() ++ "\n")' | grep -vxE 'main|master|trunk' || true)
+if [ -z "$merged" ]; then
+  echo "No merged bookmarks to delete."
+else
+  jj bookmark delete $merged
+  jj git push --deleted
+fi
+''', ""]
+
 [revsets]
 # Try to keep the change ID short for my recent commits and the current branch commits
 # short-prefixes = '(mine() & committer_date(after:"1 day ago")) | (main::@) | @::'
