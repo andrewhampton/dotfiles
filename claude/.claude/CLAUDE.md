@@ -24,6 +24,7 @@
   - Include the linear issue number in the bookmark when applicable
   - Push the bookmark with `--allow-new`
 - Don't use `ah/` as a prefix for jj bookmark or git branch names
+- If you post as me on any public facing site (linear, github, etc), disclaim that with a "Claude posting on behalf of Andrew" at the top.
 
 ## Workflow preferences
 
