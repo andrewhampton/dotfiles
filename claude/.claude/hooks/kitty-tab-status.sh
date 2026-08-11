@@ -42,6 +42,13 @@ setopt extended_glob
 mode="${1:-stop}"
 payload="$(cat)"
 
+# Opt-in diagnostic: with CLAUDE_TAB_DEBUG set, append every invocation's mode +
+# raw payload to that path so we can see exactly what a sub-agent event carries.
+# No-op unless the env var is set, so it never affects normal runs.
+if [[ -n "$CLAUDE_TAB_DEBUG" ]]; then
+  printf '=== %s | mode=%s ===\n%s\n' "$(date '+%H:%M:%S')" "$mode" "$payload" >> "$CLAUDE_TAB_DEBUG" 2>/dev/null
+fi
+
 # Resolve this script's own directory ONCE, here at top level. Inside a function
 # zsh sets $0 to the function name (FUNCTION_ARGZERO), so ${0:A:h} evaluated in
 # play_cue would resolve against $PWD — the project dir when Claude Code runs the
