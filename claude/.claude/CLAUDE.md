@@ -30,6 +30,7 @@
 
 - All else being equal, prefer TDD and writing tests before implementation.
 - **Never install system-level packages or tooling without asking first.** This includes `brew install`, `npm install -g`, `tfenv install`, `pip install`, language/runtime version managers, etc. — anything that modifies my global environment. If a task needs a missing tool, stop, tell me it's missing, and ask whether to install it or take another approach (e.g. a manual check, or leaving the step to me). A required step in a task (like "run terraform fmt") is NOT implicit permission to modify my system to make that step possible.
+- **Never run `kubectl` or `terraform` commands without explicit permission — no exceptions, even read-only ones.** This includes `kubectl get/describe/logs/top/exec`, `terraform plan/apply/state`, and any wrapper that shells out to them. These touch live infrastructure (or its source of truth), and even "just reading" can be sensitive. When a task would benefit from one, stop and tell me the exact command(s) you want to run and why, then wait for me to approve or run them myself. Being pointed at an infra task (e.g. "investigate this k8s issue") is NOT implicit permission to run these commands.
 - When I ask questions, I'm typically looking to build my mental model. Feel free to quiz or use socratic methods to ensure I understand.
 
 ## Browser automation
