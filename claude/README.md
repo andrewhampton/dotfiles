@@ -43,7 +43,16 @@ stow --dir="$HOME/dotfiles" --target="$HOME" claude
     pane — the point of a sound is the tab you're *not* watching), **debounced**
     per window+cue (rapid re-fires of the same event are suppressed, ~3s), and
     **mutable**: `CLAUDE_TAB_SOUND=0` keeps the emoji but silences the sound,
-    `CLAUDE_TAB_SOUND=always` plays even when the pane is focused. Requires
+    `CLAUDE_TAB_SOUND=always` plays even when the pane is focused. The **👀
+    hand-back cue is also muted while background sub-agents are still running**:
+    each one finishing wakes the main agent, which stops again (a genuine
+    main-agent `Stop`, so `agent_id` gating can't catch it), and you don't want
+    a ping per wake — only the final stop, once nothing is left running, sounds.
+    The **❓ question cue is exempt** (Claude is blocked on *you*, so it always
+    sounds). Detected via the sibling `subagents/agent-*.jsonl` transcripts,
+    which end on an `end_turn` line exactly when a single-turn sub-agent
+    finishes; a crashed agent's stale transcript ages out after 120s so it can't
+    silence you indefinitely. Requires
     `afplay` (stock on macOS); no new `settings.json`
     wiring — the cues live inside the hook the existing `PreToolUse`/`Stop`
     hooks already call.

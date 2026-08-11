@@ -8,7 +8,10 @@
 #   (no emoji while Claude is working)
 #
 # Each of ❓ and 👀 also plays a short, distinct audio cue (see play_cue and
-# sounds/). Silence them with CLAUDE_TAB_SOUND=0.
+# sounds/). Silence them with CLAUDE_TAB_SOUND=0. The 👀 "handed back" cue is
+# muted while this session still has background sub-agents running (see
+# bg_agents_active): each one finishing wakes the main agent, which stops again,
+# and you don't want a ping per wake — only the final, genuine hand-back.
 #
 # The tab that JUST signalled also gets a moving color marker (see mark_fresh):
 # it pulses through an orange ramp and comes to rest on an amber tint, and its
@@ -122,6 +125,37 @@ play_cue() {
   : > "$mark"
 
   ( afplay "$snd" >/dev/null 2>&1 & )   # detached; orphaned afplay keeps playing
+}
+
+# True when this session still has a background sub-agent RUNNING. Used to mute the
+# 👀 "handed back" cue: a background/parallel sub-agent finishing wakes the main
+# agent, which processes the result and stops again — firing a genuine main-agent
+# Stop (no .agent_id, so agent_id gating can't catch it). We don't want a ping per
+# wake; only the FINAL stop, when nothing is left running, should sound.
+#
+# Sub-agent transcripts sit beside the main one at <transcript dir>/subagents/
+# agent-*.jsonl. A sub-agent is single-turn, so its transcript ends with an
+# assistant `end_turn` line EXACTLY when it's done; any other tail means it's
+# mid-run. A stale file (dead/interrupted agent) ages out after 120s so a crashed
+# agent can't silence you for the rest of the session. Fail-safe: on any error we
+# return 1 (not active), so a detection miss never eats a legitimate ping.
+bg_agents_active() {
+  local tpath subdir f last mt now
+  tpath="$(print -r -- "$payload" | jq -r '.transcript_path // empty' 2>/dev/null)"
+  [[ -n "$tpath" ]] || return 1
+  subdir="${tpath:h}/subagents"
+  [[ -d "$subdir" ]] || return 1
+  now="$(date +%s)"
+  for f in "$subdir"/agent-*.jsonl(N); do
+    mt="$(stat -f %m "$f" 2>/dev/null)" || continue
+    (( now - mt < 120 )) || continue                      # stale → finished/dead
+    last="$(tail -1 "$f" 2>/dev/null)"
+    [[ "$(print -r -- "$last" \
+        | jq -r '(.type=="assistant" and .message.stop_reason=="end_turn")' 2>/dev/null)" \
+      == true ]] && continue                              # this one is done
+    return 0                                              # still running
+  done
+  return 1
 }
 
 # ── Attention marker: a transient tab pulse + a moving pane wash ──────────────
@@ -248,6 +282,15 @@ set_title "${prefix}${base}"
 
 # You're looking at this pane → drop any marker it's holding.
 [[ "$viewing" == true ]] && clear_fresh_here
+
+# Mute the 👀 review cue (sound AND color marker) while background sub-agents are
+# still running: each one completing wakes the main agent, which stops again, and
+# we don't want a ping per wake — only the final stop, once nothing's left running.
+# The ❓ question cue is deliberately exempt: that means Claude is blocked on YOU,
+# so it should sound regardless. The 👀 emoji itself still updates either way.
+if [[ "$cue" == review ]] && bg_agents_active; then
+  cue=""
+fi
 
 # Sound + moving color marker share one trigger: a real cue you're not watching.
 if [[ -n "$cue" ]]; then
