@@ -35,5 +35,5 @@
 
 ## Browser automation
 
-- For browser work (viewing pages, screenshots, frontend debugging, network/performance inspection), use the `chrome-devtools` skill, which drives the Chrome DevTools MCP server. Prefer it over `playwright-cli`.
+- For browser work (viewing pages, screenshots, frontend debugging, network/performance inspection), use the `using-playwright-cli` skill.
 - Exception: a project's own E2E suite (e.g. Artemis's KCOP tests via `bin/kcop`) stays the tool for writing/running that suite.
