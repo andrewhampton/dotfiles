@@ -1,24 +1,14 @@
-require('bootstrap')
+-- Vim settings customizations
+require('vimconfig')
 
-if _G.vscode then -- Vim in vscode config
-  require('vscode-plugins')
-else -- Vim on the CLI config
-  -- Include 3rd party plugins
-  require('plugins')
+-- Plugins, via the built-in vim.pack
+require('plugins')
 
-  -- Wire up key mappings
-  require('maps')
+-- Wire up key mappings
+require('maps')
 
-  -- Vim settings customizations
-  require('vimconfig')
+-- Short comment config
+require('short-comments')
 
-  -- Short comment config
-  require('short-comments')
-
-  -- Git commit textwidth config
-  require('commit-message-formatting')
-
-  -- @file autocomplete in markdown
-  require('md-file-complete').setup()
-end
-
+-- Git commit textwidth config
+require('commit-message-formatting')

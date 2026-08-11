@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "jjsigns.nvim": {
+      "rev": "8d758ca0f14802b713dedfe8279d7c12e49c5a3b",
+      "src": "https://github.com/andrewhampton/jjsigns.nvim"
+    }
+  }
+}

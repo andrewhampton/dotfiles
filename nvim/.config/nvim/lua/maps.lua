@@ -1,19 +1,6 @@
-local util = require 'util'
-
 -- Make <Space> the leader
 vim.g.mapleader = ' '
 vim.keymap.set('n', '<Space>', '', { noremap = true, silent = true, desc = "Set leader" })
-
--- Helper function from your original code
-local function copyAndOpenGitHubLink(mode)
-  local gl = require("gitlinker")
-  gl.get_buf_range_url(mode, {
-    action_callback = function (url)
-      require("gitlinker.actions").open_in_browser(url)
-      require("gitlinker.actions").copy_to_clipboard(url)
-    end
-  })
-end
 
 -- Default options for all mappings
 local opts = { noremap = true, silent = true }
@@ -33,13 +20,17 @@ vim.keymap.set('n', 'gqp', '<cmd>cprev<CR>', { desc = "Previous quickfix item", 
 vim.keymap.set('n', 'gqon', '<cmd>cnewer<CR>', { desc = "Next quickfix list", unpack(opts) })
 vim.keymap.set('n', 'gqoo', '<cmd>colder<CR>', { desc = "Previous quickfix list", unpack(opts) })
 
+-- Clear search highlights
+vim.keymap.set('n', '<C-l>', ':noh<CR>', { noremap = true, silent = false, desc = "Clear search highlights" })
 
 ---------------------------------------
 -- Normal mode maps with <leader>
 ---------------------------------------
 
 vim.keymap.set('n', '<leader>yf', function()
-  local path = util.currentFileRelativeToGitRoot()
+  local file = vim.fn.expand('%:p')
+  local root = vim.fs.root(0, { '.git', '.jj' })
+  local path = root and vim.fs.relpath(root, file) or file
   vim.fn.setreg('+', path)
   vim.notify('Copied ' .. path .. ' to clipboard')
 end, { desc = "Copy file path to clipboard", unpack(opts) })
@@ -48,85 +39,11 @@ end, { desc = "Copy file path to clipboard", unpack(opts) })
 vim.keymap.set('n', '<leader>dn', function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Go to next diagnostic", unpack(opts) })
 vim.keymap.set('n', '<leader>dp', function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Go to previous diagnostic", unpack(opts) })
 vim.keymap.set('n', '<leader>dd', function() vim.diagnostic.open_float({ scope = 'cursor' }) end, { desc = "Show diagnostic details", unpack(opts) })
-vim.keymap.set('n', '<leader>da', '<cmd>Telescope diagnostics<CR>', { desc = "List all diagnostics", unpack(opts) })
-
--- Find/Telescope
-vim.keymap.set('n', '<leader>fs', function()
-  require('telescope.builtin').live_grep({ hidden = true, cwd = require('util').gitRoot() })
-end, { desc = "Search project with live_grep", unpack(opts) })
-
-vim.keymap.set('n', '<leader>ff', function()
-  require('telescope.builtin').find_files({ hidden = true, cwd = require('util').gitRoot() })
-end, { desc = "Find files in project", unpack(opts) })
-
-vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { desc = "List open buffers", unpack(opts) })
-vim.keymap.set('n', '<leader>fr', '<cmd>Telescope oldfiles<CR>', { desc = "List recent files", unpack(opts) })
-vim.keymap.set('n', '<leader>fq', '<cmd>Telescope quickfix<CR>', { desc = "List quickfix items", unpack(opts) })
--- vim.keymap.set('n', '<leader>ft', function() require('nvim-tree').toggle() end, { desc = "Toggle file tree", unpack(opts) })
-
--- Git related
-vim.keymap.set('n', '<leader>gl', '<cmd>Telescope git_commits<CR>', { desc = "List commits", unpack(opts) })
-vim.keymap.set('n', '<leader>gg', '<cmd>Telescope git_bcommits<CR>', { desc = "List buffer commits", unpack(opts) })
-vim.keymap.set('n', '<leader>gr', '<cmd>Telescope git_branches<CR>', { desc = "List branches", unpack(opts) })
-vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = "Git status", unpack(opts) })
-vim.keymap.set('n', '<leader>gt', '<cmd>Telescope git_stash<CR>', { desc = "List git stashes", unpack(opts) })
-vim.keymap.set('n', '<leader>gy', function() copyAndOpenGitHubLink('n') end, { desc = "Open GitHub link", unpack(opts) })
-
--- JJ blame
-vim.keymap.set('n', '<leader>ght', '<cmd>JJSigns toggle_current_line_blame<CR>', { desc = "Toggle current line blame", unpack(opts) })
-vim.keymap.set('n', '<leader>ghb', '<cmd>JJSigns blame<CR>', { desc = "Show full file blame", unpack(opts) })
-vim.keymap.set('n', '<leader>ghs', '<cmd>JJSigns show_line_commit<CR>', { desc = "Show commit for current line", unpack(opts) })
 
 -- Utilities
 vim.keymap.set('n', '<leader>ur', ':checktime<CR>', { desc = "Reload file from disk", unpack(opts) })
-vim.keymap.set('n', '<leader>uc', function() require('telescope.builtin').find_files({ cwd = '~/dotfiles/nvim' }) end, { desc = "Open Neovim config", unpack(opts) })
 
--- JJ blame shortcuts under <leader>h
+-- JJ blame (jjsigns.nvim)
 vim.keymap.set('n', '<leader>hb', '<cmd>JJSigns blame<CR>', { desc = "Full file blame", unpack(opts) })
 vim.keymap.set('n', '<leader>ht', '<cmd>JJSigns toggle_current_line_blame<CR>', { desc = "Toggle line blame", unpack(opts) })
 vim.keymap.set('n', '<leader>hs', '<cmd>JJSigns show_line_commit<CR>', { desc = "Show commit for current line", unpack(opts) })
-
----------------------------------------
--- Visual mode maps
----------------------------------------
-vim.keymap.set('v', '<leader>gy', function() copyAndOpenGitHubLink('v') end, { desc = "GitHub link for selection", unpack(opts) })
-
-
----------------------------------------
--- Other modes
----------------------------------------
--- Pane navigation with Alt+hjkl
--- vim.keymap.set('n', '<M-h>', '<C-w>h', { desc = "Move to left pane", unpack(opts) })
--- vim.keymap.set('n', '<M-j>', '<C-w>j', { desc = "Move to bottom pane", unpack(opts) })
--- vim.keymap.set('n', '<M-k>', '<C-w>k', { desc = "Move to top pane", unpack(opts) })
--- vim.keymap.set('n', '<M-l>', '<C-w>l', { desc = "Move to right pane", unpack(opts) })
-
--- require that vim-kitty-navigator is installed and the .py kittens are copied into ~/.config/kitty/
-vim.g.kitty_navigator_no_mappings = 1
-
-local kitty_opts = { noremap = true, silent = true, desc = "Kitty-aware navigation" }
-
-vim.keymap.set('n', '<M-h>', '<cmd>KittyNavigateLeft<CR>',  kitty_opts)
-vim.keymap.set('n', '<M-j>', '<cmd>KittyNavigateDown<CR>',  kitty_opts)
-vim.keymap.set('n', '<M-k>', '<cmd>KittyNavigateUp<CR>',    kitty_opts)
-vim.keymap.set('n', '<M-l>', '<cmd>KittyNavigateRight<CR>', kitty_opts)
-
-vim.keymap.set('v', '<M-h>', '<cmd>KittyNavigateLeft<CR>',  kitty_opts)
-vim.keymap.set('v', '<M-j>', '<cmd>KittyNavigateDown<CR>',  kitty_opts)
-vim.keymap.set('v', '<M-k>', '<cmd>KittyNavigateUp<CR>',    kitty_opts)
-vim.keymap.set('v', '<M-l>', '<cmd>KittyNavigateRight<CR>', kitty_opts)
-
--- Clear search highlights
-vim.keymap.set('n', '<C-l>', ':noh<CR>', { noremap = true, silent = false, desc = "Clear search highlights" })
-
--- Claude Code keybindings
-vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<cr>', { desc = "Toggle Claude Code", noremap = true, silent = true })
-vim.keymap.set('n', '<leader>cf', '<cmd>ClaudeCodeFocus<cr>', { desc = "Focus Claude Code", noremap = true, silent = true })
-vim.keymap.set('n', '<leader>cr', '<cmd>ClaudeCode --resume<cr>', { desc = "Resume Claude Code", noremap = true, silent = true })
-vim.keymap.set('n', '<leader>cC', '<cmd>ClaudeCode --continue<cr>', { desc = "Continue Claude Code", noremap = true, silent = true })
-vim.keymap.set('n', '<leader>cb', '<cmd>ClaudeCodeAdd %<cr>', { desc = "Add current buffer to Claude Code", noremap = true, silent = true })
-vim.keymap.set('n', '<leader>ca', '<cmd>ClaudeCodeDiffAccept<cr>', { desc = "Accept Claude Code diff", noremap = true, silent = true })
-vim.keymap.set('n', '<leader>cd', '<cmd>ClaudeCodeDiffDeny<cr>', { desc = "Deny Claude Code diff", noremap = true, silent = true })
-
--- Amp keybindings (see lua/amp_config.lua)
-require('amp_config').setup()
