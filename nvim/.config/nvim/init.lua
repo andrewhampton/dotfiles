@@ -4,6 +4,9 @@ require('vimconfig')
 -- Plugins, via the built-in vim.pack
 require('plugins')
 
+-- Incremental fuzzy finders on the command line
+require('finders').setup()
+
 -- Wire up key mappings
 require('maps')
 

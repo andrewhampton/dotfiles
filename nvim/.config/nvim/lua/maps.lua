@@ -35,6 +35,11 @@ vim.keymap.set('n', '<leader>yf', function()
   vim.notify('Copied ' .. path .. ' to clipboard')
 end, { desc = "Copy file path to clipboard", unpack(opts) })
 
+-- Find (see lua/finders.lua) -- deliberately not silent: these open the cmdline
+vim.keymap.set('n', '<leader>ff', ':find ', { noremap = true, desc = "Find file by name" })
+vim.keymap.set('n', '<leader>fs', ':Grep ', { noremap = true, desc = "Search project contents" })
+vim.keymap.set('n', '<leader>fr', ':Recent ', { noremap = true, desc = "Open recent file" })
+
 -- Diagnostics
 vim.keymap.set('n', '<leader>dn', function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Go to next diagnostic", unpack(opts) })
 vim.keymap.set('n', '<leader>dp', function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Go to previous diagnostic", unpack(opts) })

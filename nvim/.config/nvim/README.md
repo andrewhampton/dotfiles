@@ -27,6 +27,7 @@ available on your linux distro.
 
 - `lua/vimconfig.lua` — options, autocmds, the `:Jump` command
 - `lua/plugins.lua` — the one plugin, via `vim.pack`
+- `lua/finders.lua` — incremental fuzzy find/grep/recent on the command line
 - `lua/maps.lua` — key mappings
 - `lua/short-comments.lua` — narrower `textwidth` inside comments, via built-in treesitter
 - `lua/commit-message-formatting.lua` — 50/72 `textwidth` in commit messages
