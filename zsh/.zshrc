@@ -192,10 +192,18 @@ jmerge() {
   jj bookmark set main -r "$target" &&
   jj git push -b main || return $?
 
-  if jj bookmark list | grep -q 'push-'; then
-    jj bookmark delete glob:"push-*" &&
-    jj git push --deleted
-  fi
+  # GitHub's ruleset caps a push at 5 ref updates, so drain deletions in
+  # batches. A single `jj git push --deleted` is atomic: once more than 5
+  # bookmarks are pending deletion (renames leave the old name behind) it
+  # fails forever and the backlog only grows.
+  jj bookmark delete glob:"push-*" 2>/dev/null
+  local -a deleted batch
+  deleted=(${(f)"$(jj bookmark list --all-remotes 2>/dev/null | awk '/\(deleted\)$/{print $1}')"})
+  while (( ${#deleted} )); do
+    batch=(${deleted[1,5]})
+    jj git push ${batch[@]/#/-b} || return $?
+    deleted=(${deleted[6,-1]})
+  done
 }
 alias jmain='jj log -r "::trunk()"' # pronounced "juh-main" like flight of the concords
 alias jmine='jj log -r "::trunk() & mine()"' # pronounced "juh-main" like flight of the concords
