@@ -1,0 +1,78 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+
+  // Worktree agents (o-style): cmux-spawn / cmux-open / cmux-reap in
+  // ~/.local/bin. Spawn has three entry points:
+  //   - Cmd+Shift+N / Command Palette "Spawn agent worktree": opens a new
+  //     workspace, prompts for the task in $EDITOR, then creates the
+  //     worktree and launches claude in place.
+  //   - Plus-button right-click menu: same as above.
+  //   - TextBox submit action "Spawn worktree" (Shift-Tab to select):
+  //     type the task ahead of time, submit, and the workspace appears.
+  "actions": {
+    "open-worktree": {
+      "type": "command",
+      "title": "Open worktree",
+      "subtitle": "Reopen an existing worktree (fzf picker)",
+      "keywords": ["open", "worktree", "resume", "attach"],
+      "shortcut": "cmd+shift+o",
+      "target": "newTabInCurrentPane",
+      "command": "exec cmux-open",
+      "icon": { "type": "symbol", "name": "folder" }
+    },
+    "reap-worktree": {
+      "type": "command",
+      "title": "Reap worktree",
+      "subtitle": "Tear down a worktree: workspace, databases, Caddy, bookmark",
+      "keywords": ["reap", "worktree", "delete", "rm"],
+      "target": "newTabInCurrentPane",
+      "command": "exec cmux-reap",
+      "icon": { "type": "symbol", "name": "trash" }
+    },
+    "spawn-worktree": {
+      "type": "workspace",
+      "title": "Spawn agent worktree",
+      "subtitle": "New worktree + claude for a task (o spawn)",
+      "keywords": ["spawn", "worktree", "agent", "o"],
+      "shortcut": "cmd+shift+n",
+      "icon": { "type": "symbol", "name": "folder.badge.plus" },
+      "workspace": {
+        "name": "Pending…",
+        "cwd": "~/code/artemis",
+        "layout": {
+          "pane": {
+            "surfaces": [
+              { "type": "terminal", "name": "spawn", "command": "exec cmux-spawn --in-place", "focus": true }
+            ]
+          }
+        }
+      }
+    }
+  },
+
+  "ui": {
+    "newWorkspace": {
+      "contextMenu": [
+        { "action": "spawn-worktree" },
+        { "action": "open-worktree" },
+        { "action": "reap-worktree" },
+        { "type": "separator" },
+        { "action": "cmux.newTerminal", "title": "New Terminal" },
+        { "action": "cmux.newBrowser", "title": "New Browser" }
+      ]
+    }
+  },
+
+  "terminal": {
+    "textBoxSubmitActions": [
+      {
+        "id": "spawn-worktree",
+        "title": "Spawn worktree",
+        "kind": "commandTemplate",
+        "commandTemplate": "cmux-spawn {{prompt}}",
+        "systemImage": "folder.badge.plus"
+      }
+    ]
+  }
+}

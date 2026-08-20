@@ -1,0 +1,52 @@
+#!/bin/bash
+# cmux-open — reopen an existing worktree in cmux.
+#
+#   cmux-open [name]   # fzf picker over the worktrees dir when name omitted
+#
+# Focuses the workspace if one with that name is already open; otherwise
+# creates one in the worktree and resumes the most recent claude session
+# there (or starts a fresh one if there is none).
+set -euo pipefail
+
+CMUX=${CMUX_BIN:-cmux}
+REPO=${CMUX_SPAWN_REPO:-$HOME/code/artemis}
+BASE=$(cd "$REPO/.." && pwd)/worktrees
+export CMUX_QUIET=1
+
+die() { echo "cmux-open: $*" >&2; exit 1; }
+
+# "ref<TAB>name" per line; strips the "*" marker and "[selected]" suffix.
+workspaces() {
+  "$CMUX" list-workspaces | sed -E 's/^\*? *//; s/ +\[selected\]$//' \
+    | awk '{ref=$1; $1=""; sub(/^ +/, ""); print ref "\t" $0}'
+}
+
+open_workspaces() { workspaces | cut -f2; }
+
+name=${1:-}
+if [ -z "$name" ]; then
+  open=$(open_workspaces)
+  name=$(ls -t "$BASE" | while read -r d; do
+    if printf '%s\n' "$open" | grep -qx "$d"; then echo "● $d"; else echo "  $d"; fi
+  done | fzf --prompt='open worktree> ' --header='● already open' | sed 's/^. //') || true
+fi
+[ -n "$name" ] || exit 0
+path="$BASE/$name"
+[ -d "$path" ] || die "no worktree at $path"
+
+existing=$(workspaces | awk -F'\t' -v n="$name" '$2==n {print $1; exit}')
+if [ -n "$existing" ]; then
+  exec "$CMUX" select-workspace --workspace "$existing"
+fi
+
+# claude keeps sessions under ~/.claude/projects/<path with / -> ->/.
+project_dir="$HOME/.claude/projects/$(printf '%s' "$path" | tr '/' '-')"
+if ls "$project_dir"/*.jsonl >/dev/null 2>&1; then
+  cmd="exec claude --continue"
+else
+  cmd="exec claude"
+fi
+# Make sure the worktree still runs (databases, Caddy routes) before handing
+# it to claude.
+cmd="bin/worktree bootstrap && $cmd"
+"$CMUX" new-workspace --name "$name" --cwd "$path" --focus true --command "$cmd"

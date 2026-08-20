@@ -1,0 +1,56 @@
+#!/bin/bash
+# cmux-reap — tear down a spawned worktree.
+#
+#   cmux-reap [name]   # fzf picker over the worktrees dir when name omitted
+#
+# Closes the matching cmux workspace, runs bin/worktree rm (databases, Caddy
+# routes, jj workspace, directory), then deletes the bookmark if it is merged
+# into main or empty — otherwise asks first.
+set -euo pipefail
+
+CMUX=${CMUX_BIN:-cmux}
+REPO=${CMUX_SPAWN_REPO:-$HOME/code/artemis}
+BASE=$(cd "$REPO/.." && pwd)/worktrees
+export CMUX_QUIET=1
+
+die() { echo "cmux-reap: $*" >&2; exit 1; }
+
+# "ref<TAB>name" per line; strips the "*" marker and "[selected]" suffix.
+workspaces() {
+  "$CMUX" list-workspaces | sed -E 's/^\*? *//; s/ +\[selected\]$//' \
+    | awk '{ref=$1; $1=""; sub(/^ +/, ""); print ref "\t" $0}'
+}
+
+# Bookmarks with commits not in main (and not empty), one per line.
+unmerged_bookmarks() {
+  (cd "$REPO" && jj log -r 'bookmarks() & ~::main & ~empty()' --no-graph -T 'bookmarks ++ "\n"' 2>/dev/null) \
+    | tr ' ' '\n' | sed 's/\*$//' | grep . || true
+}
+
+name=${1:-}
+if [ -z "$name" ]; then
+  unmerged=$(unmerged_bookmarks)
+  name=$(ls -t "$BASE" | while read -r d; do
+    if printf '%s\n' "$unmerged" | grep -qx "$d"; then echo "! $d"; else echo "  $d"; fi
+  done | fzf --prompt='reap worktree> ' --header='! has unmerged commits' | sed 's/^. //') || true
+fi
+[ -n "$name" ] || exit 0
+[ -d "$BASE/$name" ] || die "no worktree at $BASE/$name"
+
+for ws in $(workspaces | awk -F'\t' -v n="$name" '$2==n {print $1}'); do
+  echo "Closing workspace $ws"
+  "$CMUX" close-workspace --workspace "$ws" >/dev/null
+done
+
+"$REPO/bin/worktree" rm "$name"
+
+cd "$REPO"
+if jj bookmark list "$name" 2>/dev/null | grep -q .; then
+  if unmerged_bookmarks | grep -qx "$name"; then
+    printf 'Bookmark %s has commits not in main. Delete it anyway? [y/N] ' "$name" >/dev/tty
+    read -r answer </dev/tty
+    case "$answer" in y|Y) ;; *) echo "Keeping bookmark $name"; exit 0 ;; esac
+  fi
+  jj bookmark delete "$name"
+  echo "Deleted bookmark $name"
+fi

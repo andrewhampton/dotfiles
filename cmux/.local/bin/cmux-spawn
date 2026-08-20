@@ -1,0 +1,112 @@
+#!/bin/bash
+# cmux-spawn — `o spawn` for cmux.
+#
+# Creates an isolated worktree for a task (via the repo's bin/worktree),
+# writes the task into task.md, and launches claude on it in its own cmux
+# workspace.
+#
+#   cmux-spawn "fix the flaky poll test"   # prompt from args
+#   echo "..." | cmux-spawn                 # prompt from stdin
+#   cmux-spawn                              # prompt from $EDITOR
+#
+# Without --in-place it opens a new workspace whose terminal re-runs this
+# script with --in-place, which does the real work in that workspace so the
+# tab is renamed and claude ends up running there.
+set -euo pipefail
+
+CMUX=${CMUX_BIN:-cmux}
+REPO=${CMUX_SPAWN_REPO:-$HOME/code/artemis}
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/cmux-spawn"
+mkdir -p "$STATE_DIR"
+
+in_place=false
+prompt_file=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --in-place) in_place=true; shift ;;
+    --prompt-file) prompt_file=$2; shift 2 ;;
+    --repo) REPO=$2; shift 2 ;;
+    --) shift; break ;;
+    *) break ;;
+  esac
+done
+
+die() { echo "cmux-spawn: $*" >&2; exit 1; }
+
+read_prompt() {
+  if [ -n "$prompt_file" ]; then
+    cat "$prompt_file"
+  elif [ $# -gt 0 ]; then
+    printf '%s' "$*"
+  elif [ -p /dev/stdin ] || [ -f /dev/stdin ]; then
+    # Only a real pipe/file counts; cmux layout commands start with a
+    # non-tty stdin that never closes, so `! -t 0` would block forever.
+    cat
+  else
+    local tmp
+    # BSD mktemp needs the Xs last, so no .md suffix; nvim gets the filetype instead.
+    tmp=$(mktemp "$STATE_DIR/prompt.XXXXXX") || die "mktemp failed"
+    printf '# Describe the task. Lines starting with # are ignored.\n' > "$tmp"
+    "${EDITOR:-vi}" -c 'set ft=markdown' "$tmp" </dev/tty >/dev/tty
+    grep -v '^#' "$tmp" || true
+    rm -f "$tmp"
+  fi
+}
+
+# Ask claude for a short kebab-case name; fall back to a timestamp.
+plan_name() {
+  local prompt=$1 name
+  name=$(claude -p --model haiku "You are a naming assistant. Do NOT do the task. Reply with ONLY a short kebab-case name (max 20 chars) for a terminal tab. If the task references an issue ID (Linear, Honeybadger, GitHub) include it, e.g. poll-123-fix-crash. Never use generic suffixes like explore or investigate.
+
+Task: $prompt" 2>/dev/null | tr -d '[:space:]`"' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]//g' | cut -c1-30) || true
+  [ -n "$name" ] || name="task-$(date +%Y%m%d-%H%M%S)"
+  printf '%s' "$name"
+}
+
+unique_name() {
+  local name=$1
+  if (cd "$REPO" && jj bookmark list "$name" 2>/dev/null | grep -q .) || [ -e "$REPO/../$name" ]; then
+    name="$name-$(LC_ALL=C tr -dc a-z0-9 </dev/urandom | head -c4)"
+  fi
+  printf '%s' "$name"
+}
+
+prompt=$(read_prompt "$@" | sed -e 's/[[:space:]]*$//' )
+prompt=$(printf '%s' "$prompt" | awk 'NF{p=1} p' )
+[ -n "$prompt" ] || die "prompt is required (args, stdin, or editor)"
+[ -x "$REPO/bin/worktree" ] || die "$REPO has no bin/worktree"
+
+if ! $in_place; then
+  # Hand off to a fresh workspace; pass the prompt via file to dodge quoting.
+  f=$(mktemp "$STATE_DIR/prompt.XXXXXX")
+  printf '%s' "$prompt" > "$f"
+  "$CMUX" new-workspace --name "Pending..." --cwd "$REPO" --focus true \
+    --command "exec cmux-spawn --in-place --repo '$REPO' --prompt-file '$f'"
+  exit 0
+fi
+
+echo "Planning task..."
+name=$(unique_name "$(plan_name "$prompt")")
+"$CMUX" rename-workspace "$name" >/dev/null 2>&1 || true
+
+echo "Creating worktree ${name}..."
+out=$("$REPO/bin/worktree" create "$name")
+path=$(printf '%s\n' "$out" | sed -n 's/^WORKTREE_PATH=//p' | tail -1)
+[ -d "$path" ] || die "bin/worktree create did not report WORKTREE_PATH:
+$out"
+
+# Mirror o: fresh empty commit on main@origin, bookmarked with the task name.
+if command -v jj >/dev/null && [ -d "$path/.jj" ]; then
+  (cd "$path" && jj new main@origin && jj bookmark set "$name" -r @ --allow-backwards)
+fi
+
+printf '%s\n' "$prompt" > "$path/task.md"
+[ -z "$prompt_file" ] || rm -f "$prompt_file"
+
+cd "$path"
+# Report the cwd to the terminal (OSC 7) so new cmux splits open in the
+# worktree; shell integration would do this on an interactive cd, but this
+# cd happens in a script and is immediately followed by exec.
+printf '\033]7;file://%s%s\007' "$(hostname)" "$path"
+echo "Launching claude in $path"
+exec claude 'Execute the task described in @task.md'

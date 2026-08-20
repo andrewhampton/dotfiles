@@ -21,7 +21,7 @@ Each top-level directory is a **stow package** whose internal layout mirrors
    …or stow the common set in one go:
    ```shell
    cd ~
-   for pkg in claude editor-config git hammerspoon irb jj kitty nvim \
+   for pkg in claude cmux editor-config git hammerspoon irb jj kitty nvim \
               oh-my-zsh opencode ripgrep screen ssh tmux uv zed zsh; do
      stow -d dotfiles "$pkg"
    done
@@ -39,6 +39,7 @@ Each top-level directory is a **stow package** whose internal layout mirrors
 | Package | Configures | Requires |
 | --- | --- | --- |
 | `claude` | Claude Code (`~/.claude`) | Claude Code |
+| `cmux` | cmux terminal (`~/.config/cmux`) + `cmux-spawn`/`cmux-open`/`cmux-reap` (`~/.local/bin`) | cmux, Claude Code |
 | `editor-config` | EditorConfig defaults (`~/.editorconfig`) | — |
 | `emacs` | Emacs (`~/.emacs.d`) — legacy, unused | Emacs |
 | `git` | Git config, attributes, message, global ignore | git |

@@ -8,6 +8,9 @@ fi
 # Add kitty to the path
 export PATH="$PATH:/Applications/kitty.app/Contents/MacOS"
 
+# Add cmux to the path
+export PATH="$PATH:/Applications/cmux.app/Contents/Resources/bin"
+
 # Add lm studio binary to the path
 export PATH="$PATH:/Users/ah/.lmstudio/bin"
 
