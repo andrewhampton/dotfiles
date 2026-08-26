@@ -1,9 +1,13 @@
 #!/bin/bash
 # cmux-reap — tear down a spawned worktree.
 #
-#   cmux-reap [name]   # fzf picker over the worktrees dir when name omitted
+#   cmux-reap [name]
 #
-# Closes the matching cmux workspace, runs bin/worktree rm (databases, Caddy
+# With no name: if the current directory is inside a worktree, reap that one
+# (closing the workspace we are running in last); otherwise offer an fzf
+# picker over the worktrees dir.
+#
+# Closes matching cmux workspaces, runs bin/worktree rm (databases, Caddy
 # routes, jj workspace, directory), then deletes the bookmark if it is merged
 # into main or empty — otherwise asks first.
 set -euo pipefail
@@ -27,7 +31,41 @@ unmerged_bookmarks() {
     | tr ' ' '\n' | sed 's/\*$//' | grep . || true
 }
 
+# Name of the worktree containing the current directory, if any.
+current_worktree() {
+  local here
+  here=$(pwd -P)
+  case "$here" in
+    "$BASE"/*) echo "${here#"$BASE"/}" | cut -d/ -f1 ;;
+  esac
+}
+
+# Ref (surface:N / workspace:N) of the terminal running this script.
+caller_ref() {
+  "$CMUX" identify | awk -F'"' -v k="\"$1_ref\"" '/"caller"/{c=1} c && $0 ~ k {print $4; exit}'
+}
+
+# Close every surface in our own workspace except the one running this script,
+# so dev servers and agents let go of the databases before we drop them.
+close_sibling_surfaces() {
+  local me
+  me=$(caller_ref surface)
+  # list-pane-surfaces only covers one pane, so walk every pane in the workspace.
+  for pane in $("$CMUX" list-panes --workspace "$CMUX_WORKSPACE_ID" | sed -E 's/^\*? *//' | awk '{print $1}'); do
+    "$CMUX" list-pane-surfaces --workspace "$CMUX_WORKSPACE_ID" --pane "$pane" \
+      | sed -E 's/^\*? *//' | awk '{print $1}' | while read -r ref; do
+        [ "$ref" = "$me" ] && continue
+        "$CMUX" close-surface --surface "$ref" --workspace "$CMUX_WORKSPACE_ID" >/dev/null
+      done
+  done
+}
+
 name=${1:-}
+self=
+if [ -z "$name" ] && [ -n "${CMUX_WORKSPACE_ID:-}" ]; then
+  name=$(current_worktree)
+  [ -n "$name" ] && self=yes
+fi
 if [ -z "$name" ]; then
   unmerged=$(unmerged_bookmarks)
   name=$(ls -t "$BASE" | while read -r d; do
@@ -37,20 +75,34 @@ fi
 [ -n "$name" ] || exit 0
 [ -d "$BASE/$name" ] || die "no worktree at $BASE/$name"
 
+if [ -n "$self" ]; then
+  echo "Reaping $name from inside its workspace"
+  self=$(caller_ref workspace)
+  close_sibling_surfaces
+fi
 for ws in $(workspaces | awk -F'\t' -v n="$name" '$2==n {print $1}'); do
+  # Our own workspace has to outlive the script; it is closed at the end.
+  [ "$ws" = "$self" ] && continue
   echo "Closing workspace $ws"
   "$CMUX" close-workspace --workspace "$ws" >/dev/null
 done
 
+# Leave the directory before it is deleted from under us.
+cd "$REPO"
 "$REPO/bin/worktree" rm "$name"
 
-cd "$REPO"
 if jj bookmark list "$name" 2>/dev/null | grep -q .; then
   if unmerged_bookmarks | grep -qx "$name"; then
     printf 'Bookmark %s has commits not in main. Delete it anyway? [y/N] ' "$name" >/dev/tty
     read -r answer </dev/tty
-    case "$answer" in y|Y) ;; *) echo "Keeping bookmark $name"; exit 0 ;; esac
+    case "$answer" in y|Y) ;; *) echo "Keeping bookmark $name" ;; esac
+  else
+    jj bookmark delete "$name"
+    echo "Deleted bookmark $name"
   fi
-  jj bookmark delete "$name"
-  echo "Deleted bookmark $name"
+fi
+
+if [ -n "$self" ]; then
+  echo "Closing this workspace"
+  "$CMUX" close-workspace --workspace "$self" >/dev/null
 fi
