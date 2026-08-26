@@ -22,7 +22,7 @@
   - Ensure commit messages match the changes that are actually in the commit
   - Give the final commit a bookmark
   - Include the linear issue number in the bookmark when applicable
-  - Push the bookmark with `--allow-new`
+  - Push the bookmark with `jj git push --bookmark <name>` (jj ≥ 0.43 tracks new bookmarks automatically; there is no `--allow-new` flag)
 - Don't use `ah/` as a prefix for jj bookmark or git branch names
 - If you post as me on any public facing site (linear, github, etc), disclaim that with a "Claude posting on behalf of Andrew" at the top.
 

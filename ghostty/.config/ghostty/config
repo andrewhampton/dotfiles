@@ -1,0 +1,36 @@
+# Ghostty configuration
+# Reference: ghostty +show-config --default --docs
+
+# --- Font -------------------------------------------------------------
+font-family = "Monaspace Neon Var"
+font-size = 13
+
+# Ligatures. Monaspace exposes its ligature sets as OpenType stylistic
+# sets (ss01–ss10) plus "calt" for texture healing; enable them all.
+font-feature = +calt
+font-feature = +liga
+
+# ligatures related to the equals glyph like != and ===.
+font-feature = +ss01
+# ligatures for greater/less or equal (<=, >=).
+font-feature = +ss02
+# ligatures related to arrows like -> and ~>.
+font-feature = +ss03
+# ligatures related to markup, like </ and />.
+font-feature = +ss04
+# ligatures related to the F# programming language, like |>.
+font-feature = +ss05
+# ligatures related to repeated uses of #, +, and &
+font-feature = +ss06
+# ligatures related to colons like :: or =:=.
+font-feature = +ss07
+# ligatures related to combinations of periods with other glyphs like ..= or .-.
+font-feature = +ss08
+# ligatures related to combinations of the greater/less than and equals signs, like <=>, >>, and =<<.
+font-feature = +ss09
+# other tags, like #[ and #(
+font-feature = +ss10
+
+# --- Colors -----------------------------------------------------------
+# Built-in theme; see `ghostty +list-themes`.
+theme = Catppuccin Mocha

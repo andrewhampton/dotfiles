@@ -7,8 +7,11 @@ email = "andrewwh@gmail.com"
 [ui]
 # default-command = ["log", "-r", "(heads(::trunk() & ::@):: & ::trunk()) | (heads(::trunk() & ::@):: & ::@) | @::"]
 default-command = ["log", "-r", "(heads(::@ & ::trunk()))::(@ | trunk()) | (trunk()..@)::"]
-pager = ":builtin"
+# pager = ":builtin"
 conflict-marker-style = "snapshot"
+
+pager = ["delta", "--line-numbers"]
+diff-formatter = ":git"
 
 [colors]
 "diff removed token" = { underline = false }
