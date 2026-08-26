@@ -11,6 +11,25 @@
   //   - TextBox submit action "Spawn worktree" (Shift-Tab to select):
   //     type the task ahead of time, submit, and the workspace appears.
   "actions": {
+    // cmux only ships splitRight/splitDown actions; left/up go through the CLI.
+    "split-left": {
+      "type": "command",
+      "title": "Split left",
+      "keywords": ["split", "left"],
+      "shortcut": "ctrl+cmd+h",
+      "target": "detached",
+      "command": "cmux new-split left",
+      "icon": { "type": "symbol", "name": "rectangle.lefthalf.inset.filled" }
+    },
+    "split-up": {
+      "type": "command",
+      "title": "Split up",
+      "keywords": ["split", "up"],
+      "shortcut": "ctrl+cmd+k",
+      "target": "detached",
+      "command": "cmux new-split up",
+      "icon": { "type": "symbol", "name": "rectangle.tophalf.inset.filled" }
+    },
     "open-worktree": {
       "type": "command",
       "title": "Open worktree",
@@ -48,6 +67,19 @@
           }
         }
       }
+    }
+  },
+
+  // Vim-style pane navigation (replaces the default ⌥⌘-arrow bindings).
+  "shortcuts": {
+    "bindings": {
+      "focusLeft": "alt+h",
+      "focusDown": "alt+j",
+      "focusUp": "alt+k",
+      "focusRight": "alt+l",
+      "toggleSplitZoom": "alt+m",
+      "splitDown": "ctrl+cmd+j",
+      "splitRight": "ctrl+cmd+l"
     }
   },
 

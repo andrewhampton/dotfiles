@@ -94,6 +94,6 @@ jj_prompt_info() {
 
 
 # Set prompt content with Base16 colors
-# %(?.${base0D}.${base08})${reset_color} '
+# %(?.${base0D}.${base08})❯${reset_color} '
 PROMPT='${base0D}%~${reset_color} $(jj_prompt_info)$(jj_prompt_status)${cmd_time} ${base02}%D{%H:%M:%S}${reset_color}
-%(?.${base0D}.${base08})${reset_color} '
+%(?.${base0D}.${base08})❯${reset_color} '

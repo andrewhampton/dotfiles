@@ -34,3 +34,6 @@ font-feature = +ss10
 # --- Colors -----------------------------------------------------------
 # Built-in theme; see `ghostty +list-themes`.
 theme = Catppuccin Mocha
+
+font-thicken = true
+adjust-cell-height = 5%
