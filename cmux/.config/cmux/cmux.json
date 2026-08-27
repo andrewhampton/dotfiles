@@ -16,7 +16,7 @@
       "type": "command",
       "title": "Split left",
       "keywords": ["split", "left"],
-      "shortcut": "ctrl+cmd+h",
+      "shortcut": "shift+alt+h",
       "target": "detached",
       "command": "cmux new-split left",
       "icon": { "type": "symbol", "name": "rectangle.lefthalf.inset.filled" }
@@ -25,7 +25,7 @@
       "type": "command",
       "title": "Split up",
       "keywords": ["split", "up"],
-      "shortcut": "ctrl+cmd+k",
+      "shortcut": "shift+alt+k",
       "target": "detached",
       "command": "cmux new-split up",
       "icon": { "type": "symbol", "name": "rectangle.tophalf.inset.filled" }
@@ -78,8 +78,8 @@
       "focusUp": "alt+k",
       "focusRight": "alt+l",
       "toggleSplitZoom": "alt+m",
-      "splitDown": "ctrl+cmd+j",
-      "splitRight": "ctrl+cmd+l"
+      "splitDown": "shift+alt+j",
+      "splitRight": "shift+alt+l"
     }
   },
 
