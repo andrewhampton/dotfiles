@@ -85,15 +85,25 @@ if ! $in_place; then
   exit 0
 fi
 
+# Name the workspace after the branch. Rename early with the planned name so
+# the tab stops saying "Pending..." while the worktree is created, then again
+# with the final name, since bin/worktree may sanitize what it was given.
+rename_workspace() {
+  CMUX_QUIET=1 "$CMUX" rename-workspace "$1" >/dev/null \
+    || echo "cmux-spawn: warning: could not rename workspace to $1" >&2
+}
+
 echo "Planning task..."
 name=$(unique_name "$(plan_name "$prompt")")
-"$CMUX" rename-workspace "$name" >/dev/null 2>&1 || true
+rename_workspace "$name"
 
 echo "Creating worktree ${name}..."
 out=$("$REPO/bin/worktree" create "$name")
 path=$(printf '%s\n' "$out" | sed -n 's/^WORKTREE_PATH=//p' | tail -1)
 [ -d "$path" ] || die "bin/worktree create did not report WORKTREE_PATH:
 $out"
+name=$(basename "$path")
+rename_workspace "$name"
 
 # Mirror o: fresh empty commit on main@origin, bookmarked with the task name.
 if command -v jj >/dev/null && [ -d "$path/.jj" ]; then
