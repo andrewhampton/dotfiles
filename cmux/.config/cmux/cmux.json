@@ -70,6 +70,16 @@
     }
   },
 
+  "app": {
+    // Keep the sidebar order stable; don't bump workspaces on notifications.
+    "reorderOnNotification": false
+  },
+
+  "sidebar": {
+    // Hide the agent's last-message summary under each workspace.
+    "showNotificationMessage": false
+  },
+
   // Vim-style pane navigation (replaces the default ⌥⌘-arrow bindings).
   "shortcuts": {
     "bindings": {
