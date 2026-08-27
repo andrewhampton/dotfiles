@@ -1,0 +1,42 @@
+#!/bin/bash
+# cmux-group-join — put a workspace in the sidebar group for its repo.
+#
+#   cmux-group-join [--repo <path>] [--workspace <id|ref>]
+#
+# The group is named after the folder of the repo root (jj root, falling
+# back to the path itself), e.g. ~/code/artemis -> "artemis". It is created
+# on first use with its anchor workspace opened at the repo root; later
+# calls just add the workspace. Defaults: repo = $CMUX_SPAWN_REPO or
+# ~/code/artemis, workspace = the caller's ($CMUX_WORKSPACE_ID).
+set -euo pipefail
+
+CMUX=${CMUX_BIN:-cmux}
+export CMUX_QUIET=1
+repo=${CMUX_SPAWN_REPO:-$HOME/code/artemis}
+workspace=${CMUX_WORKSPACE_ID:-}
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --repo) repo=$2; shift 2 ;;
+    --workspace) workspace=$2; shift 2 ;;
+    *) echo "cmux-group-join: unknown arg $1" >&2; exit 2 ;;
+  esac
+done
+[ -n "$workspace" ] || { echo "cmux-group-join: no workspace (set CMUX_WORKSPACE_ID or --workspace)" >&2; exit 1; }
+
+root=$(cd "$repo" && jj root 2>/dev/null) || root=$(cd "$repo" && pwd)
+name=$(basename "$root")
+
+group=$("$CMUX" workspace group list --json | python3 -c '
+import json, sys
+name = sys.argv[1]
+for g in json.load(sys.stdin)["groups"]:
+    if g["name"] == name:
+        print(g["ref"]); break
+' "$name")
+
+if [ -z "$group" ]; then
+  group=$("$CMUX" workspace group create --name "$name" --cwd "$root" --json \
+    | python3 -c 'import json,sys; print(json.load(sys.stdin)["group"]["ref"])')
+fi
+
+"$CMUX" workspace group add --group "$group" --workspace "$workspace" >/dev/null

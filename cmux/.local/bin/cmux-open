@@ -49,4 +49,6 @@ fi
 # Make sure the worktree still runs (databases, Caddy routes) before handing
 # it to claude.
 cmd="bin/worktree bootstrap && $cmd"
-"$CMUX" new-workspace --name "$name" --cwd "$path" --focus true --command "$cmd"
+out=$("$CMUX" new-workspace --name "$name" --cwd "$path" --focus true --command "$cmd")
+cmux-group-join --repo "$REPO" --workspace "${out#OK }" \
+  || echo "cmux-open: warning: could not add workspace to repo group" >&2

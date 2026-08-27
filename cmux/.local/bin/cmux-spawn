@@ -104,6 +104,8 @@ path=$(printf '%s\n' "$out" | sed -n 's/^WORKTREE_PATH=//p' | tail -1)
 $out"
 name=$(basename "$path")
 rename_workspace "$name"
+cmux-group-join --repo "$REPO" \
+  || echo "cmux-spawn: warning: could not add workspace to repo group" >&2
 
 # Mirror o: fresh empty commit on main@origin, bookmarked with the task name.
 if command -v jj >/dev/null && [ -d "$path/.jj" ]; then
