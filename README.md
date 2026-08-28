@@ -22,7 +22,7 @@ Each top-level directory is a **stow package** whose internal layout mirrors
    ```shell
    cd ~
    for pkg in claude cmux editor-config ghostty git hammerspoon irb jj kitty nvim \
-              oh-my-zsh opencode ripgrep screen ssh tmux uv zed zsh; do
+              oh-my-zsh opencode ripgrep screen skills ssh tmux uv zed zsh; do
      stow -d dotfiles "$pkg"
    done
    ```
@@ -53,6 +53,7 @@ Each top-level directory is a **stow package** whose internal layout mirrors
 | `opencode` | opencode (`~/.config/opencode`) | opencode |
 | `ripgrep` | ripgrep (`~/.rgconfig`, `~/.rgignore`) | ripgrep |
 | `screen` | GNU screen (`~/.screenrc`) | screen |
+| `skills` | Agent skills shared by Claude Code + Amp (`~/.claude/skills`, `~/.config/agents/skills`) — stow with `--no-folding`; see `skills/README.md` | Claude Code and/or Amp |
 | `ssh` | ssh agent-forward helper (`~/.ssh/rc`) | — |
 | `tmux` | tmux (`~/.tmux.conf` + includes) | tmux |
 | `uv` | uv (`~/.config/uv`) | uv |
