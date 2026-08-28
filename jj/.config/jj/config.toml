@@ -6,7 +6,13 @@ email = "andrewwh@gmail.com"
 
 [ui]
 # default-command = ["log", "-r", "(heads(::trunk() & ::@):: & ::trunk()) | (heads(::trunk() & ::@):: & ::@) | @::"]
-default-command = ["log", "-r", "(heads(::@ & ::trunk()))::(@ | trunk()) | (trunk()..@)::"]
+default-command = [
+  "log",
+  "-r",
+  "fork_point(@ | main)::(@ | main)",
+  "-T",
+  "status_log",
+]
 # pager = ":builtin"
 conflict-marker-style = "snapshot"
 
@@ -16,6 +22,12 @@ diff-formatter = ":git"
 [colors]
 "diff removed token" = { underline = false }
 "diff added token" = { underline = false }
+"pr" = { fg = "bright cyan", bold = true }
+"main" = { fg = "bright yellow", bold = true, underline = true }
+"empty-label" = { fg = "bright black", bold = true }
+"quiet" = { fg = "bright black" }
+"quiet author" = { fg = "bright black" }
+"quiet timestamp" = { fg = "bright black" }
 
 [ui.streampager]
 interface = "quit-if-one-page"  # same behavior as less -FRX
@@ -34,8 +46,66 @@ concat(
 )
 '''
 
-# [template-aliases]
+[template-aliases]
 # "format_timestamp(timestamp)" = "format_timestamp(timestamp, \"%Y-%m-%d %H:%M:%S %z\")"
+"status_bookmarks(commit)" = '''
+commit.bookmarks().map(|bookmark|
+  if(
+    bookmark.name() == "main" && (!bookmark.remote() || bookmark.remote() == "origin"),
+    label("main", concat(bookmark)),
+    bookmark,
+  )
+)
+'''
+status_log = '''
+label(
+  separate(
+    " ",
+    if(current_working_copy, "working_copy"),
+    if(immutable, "immutable", "mutable"),
+  ),
+  if(
+    root,
+    format_root_commit(self),
+    if(
+      parents.len() > 1,
+      separate(
+        " ",
+        label(
+          "pr",
+          if(
+            description.first_line().match(regex:"#[0-9]+"),
+            "PR " ++ description.first_line().match(regex:"#[0-9]+"),
+            "merge",
+          ),
+        ),
+        status_bookmarks(self),
+        working_copies,
+      ),
+      if(
+        empty && !description,
+        separate(
+          " ",
+          label("empty-label", "empty"),
+          status_bookmarks(self),
+          working_copies,
+        ),
+        separate(
+          " ",
+          format_short_change_id(change_id),
+          status_bookmarks(self),
+          working_copies,
+          label("description", coalesce(description.first_line(), description_placeholder)),
+          label(
+            "quiet",
+            author.email() ++ " · " ++ commit_timestamp(self).local().format("%Y-%m-%d"),
+          ),
+        ),
+      ),
+    ),
+  ),
+) ++ "\n"
+'''
 
 [signing]
 behavior = "force"
